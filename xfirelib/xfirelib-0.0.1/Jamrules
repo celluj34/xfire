@@ -1,0 +1,5 @@
+LINK = g++ ;
+C++ = g++ ;
+LINKFLAGS = -lpthread ;
+CFLAGS = -g ;
+C++FLAGS = -g -DXENABLEDEBUG ;

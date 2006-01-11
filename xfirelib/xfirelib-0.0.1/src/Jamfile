@@ -1,0 +1,42 @@
+SubDir TOP src ;
+
+LOCATE_TARGET = bin ;
+Library libxfirelib :
+	SHA1.cpp
+	socket.cpp
+	packetreader.cpp
+	client.cpp
+	xfirepacket.cpp
+	xfirepacketcontent.cpp
+	loginpacket.cpp
+	clientinformationpacket.cpp
+	xfireutils.cpp
+	clientversionpacket.cpp
+	authpacket.cpp
+	xfireparse.cpp
+	variablevalue.cpp
+	clientloginpacket.cpp
+	loginfailedpacket.cpp
+	loginsuccesspacket.cpp
+	messagepacket.cpp
+	buddylistonlinepacket.cpp
+	buddylistnamespacket.cpp
+	buddylist.cpp
+        otherloginpacket.cpp
+	messageackpacket.cpp
+	invitebuddypacket.cpp
+	inviterequestpacket.cpp
+	xfirerecvpacketcontent.cpp
+	xfiresendpacketcontent.cpp
+	recvstatusmessagepacket.cpp
+	sendstatusmessagepacket.cpp
+        sendmessagepacket.cpp
+	sendacceptinvitationpacket.cpp
+	senddenyinvitationpacket.cpp
+	recvremovebuddypacket.cpp
+	sendremovebuddypacket.cpp
+        sendnickchangepacket.cpp
+        sendkeepalivepacket.cpp
+	;
+
+InstallBin $(LIBDIR) : libxfirelib$(SUFLIB) ;
