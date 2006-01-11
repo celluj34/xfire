@@ -21,8 +21,12 @@ namespace xfirelib {
     index += val.readName(buf,index);
     index ++; // Ignore 04 ??
     index ++; // Ignore 01 ?? (length of length ??? TODO !!)
+    index ++; // ...
+    index ++; // ...
     index += val.readValue(buf,index,-1,1);
+    XDEBUG(( "... valuelength: %d\n", val.getValueLength() ));
     msg = std::string(val.getValue(),0,val.getValueLength());
+    XDEBUG(( "... message: %s\n", msg.c_str() ));
   }
 
 };
