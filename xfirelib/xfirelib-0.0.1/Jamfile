@@ -1,6 +1,0 @@
-# SubDir TOP src testclient ;
-#Main xfirelibtest : test.cpp ;
-
-SubDir TOP ;
-SubInclude TOP src ;
-SubInclude TOP src testclient ;
