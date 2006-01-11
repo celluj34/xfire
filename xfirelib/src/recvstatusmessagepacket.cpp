@@ -15,6 +15,7 @@ namespace xfirelib {
     index ++; // ignore 03 ??
     index ++; // ignore 01 ??
     index ++; // Ignore 00 ??
+    index ++;
     memcpy(sid,buf+index,16);
     index += 16;
     index += val.readName(buf,index);
