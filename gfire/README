@@ -1,0 +1,13 @@
+gaim-xfire:
+	Protocol Plugin (prpl) for Gaim to send messages via XFire.
+
+About
+=====
+
+INSTALL
+=======
+    Please see the INSTALL file
+
+LICENSE
+=======
+    This software is licensed under the GPL v2.  See COPYING for full text of license.

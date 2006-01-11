@@ -1,0 +1,83 @@
+# ChangeLog for gaim-xfire
+# Copyright 2005 Wolf Beat; Distributed under the GPL v2
+# $Id: ChangeLog,v 0.5.0
+
+gaim-xfire
+0.6.0
+applied patches from Keith Geffert:
+-storing files in a xml file
+-launch games from gaim, configuration in a xml file
+-read XQF game state and send it to the xfire server
+fix:
+protocol has changed, addapted the reading of away messages
+
+0.5.8
+fix:
+support the new xfire protocol change, now you can login again.
+
+0.5.7
+Bugfix:
+The evil 100% bug is gone! :-)
+
+0.5.6
+Bugfix:
+-login with no alias works again
+
+0.5.5
+Features:
+-accept/deny buddy dialog added
+Bugfixes:
+-only send nickname on login if local nickname is different to the one on the server
+
+0.5.0
+Features:
+-added many games to be shown
+Bugfixes:
+-corrected bug where a buddy was reporting as playing, but he was not
+-finaly fixed negativ port numbers
+-probably some games were shown uncorecctly, corrected
+-fixed crash on login when no nickname is set
+
+0.4.5
+Improvements:
+-the build system is now a little bit better i think
+Bugfixes:
+-only send chat messages to online buddys(to prevent crash)
+-only send chat messages that we have in the contact list! (prevents another crash)
+
+0.4.0
+Features:
+-set away status with away text
+-only show ip if it is not 0.0.0.0 (not known ip)
+-shows port number if port is not 0
+-send alias to server on connection
+-cut long messages (>255) in smaller parts and send them one by one
+Bugfixes:
+-correctly updates buddy aliases
+-correctly reads buddy aliases
+-fixed negative ip values
+-the xfire server was thinking that we play a game even if we were not
+
+0.3.0
+Features:
+-shows the name of some games
+-show game ip of a buddy. Currently buggy
+Bugfixes
+-away icons were not corectly updated
+-adding a buddy shows a error even if there is no error
+-gaim was freezing when somebody else connected with our account
+-Long packet bugs seem to be fixed, not sure atm
+-fixed sending of long messages
+
+2 6. 05
+0.2.0
+Features
+-see buddy is playing with the game id
+Bugixes
+-read long packets (usefull for a long buddylist etc)
+
+23 5. 05
+first release. Currently working:
+-chating
+-adding/removing buddys
+-seeing online state of buddys

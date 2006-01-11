@@ -1,0 +1,13 @@
+features:
+-join game a buddy is playing
+-show others the game we are playing
+-group chat
+-typing notification
+-limit chatmessage length to 495
+
+bugs:
+-100% cpu bug
+-socket read error (should read -5 but read -1..??????)
+
+code:
+-some more comments

@@ -1,0 +1,31 @@
+To Compile
+==========
+
+*NOTES*
+~~~~~~~
+gaim-xfire-0.1 will work with gaim 1.3.0
+
+
+Next run the configure script.  If you have extracted gaim-xfire with in
+the GAIM_SRC_DIR/plugins the script should auto detect where the Gaim source
+is. Otherwise, just add --with-gaim=PATH/TO/GAIM, this must be an absolute
+path, if someone wants to fix this up and have it work for both absolute and
+relative paths, feel free.
+
+  ./configure --with-gaim=/PATH/TO/GAIM --prefix=/usr
+  
+--prefix=/usr could be something else, but for most people it is /usr
+As long as you haven't gotten any error messages during the configure script,
+you'll be read to compile.  To compile just type 'make':
+  
+  make
+  
+gaim-xfire will install to the gaim lib directory and the button image
+into the gaim datadir.  These directories are usually /usr/local/lib/gaim and
+/usr/local/share/pixmaps/gaim, so be sure you have write access to these
+directories, or use 'su' to become root and then run 'make install':
+
+  make install
+
+Once thats done, you are good to go.  Restart Gaim, go into accounts, then
+to "Add".  You can now add an account for Xfire. Create a account on www.xfire.com if needed.

@@ -1,0 +1,3 @@
+usefull compile flags:
+CFLAGS=-g //enables debug infos for gdb
+CFLAGS="-Wdeclaration-after-statement" //checks the code

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<games>
+    <game id="-1"       name="Unknown Game" />
+    <game id="2"        name="America's Army Special Forces" />
+    <game id="3"        name="Unreal Tournament" />
+    <game id="4"        name="Unreal Tournament 2003" />
+    <game id="5"        name="Counter-Strike 1.6" />
+    <game id="32"       name="TeamSpeak" />
+    <game id="33"       name="Ventrilo" />
+    <game id="4345"     name="Guild Wars" />
+    <game id="4096"     name="The Temple of Elemental Evil" />
+    <game id="4097"     name="Wolfenstein: Enemy Territory" />
+    <game id="4098"     name="Dark Age of Camelot" />
+    <game id="4099"     name="Dark Age of Camelot - Shrouded Isles" />
+    <game id="4100"     name="Dungeon Siege" />
+    <game id="4101"     name="StarCraft" />
+    <game id="4102"     name="Diablo II" />
+    <game id="4103"     name="XEvil" />
+    <game id="4104"     name="Meridian 59" />
+    <game id="4105"     name="Battlefield 1942" />
+    <game id="4106"     name="Everquest" />
+    <game id="4107"     name="Halo" />
+    <game id="4108"     name="Neverwinter Nights" />
+    <game id="4109"     name="Star Wars Galaxies: An Empire Divided" />
+    <game id="4110"     name="PlanetSide" />
+    <game id="4111"     name="Quake III Arena" />
+    <game id="4112"     name="Warcraft III" />
+    <game id="4113"     name="Lineage" />
+    <game id="4114"     name="Medal of Honor Allied Assault" />
+    <game id="4115"     name="Diablo" />
+    <game id="4116"     name="Quake II" />
+    <game id="4117"     name="Legends of Mir 2" />
+    <game id="4118"     name="Final Fantasy XI" />
+    <game id="4119"     name="Call of Duty" />
+    <game id="4120"     name="Call of Duty: Multiplayer" />
+    <game id="4121"     name="Star Wars: Knights of the Old Republic" />
+    <game id="4122"     name="Need for Speed: Underground" />
+    <game id="4123"     name="RollerCoaster Tycoon 2" />
+    <game id="4124"     name="Age of Empires 2" />
+    <game id="4125"     name="Savage: The Battle for Newerth" />
+    <game id="4126"     name="Civilization 3" />
+    <game id="4127"     name="Sim City IV" />
+    <game id="4128"     name="Command &amp; Conqure: Red Alert 2" />
+    <game id="4129"     name="Command &amp; Conqure: Generals" />
+    <game id="4130"     name="GunBound: World Champion" />
+    <game id="4131"     name="Fallout Tactics" />
+    <game id="4132"     name="Age of Wonders, Shadow Magic" />
+    <game id="4133"     name="Warlords 4: Heroes of Etheria" />
+    <game id="4134"     name="PartyPoker.com" />
+    <game id="4135"     name="Rise of Nations" />
+    <game id="4136"     name="Tribes 2" />
+    <game id="4137"     name="Unreal II: XMP" />
+    <game id="4138"     name="Unreal II" />
+    <game id="4139"     name="Age of Mythology" />
+    <game id="4140"     name="Age of Mythology: The Titans" />
+    <game id="4141"     name="Rainbow Six 3: Raven Shield" />
+    <game id="4142"     name="Madden NFL 2004" />
+    <game id="4143"     name="Tiger Woods PGA Tour 2004" />
+    <game id="4144"     name="Civilization III: Conquests" />
+    <game id="4145"     name="Civilization III: Play the World" />
+    <game id="4146"     name="FIFA Soccer 2003" />
+    <game id="4150"     name="Medal of Honor: Allied Assault Breakthrough" />
+    <game id="4151"     name="Soldier of Fortune II: Multiplayer" />
+    <game id="4152"     name="Medal of Honor: Allied Assault Spearhead" />
+    <game id="4153"     name="Soldier of Fortune II" />
+    <game id="4154"     name="Ghost Recon" />
+    <game id="4155"     name="Delta Force: Black Hawk Down" />
+    <game id="4156"     name="Command &amp; Conquer Generals Zero Hour" />
+    <game id="4157"     name="Star Wars Jedi Knights: Jedi Academy" />
+    <game id="4158"     name="Star Wars Jedi Knights: Jedi Academy Multiplayer" />
+    <game id="4159"     name="Silent Storm" />
+    <game id="4160"     name="Star Wars Jedi Knight II: Jedi Outcast Multiplayer" />
+    <game id="4161"     name="Star Wars Jedi Knight II: Jedi Outcast" />
+    <game id="4162"     name="Unreal Tournament 2004: Demo" />
+    <game id="4163"     name="Savage: The Battle for Newerth" />
+    <game id="4164"     name="Natural Selection" />
+    <game id="4165"     name="Day of Defeat" />
+    <game id="4166"     name="Deathmatch Classic" />
+    <game id="4167"     name="Half-Life" />
+    <game id="4168"     name="Half-Life: Opposing Force" />
+    <game id="4169"     name="Ricochet" />
+    <game id="4170"     name="Team Fortress Classic" />
+    <game id="4171"     name="Vietcong" />
+    <game id="4172"     name="Aliens vs. Predator 2" />
+    <game id="4173"     name="Return to Castle Wolfenstein" />
+    <game id="4174"     name="Return to Castle Wolfenstein: Multiplayer" />
+    <game id="4175"     name="Dark Age of Camelot: Trials of Atlantis" />
+    <game id="4176"     name="TRON 2.0" />
+    <game id="4177"     name="Red Faction II" />
+    <game id="4178"     name="Command &amp; Conquer Renegade" />
+    <game id="4179"     name="Second Life" />
+    <game id="4180"     name="Far Cry" />
+    <game id="4181"     name="Unreal Tournament 2004" />
+    <game id="4182"     name="Battlefield Vietnam" />
+    <game id="4183"     name="Soldat" />
+    <game id="4184"     name="Combat Flight Simulator 3" />
+    <game id="4185"     name="Midnight Club II" />
+    <game id="4186"     name="Counter-Strike" />
+    <game id="4187"     name="Counter-Strike: Condition Zero" />
+    <game id="4188"     name="Carom3D" />
+    <game id="4189"     name="The Specialists" />
+    <game id="4190"     name="Star Trek: Elite Force II" />
+    <game id="4191"     name="NetGammon" />
+    <game id="4192"     name="Empire Earth" />
+    <game id="4193"     name="Counter-Strike: Condition Zero Deleted Scenes" />
+    <game id="4194"     name="Splinter Cell Pandora Tomorrow" />
+    <game id="4195"     name="Splinter Cell Pandora Tomorrow: Multiplayer" />
+    <game id="4196"     name="Chrome: Multiplayer Demo" />
+    <game id="4197"     name="Ragnarok Online" />
+    <game id="4198"     name="Breed" />
+    <game id="4199"     name="Painkiller" />
+    <game id="4200"     name="Chrome" />
+    <game id="4201"     name="Lock On: Modern Air Combat" />
+    <game id="4202"     name="Sacred" />
+    <game id="4203"     name="Tactical Ops: Assault on Terror" />
+    <game id="4204"     name="Starsiege Tribes" />
+    <game id="4205"     name="NASCAR Racing 3" />
+    <game id="4206"     name="NASCAR Racing 4" />
+    <game id="4207"     name="NASCAR Racing 2003 Season" />
+    <game id="4208"     name="Star Trek Voyager: Elite Force Multiplayer" />
+    <game id="4209"     name="Star Trek: Armada" />
+    <game id="4210"     name="Universal Combat" />
+    <game id="4211"     name="Universal Combat: Multiplayer" />
+    <game id="4212"     name="Operation Flashpoint" />
+    <game id="4213"     name="Operation Flashpoint: Resistance" />
+    <game id="4214"     name="IL-2 Sturmovik: Forgotten Battles" />
+    <game id="4215"     name="Lineage II: The Chaotic Chronical" />
+    <game id="4216"     name="World of Warcraft" />
+    <game id="4217"     name="City of Heros" />
+    <game id="4218"     name="Rise of Nations: Thrones and Patriots" />
+    <game id="4229"     name="Manhunt" />
+    <game id="4220"     name="Hitman 2: Silent Assassin" />
+    <game id="4221"     name="Hitman: Contracts" />
+    <game id="4222"     name="Iron Storm" />
+    <game id="4223"     name="Rainbow Six: Rogue Spear" />
+    <game id="4224"     name="Rainbow Six: Rouge Spear: Urban Operations" />
+    <game id="4225"     name="Star Trek Voyager: Elite Force" />
+    <game id="4226"     name="Asheron's Call 2" />
+    <game id="4227"     name="Legend of Mir 3" />
+    <game id="4230"     name="Legend of Mir: The Three Heros" />
+    <game id="4231"     name="MU Online" />
+    <game id="4232"     name="Prince of Qin Online" />
+    <game id="4233"     name="The World Of Legend" />
+    <game id="4234"     name="Soldner: Secret Wars" />
+    <game id="4235"     name="GL Quake" />
+    <game id="4236"     name="QuakeWorld" />
+    <game id="4237"     name="There" />
+    <game id="4238"     name="Red Faction" />
+    <game id="4239"     name="Halo: Custom Edition" />
+    <game id="4240"     name="Freelancer" />
+    <game id="4241"     name="Deus Ex" />
+    <game id="4242"     name="True Crime: Streets of L.A." />
+    <game id="4243"     name="The Saga of Ryzom" />
+    <game id="4244"     name="Shadowbane" />
+    <game id="4245"     name="MechWarrior 4: Vengance" />
+    <game id="4246"     name="MechWarrior 4: Mercenaries" />
+    <game id="4247"     name="Serious Sam: The Second Encounter" />
+    <game id="4248"     name="Joint Operations: Typhoon Rising" />
+    <game id="4248"     name="Thief: Deadly Shadows" />
+    <game id="4250"     name="Rune" />
+    <game id="4253"     name="Pritson Tale" />
+    <game id="4255"     name="Ultima Online" />
+    <game id="4256"     name="Hidden &amp; Dangerous" />
+    <game id="4257"     name="Hidden &amp; Dangerous 2" />
+    <game id="4258"     name="Command &amp; Conquer: Yuri's Revenge" />
+    <game id="4331"     name="Counter Strike: Source" />
+    <game id="4284"     name="StarCraft Brood War" />
+    <game id="4285"     name="Diablo II - Lord of Destruction" />
+    <game id="4303"     name="Counter-Strike: Source Beta" />
+    <game id="4311"     name="Call of Duty United Offensive Multiplayer" />
+    <game id="4363"     name="Half-Life 2 Deathmatch" />
+    <game id="4383"     name="Knight Online" />
+    <game id="4393"     name="Painkiller: Battle out of Hell" />
+    <game id="4418"     name="Silent Hunter III" />
+    <game id="4567"     name="PokerStars.com" />
+    <game id="4572"     name="GTA: San Andreas" />
+    <game id="4578"	name="Battlefield 2" />
+</games>
+

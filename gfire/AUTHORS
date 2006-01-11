@@ -1,0 +1,11 @@
+Authors
+=======
+Wolf Beat <asraniel@fryx.ch>
+
+Special Thanks
+==============
+The folks in #gaim, especially rlaager, Paco-Paco and grim (thx grim for the build system :-))
+And a big thx to keamos which gave me many many packet dumps because i dont 
+have windows and xfire doesent work with wine
+A big thx to Brian "TLM" Davenport, he helped me with the win32 release and some bugs :-)
+Huge thanks to Keith Geffert which sent me patches for features i would never been able to do myself, thanks!

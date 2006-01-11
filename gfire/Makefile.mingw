@@ -1,0 +1,146 @@
+#
+# Makefile.mingw
+#
+# Description: Makefile for libxfire plugin.
+#
+
+#
+# PATHS
+#
+
+GTK_TOP :=		../../../win32-dev/gtk_2_0
+GAIM_TOP :=		../..
+GE_TOP := .
+
+GAIM_INSTALL_DIR :=	$(GAIM_TOP)/win32-install-dir
+DLL_INSTALL_DIR :=	$(GAIM_INSTALL_DIR)/plugins
+STANDALONE_INSTALL_DIR :=  $(GE_TOP)/win32-install-dir
+
+VERSION :=		$(shell cat VERSION)
+
+NSS_TOP :=		../../../win32-dev/nss-3.9
+NSPR_TOP :=		../../../win32-dev/nspr-4.4.1
+
+ENC_VERSION := $(shell cat ./VERSION)
+GAIM_VERSION := $(shell cat ../../VERSION)
+
+##
+## VARIABLE DEFINITIONS
+##
+
+TARGET = libxfire
+
+# Compiler Options
+
+CFLAGS =
+
+DEFINES = 
+
+##
+## INCLUDE  MAKEFILES
+##
+
+include $(GAIM_TOP)/src/win32/global.mak
+
+##
+## INCLUDE PATHS
+##
+
+INCLUDE_PATHS +=	-I. \
+			-I$(GTK_TOP)/include \
+			-I$(GTK_TOP)/include/gtk-2.0 \
+			-I$(GTK_TOP)/include/glib-2.0 \
+			-I$(GTK_TOP)/include/pango-1.0 \
+			-I$(GTK_TOP)/include/atk-1.0 \
+			-I$(GTK_TOP)/lib/glib-2.0/include \
+			-I$(GTK_TOP)/lib/gtk-2.0/include \
+			-I$(GAIM_TOP)/src \
+			-I$(GAIM_TOP)/src/win32 \
+			-I$(GAIM_TOP)
+
+
+LIB_PATHS =		-L$(NSS_TOP)/lib \
+		-L$(NSPR_TOP)/lib \
+		-L$(GTK_TOP)/lib \
+			-L$(GAIM_TOP)/src
+
+
+##
+##  SOURCES, OBJECTS
+##
+
+C_SRC =			src/x_create.c \
+			src/x_games.c \
+			src/x_packets.c \
+			src/x_search.c \
+			src/x_utils.c \
+			src/xfire.c
+
+
+OBJECTS = $(C_SRC:%.c=%.o)
+
+
+##
+## LIBRARIES
+##
+
+LIBS =			-lgtk-win32-2.0 \
+			-lglib-2.0 \
+			-lgdk-win32-2.0 \
+			-lgmodule-2.0 \
+			-lgobject-2.0 \
+			-lws2_32 \
+			-lintl \
+			-lgaim
+
+
+##
+## RULES
+##
+
+# How to make a C file
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(DEFINES) $(INCLUDE_PATHS) -o $@ -c $<
+
+##
+## TARGET DEFINITIONS
+##
+
+.PHONY: all clean
+
+all: $(TARGET).dll
+
+install: $(TARGET).dll
+	mkdir -p $(STANDALONE_INSTALL_DIR)/plugins
+	mkdir -p $(STANDALONE_INSTALL_DIR)/pixmaps/gaim/status/default
+	cp $(TARGET).dll $(STANDALONE_INSTALL_DIR)/plugins
+	cp ./pixmaps/xfire.png $(STANDALONE_INSTALL_DIR)/pixmaps/gaim/status/default
+	cp ./pixmaps/xfire.png $(GAIM_INSTALL_DIR)/pixmaps/gaim/status/default
+	cp $(TARGET).dll $(DLL_INSTALL_DIR)
+
+installer: all
+	makensis.exe /DGAIM-XFIRE_VERSION="$(ENC_VERSION)" /DGAIM_VERSION="$(GAIM_VERSION)" xfire-installer.nsi
+
+##
+## BUILD Dependencies
+##
+
+$(GAIM_TOP)/src/gaim.lib:
+	$(MAKE) -C $(GAIM_TOP)/src -f Makefile.mingw gaim.lib
+
+##
+## BUILD DLL
+##
+
+$(TARGET).dll: $(OBJECTS) $(GAIM_TOP)/src/gaim.lib
+	$(CC) -shared $(OBJECTS) $(LIB_PATHS) $(LIBS) $(DLL_LD_FLAGS) -o $(TARGET).dll
+
+##
+## CLEAN RULES
+##
+
+clean:
+	rm -rf src/*.o
+	rm -rf $(TARGET).dll
+	rm -rf $(DLL_INSTALL_DIR)/$(TARGET).dll
