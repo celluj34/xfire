@@ -21,7 +21,7 @@ namespace xfirelib {
     index ++; // Ignore 04
     index ++; // Ignore 02
 
-    int numberOfIds = buf[index];
+    int numberOfIds = (unsigned char)buf[index];
     index++;
     index++;//ignore 00
     for(int i = 0 ; i < numberOfIds ; i++) {
@@ -36,7 +36,7 @@ namespace xfirelib {
     index ++; // Ignore 04
     index ++; // Ignore 03
 
-    int numberOfSids = buf[index];
+    int numberOfSids = (unsigned char)buf[index];
     index++;
     index++;//ignore 00
     for(int i = 0 ; i < numberOfIds ; i++) {

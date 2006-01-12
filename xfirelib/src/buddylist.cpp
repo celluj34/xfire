@@ -96,12 +96,16 @@ namespace xfirelib {
     }
     case XFIRE_RECV_STATUSMESSAGE_PACKET_ID: {
       RecvStatusMessagePacket *status = (RecvStatusMessagePacket*) content;
-      BuddyListEntry *entry = getBuddyBySid( status->sid );
-      if(entry == NULL) {
-	XERROR(( "No such Entry - Got StatusMessage from someone who is not in the buddylist ??\n" ));
-	return;
-      }
-      entry->statusmsg = status->msg;
+
+     for(int i = 0 ; i < status->sids->size() ; i++) {
+        BuddyListEntry *entry = getBuddyBySid( status->sids->at(i) );
+        if(entry == NULL) {
+            XERROR(( "No such Entry - Got StatusMessage from someone who is not in the buddylist ??\n" ));
+            return;
+        }
+        entry->statusmsg = status->msgs->at(i).c_str();
+    }
+
       break;
     }
     }

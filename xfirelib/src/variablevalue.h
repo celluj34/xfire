@@ -21,7 +21,8 @@ class VariableValue {
     int readName(char *packet, int index);
     int readValue(char *packet, int index, int length = -1, int ignoreZeroAfterLength = 0);
     int readVariableValue(char *packet, int index, int packetLength);
-    int VariableValue::readFixValue(char *packet, int index, int packetLength, int valueLength);
+    /*TODO: disabled because of a bug in this method*/
+    //int VariableValue::readFixValue(char *packet, int index, int packetLength, int valueLength);
 
     int writeName(char *buf, int index);
     int writeValue(char *buf, int index);

@@ -81,16 +81,19 @@ using namespace std;
     int read = 0;
     valueLength = length;
     if(valueLength < 0) {
-      valueLength = packet[index+read];read++;
+      valueLength = (unsigned char)packet[index+read];read++;
       if(ignoreZeroAfterLength) read++;
     }
+
     value = new char[valueLength];
     memcpy(value,packet+index+read,valueLength);
     read+=valueLength;
+
     return read;
   }
 
- int VariableValue::readFixValue(char *packet, int index, int packetLength, int valueLength) {
+/*TODO: this cant work, attLength is always 0, needs to be fixed*/
+/* int VariableValue::readFixValue(char *packet, int index, int packetLength, int valueLength) {
     VariableValue *value = this;
     int nameLength = packet[index];
     
@@ -116,7 +119,7 @@ using namespace std;
     index += i;
     value->setValue(att);
     return index;
- }
+ }*/
 
 
   int VariableValue::readVariableValue(char *packet, int index, int packetLength){

@@ -5,6 +5,7 @@
 
 #include "xfirerecvpacketcontent.h"
 #include <string>
+#include <vector>
 
 namespace xfirelib {
 
@@ -16,9 +17,10 @@ namespace xfirelib {
 
     void parseContent(char *buf, int length, int numberOfAtts);
 
-    char sid[16];
-    std::string msg;
+    std::vector<char *> *sids;
+    std::vector<std::string> *msgs;
   private:
+    int readStrings(std::vector<std::string> *strings, char *buf, int index);
   };
 
 };
