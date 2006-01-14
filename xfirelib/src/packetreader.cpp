@@ -11,6 +11,7 @@
 #include "loginsuccesspacket.h"
 #include "buddylistonlinepacket.h"
 #include "buddylistnamespacket.h"
+#include "buddylistgamespacket.h"
 #include "messagepacket.h"
 #include "otherloginpacket.h"
 #include "invitebuddypacket.h"
@@ -52,6 +53,7 @@ namespace xfirelib {
     packets->push_back( new MessagePacket() );
     packets->push_back( new BuddyListOnlinePacket() );
     packets->push_back( new BuddyListNamesPacket() );
+    packets->push_back( new BuddyListGamesPacket() );
     packets->push_back( new OtherLoginPacket() );
     packets->push_back( new InviteBuddyPacket() );
     packets->push_back( new InviteRequestPacket() );

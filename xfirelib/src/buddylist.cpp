@@ -3,6 +3,7 @@
 #include <vector>
 #include "buddylist.h"
 #include "buddylistonlinepacket.h"
+#include "buddylistgamespacket.h"
 #include "recvremovebuddypacket.h"
 #include "recvstatusmessagepacket.h"
 #include "xdebug.h"
@@ -60,9 +61,25 @@ namespace xfirelib {
   void BuddyList::updateOnlineBuddies(BuddyListOnlinePacket* buddiesOnline) {
     for(int i = 0 ; i < buddiesOnline->userids->size() ; i++) {
       BuddyListEntry *entry = getBuddyById( buddiesOnline->userids->at(i) );
-      entry->setSid( buddiesOnline->sids->at(i) );
+        if(entry){
+         entry->setSid( buddiesOnline->sids->at(i) );
+        }else{
+         XERROR(("Could not find buddy with this sid!\n"));
+        }
     }
   }
+
+  void BuddyList::updateBuddiesGame(BuddyListGamesPacket* buddiesGames) {
+    for(int i = 0 ; i < buddiesGames->sids->size() ; i++) {
+      BuddyListEntry *entry = getBuddyBySid( buddiesGames->sids->at(i) );
+      if(entry){
+      entry->game = buddiesGames->gameids->at(i);
+      }else{
+        XERROR(("Could not find buddy with this sid!\n"));
+      }
+    }
+  }
+
   void BuddyList::receivedPacket(XFirePacket *packet) {
     XFirePacketContent *content = packet->getContent();
     if(content == 0) return;
@@ -77,6 +94,10 @@ namespace xfirelib {
       XINFO(( "Received Buddy Online Packet..\n" ));
       this->updateOnlineBuddies( (BuddyListOnlinePacket *)content );
       break;
+    }
+    case XFIRE_BUDDYS_GAMES_ID: {
+      XINFO(( "Recieved the game a buddy is playing..\n" ));
+      this->updateBuddiesGame( (BuddyListGamesPacket *)content );
     }
     case XFIRE_RECVREMOVEBUDDYPACKET: {
       RecvRemoveBuddyPacket *p = (RecvRemoveBuddyPacket*)content;
@@ -110,11 +131,6 @@ namespace xfirelib {
     }
     }
   }
-
-
-
-
-
 
 
   BuddyListEntry::BuddyListEntry() {

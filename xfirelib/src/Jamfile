@@ -21,6 +21,7 @@ Library libxfirelib :
 	messagepacket.cpp
 	buddylistonlinepacket.cpp
 	buddylistnamespacket.cpp
+        buddylistgamespacket.cpp
 	buddylist.cpp
         otherloginpacket.cpp
 	messageackpacket.cpp

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "buddylistnamespacket.h"
+#include "buddylistgamespacket.h"
 #include "buddylistonlinepacket.h"
 #include "packetlistener.h"
 #include "client.h"
@@ -29,6 +30,7 @@ namespace xfirelib {
   private:
     void initEntries(BuddyListNamesPacket* buddynames);
     void updateOnlineBuddies(BuddyListOnlinePacket* buddiesOnline);
+    void updateBuddiesGame(BuddyListGamesPacket* buddiesGames);
 
     Client *client;
     vector <BuddyListEntry *> * entries;
@@ -47,6 +49,7 @@ namespace xfirelib {
     string nick;
     string username;
     string statusmsg;
+    long game;
   };
 };
 
