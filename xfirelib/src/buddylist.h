@@ -50,6 +50,7 @@ namespace xfirelib {
     string username;
     string statusmsg;
     long game;
+    long game2;
   };
 };
 

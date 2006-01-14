@@ -201,17 +201,18 @@ namespace xfirelibtest {
   void XFireTestClient::printBuddyList() {
       printf("Buddy List: (* marks online users)\n");
       printf("----------------- Buddy List --------------------------------------------------------\n");
-      printf("  %20s | %20s | %10s | %20s | %10s \n","User Name", "Nick", "UserId", "Status Msg" ,"Gameid"  );
+      printf("  %20s | %20s | %10s | %20s | %5s | %5s\n","User Name", "Nick", "UserId", "Status Msg" ,"Gameid" ,"Gameid2" );
       vector<BuddyListEntry*> *entries = client->getBuddyList()->getEntries();
       for(int i = 0 ; i < entries->size() ; i ++) {
 	BuddyListEntry *entry = entries->at(i);
-	printf("%1s %20s | %20s | %10d | %20s | %10d\n",
+	printf("%1s %20s | %20s | %10d | %20s | %5d| %5d\n",
 	       (entry->isOnline() ? "*" : ""),
 	       entry->username.c_str(),
 	       entry->nick.c_str(),
 	       entry->userid,
 	       entry->statusmsg.c_str(),
-               entry->game);
+               entry->game,
+                entry->game2);
       }
       printf("-------------------------------------------------------------------------------------\n\n");
   }

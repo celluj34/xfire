@@ -27,6 +27,7 @@ namespace xfirelib {
 
 
     vector<long> *gameids;
+    vector<long> *gameids2;
     vector<char *> *sids;
   };
 };

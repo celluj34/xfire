@@ -18,7 +18,7 @@ namespace xfirelib {
     int numberOfSids = 0;
     VariableValue val;
     
-    gameids = new vector<long>;
+    
     index += val.readName(buf,index);
     index ++; // Ignore 04
     index ++; // Ignore 03
@@ -38,12 +38,15 @@ namespace xfirelib {
     index ++; // Ignore 03
     numberOfSids = (unsigned char) buf[index];
     index ++; // Ignore 00
-    XINFO(("number valname %s \n",val.getName().c_str()));
-    XINFO(("number gameids %d \n",numberOfSids));
+
+    gameids = new vector<long>;
+    gameids2 = new vector<long>;
     for(int i = 0 ; i < numberOfSids ; i++) {
       index += val.readValue(buf,index,4);
-        long game = ((unsigned char)val.getValue()[0])+((unsigned char)val.getValue()[1])*256;
-      gameids->push_back(game);
+        long game = ((unsigned char)val.getValue()[0])*256+((unsigned char)val.getValue()[1]);
+        long game2 = ((unsigned char)val.getValue()[2])*256+((unsigned char)val.getValue()[3]);
+        gameids->push_back(game);
+        gameids2->push_back(game2);
         XINFO(("someone plays %d \n",game));
     }
   }

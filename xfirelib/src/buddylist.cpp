@@ -42,8 +42,10 @@ namespace xfirelib {
   BuddyListEntry *BuddyList::getBuddyBySid(const char *sid) {
     for(int i = 0 ; i < entries->size() ; i++) {
       BuddyListEntry *entry = entries->at(i);
+
       if(memcmp((void *)sid,(void *)entry->sid,16) == 0)
 	return entry;
+
     }
     return 0;
   }
@@ -73,7 +75,8 @@ namespace xfirelib {
     for(int i = 0 ; i < buddiesGames->sids->size() ; i++) {
       BuddyListEntry *entry = getBuddyBySid( buddiesGames->sids->at(i) );
       if(entry){
-      entry->game = buddiesGames->gameids->at(i);
+        entry->game = buddiesGames->gameids->at(i);
+        entry->game2 = buddiesGames->gameids2->at(i);
       }else{
         XERROR(("Could not find buddy with this sid!\n"));
       }
