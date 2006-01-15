@@ -1,0 +1,12 @@
+SubDir TOP src ;
+
+LOCATE_TARGET = bin ;
+Main xfiregateway :
+	xfiregateway.cpp
+	gatewayhandler.cpp
+	user.cpp
+	monitoredobj.cpp
+	parsegamexml.cpp
+	parser.cpp
+	;
+LINKLIBS on xfiregateway = -lxfirelib -lgloox -lpthread ;

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         point="net.sphene.goim.rcp.games">
+      <game
+            class="net.sphene.goim.games.UnrealTournament2004"
+            exename="ut2004.exe"
+            icon="misc/icons/ut2k4test.png"
+            id="ut2k4"
+            name="Unreal Tournament 2004">
+         <exename
+               name="ut2004.exe"
+               os="win32"/>
+         <param
+               name="xfireid"
+               value="4181"/>
+      </game>
+      <game
+            changestatus="false"
+            class="net.sphene.goim.games.TeamSpeak2"
+            exename="TeamSpeak2.exe"
+            icon="misc/icons/ts2test.png"
+            id="teamspeak2"
+            name="Team Speak 2">
+         <exename
+               name="TeamSpeak2.exe"
+               os="win32"/>
+         <param
+               name="xfireid"
+               value="32"/>
+      </game>
+      <game
+            class="net.sphene.goim.games.AmericasArmy"
+            exename="armyops.exe"
+            icon="misc/icons/aao16.png"
+            id="aao"
+            name="America&apos;s Army">
+         <exename
+               name="armyops.exe"
+               os="win32"/>
+         <param
+               name="xfireid"
+               value="2"/>
+      </game>
+      <game
+            class="net.sphene.goim.games.LiveForSpeedS2"
+            icon="misc/icons/lfs16.png"
+            id="lfss2"
+            name="Live For Speed">
+         <exename
+               name="LFS.exe"
+               os="win32"/>
+         <param
+               name="xfireid"
+               value="4611"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.battlefield.Battlefield2"
+            icon="misc/icons/bf2_16.png"
+            id="bf2"
+            name="Battlefield 2">
+         <exename
+               name="BF2.exe"
+               os="win32"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.Soldat"
+            icon="misc/icons/soldaticon16.png"
+            id="soldat"
+            name="Soldat">
+         <exename
+               name="Soldat.exe"
+               os="win32"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.WorldOfWarcraft"
+            icon="misc/icons/wow16.png"
+            id="wow"
+            name="World Of Warcraft">
+         <exename
+               name="wow.exe"
+               os="win32"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.generalimplementors.GeneralGameImplementation"
+            icon="misc/icons/war3_16.png"
+            id="war3"
+            name="Warcraft 3">
+         <exename
+               name="war3.exe"
+               os="win32"/>
+         <param
+               name="defaultgameport"
+               value="6112"/>
+         <param
+               name="win32registrykey"
+               value="Software\Blizzard Entertainment\Warcraft III"/>
+         <param
+               name="win32registryvalue"
+               value="InstallPath"/>
+         <param
+               name="win32registryappend"
+               value="war3.exe"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.WolfensteinEnemyTerritory"
+            icon="misc/icons/wolfenstein_et16.png"
+            id="et"
+            name="Wolfenstein Enemy Territory">
+         <exename
+               name="et.exe"
+               os="win32"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.cod.CallOfDuty"
+            icon="misc/icons/cod16.png"
+            id="cod"
+            name="Call Of Duty">
+         <exename
+               name="codmp.exe"
+               os="win32"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.cod.CallOfDutyUnitedOffensive"
+            icon="misc/icons/coduo16.png"
+            id="coduo"
+            name="Call Of Duty United Offensive">
+         <exename
+               name="coduo.exe"
+               os="win32"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.cod.CallOfDuty2"
+            icon="misc/icons/cod2_16.png"
+            id="cod2"
+            name="Call Of Duty 2">
+         <exename
+               name="COD2MP_s.exe"
+               os="win32"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.SoldierOfFortune2"
+            icon="misc/icons/sof2_16.png"
+            id="sof2"
+            name="Soldier Of Fortune 2">
+         <exename
+               name="sof2mp.exe"
+               os="win32"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.battlefield.Battlefield1942"
+            icon="misc/icons/bf1942_16.png"
+            id="bf1942"
+            name="Battlefield 1942">
+         <exename
+               name="bf1942.exe"
+               os="win32"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.battlefield.BattlefieldVietnam"
+            icon="misc/icons/bfv16.png"
+            id="bfv"
+            name="Battlefield Vietnam">
+         <exename
+               name="bfvietnam.exe"
+               os="win32"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.generalimplementors.GeneralMMOGameImplementation"
+            icon="misc/icons/ps_16.png"
+            id="ps"
+            name="PlanetSide">
+         <exename
+               name="planetside.exe"
+               os="win32"/>
+         <param
+               name="win32registrykey"
+               value="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\PlanetSide.exe"/>
+         <param
+               name="win32registryvalue"
+               value="Path"/>
+         <param
+               name="win32registryappend"
+               value="planetside.exe"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.generalimplementors.GeneralGameImplementation"
+            icon="misc/icons/pes5_16.png"
+            id="pes5"
+            name="Pro Evolution Soccer 5">
+         <exename
+               name="PES5.exe"
+               os="win32"/>
+         <param
+               name="win32registrykey"
+               value="SOFTWARE\KONAMIPES5\PES5"/>
+         <param
+               name="win32registryvalue"
+               value="installdir"/>
+         <param
+               name="win32registryappend"
+               value="PES5.exe"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.generalimplementors.GeneralGameImplementation"
+            icon="misc/icons/civ4_16.png"
+            id="civ4"
+            name="Civilization 4">
+         <exename
+               name="Civilization4.exe"
+               os="win32"/>
+         <param
+               name="win32registrykey"
+               value="SOFTWARE\Firaxis Games\Sid Meier&apos;s Civilization 4"/>
+         <param
+               name="win32registryvalue"
+               value="INSTALLPATH"/>
+         <param
+               name="win32registryappend"
+               value="Civilization4.exe"/>
+      </game>
+   </extension>
+
+</plugin>

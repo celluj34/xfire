@@ -1,0 +1,7 @@
+LINK = g++ ;
+C++ = g++ ;
+# LINKFLAGS = -L./lib ; #-lpthread -lgloox ;
+LINKFLAGS = -L/usr/local/lib ;
+CFLAGS = -g ;
+C++FLAGS = -g -DXENABLEDEBUG ;
+#LINKLIBS = -lxfirelib ;
