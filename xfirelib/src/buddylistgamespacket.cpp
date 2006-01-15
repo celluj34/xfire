@@ -60,16 +60,46 @@ namespace xfirelib {
     index ++; // Ignore 03
     numberOfSids = (unsigned char) buf[index];
     index ++; // Ignore 00
-
+    index ++;
+ 
     gameids = new vector<long>;
     gameids2 = new vector<long>;
     for(int i = 0 ; i < numberOfSids ; i++) {
-      index += val.readValue(buf,index,4);
-        long game = ((unsigned char)val.getValue()[0])*256+((unsigned char)val.getValue()[1]);
-        long game2 = ((unsigned char)val.getValue()[2])*256+((unsigned char)val.getValue()[3]);
+        index += val.readValue(buf,index,2);
+        long game = val.getValueAsLong();
+        index += val.readValue(buf,index,2);
+        long game2 = val.getValueAsLong();
         gameids->push_back(game);
         gameids2->push_back(game2);
-        XINFO(("someone plays %d \n",game));
+    }
+
+    index += val.readName(buf,index);
+    index ++; // Ignore 04
+    index ++; // Ignore 03
+    numberOfSids = (unsigned char) buf[index];
+    index ++; // Ignore 00
+    index ++;
+
+    ips = new vector<char *>;
+    for(int i = 0 ; i < numberOfSids ; i++) {
+      index += val.readValue(buf,index,4);
+      char *ip = new char[4];
+      memcpy(ip,val.getValue(),4);
+      ips->push_back(ip);
+    }
+
+    index += val.readName(buf,index);
+    index ++; // Ignore 04
+    index ++; // Ignore 03
+    numberOfSids = (unsigned char) buf[index];
+    index ++; // Ignore 00
+    index ++;
+
+    ports = new vector<long>;
+    for(int i = 0 ; i < numberOfSids ; i++) {
+      index += val.readValue(buf,index,4);
+      long port = val.getValueAsLong();
+      ports->push_back(port);
     }
   }
 

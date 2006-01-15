@@ -74,6 +74,7 @@ namespace xfirelib {
     string statusmsg;
     long game;
     long game2;
+    char ip[4];
     XFireGame *gameObj;
     XFireGame *game2Obj;
   };

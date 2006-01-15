@@ -47,7 +47,8 @@ namespace xfirelib {
     int getPacketSize() { return 1024; };
     void parseContent(char *buf, int length, int numberOfAtts);
 
-
+    vector<char *> *ips;
+    vector<long> *ports;
     vector<long> *gameids;
     vector<long> *gameids2;
     vector<char *> *sids;
