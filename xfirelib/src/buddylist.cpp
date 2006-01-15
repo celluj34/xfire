@@ -101,9 +101,14 @@ namespace xfirelib {
         entry->game2 = buddiesGames->gameids2->at(i);
 	delete entry->gameObj; entry->gameObj = NULL;
 	delete entry->game2Obj; entry->game2Obj = NULL;
-	if(client->getGameResolver()) {
-	  entry->gameObj = client->getGameResolver()->resolveGame( entry->game, i, buddiesGames );
-	  entry->game2Obj = client->getGameResolver()->resolveGame( entry->game2, i, buddiesGames );
+	XDEBUG(( "Resolving Game ... \n" ));
+	XFireGameResolver *resolver = client->getGameResolver();
+	if(resolver) {
+	  XDEBUG(( "Resolving Game ... \n" ));
+	  entry->gameObj = resolver->resolveGame( entry->game, i, buddiesGames );
+	  entry->game2Obj = resolver->resolveGame( entry->game2, i, buddiesGames );
+	} else {
+	  XDEBUG(( "No GameResolver ? :(\n" ));
 	}
 	XDEBUG(( "%s: Game (%d): %s / Game2 (%d): %s\n",
 		 entry->username.c_str(),

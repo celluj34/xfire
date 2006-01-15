@@ -83,6 +83,9 @@ using namespace std;
       XERROR(("Socket Exception ?! %s \n",ex.description().c_str() ));
     }
   }
+  XFireGameResolver *Client::getGameResolver() {
+    return gameResolver;
+  }
   void Client::startThreads() {
     void* (*func)(void*) = &xfirelib::Client::startReadThread;
     XINFO(("About to start thread\n"));

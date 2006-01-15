@@ -49,7 +49,7 @@ class Client : public PacketListener {
   void disconnect();
   void sendMessage(string username, string message);
   void sendNickChange(string nick);
-  XFireGameResolver *getGameResolver() { return gameResolver; }
+  XFireGameResolver *getGameResolver();
   void setGameResolver(XFireGameResolver *resolver) {
     delete this->gameResolver;
     this->gameResolver = resolver;
