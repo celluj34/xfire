@@ -31,6 +31,7 @@
 #include "buddylistonlinepacket.h"
 #include "packetlistener.h"
 #include "client.h"
+#include "xfiregame.h"
 
 namespace xfirelib {
   using namespace std;
@@ -73,6 +74,8 @@ namespace xfirelib {
     string statusmsg;
     long game;
     long game2;
+    XFireGame *gameObj;
+    XFireGame *game2Obj;
   };
 };
 

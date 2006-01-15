@@ -38,6 +38,9 @@ Library libxfirelib :
 	sendremovebuddypacket.cpp
         sendnickchangepacket.cpp
         sendkeepalivepacket.cpp
+	xfiregame.cpp
+	xfiregameresolver.cpp
+	dummyxfiregameresolver.cpp
 	;
 
 InstallLib $(LIBDIR) : libxfirelib$(SUFLIB) ;

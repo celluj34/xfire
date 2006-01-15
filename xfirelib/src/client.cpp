@@ -46,13 +46,13 @@ namespace xfirelib {
 
 using namespace std; 
 
-Client::Client() {
-  XDEBUG(("Client constructor ...\n"));
-  packetReader = new PacketReader(NULL);
-  packetReader->addPacketListener( this );
-  buddyList = new BuddyList( this );
-}
-
+  Client::Client() {
+    XDEBUG(("Client constructor ...\n"));
+    gameResolver = NULL;
+    packetReader = new PacketReader(NULL);
+    packetReader->addPacketListener( this );
+    buddyList = new BuddyList( this );
+  }
   void Client::connect( string username, string password ) {
     try {
       this->username = new string(username);

@@ -29,6 +29,7 @@
 #include "xfirepacketcontent.h"
 #include "packetlistener.h"
 #include "buddylist.h"
+#include "xfiregameresolver.h"
 
 namespace xfirelib {
   struct BuddyList;
@@ -48,12 +49,18 @@ class Client : public PacketListener {
   void disconnect();
   void sendMessage(string username, string message);
   void sendNickChange(string nick);
+  XFireGameResolver *getGameResolver() { return gameResolver; }
+  void setGameResolver(XFireGameResolver *resolver) {
+    delete this->gameResolver;
+    this->gameResolver = resolver;
+  }
  protected:
   void receivedPacket( XFirePacket *packet );
   void startThreads();
   static void *startReadThread(void *ptr);
   static void *startSendPingThread(void *ptr);
  private:
+  XFireGameResolver *gameResolver;
   PacketReader *packetReader;
   std::string *username;
   std::string *password;

@@ -99,6 +99,19 @@ namespace xfirelib {
       if(entry){
         entry->game = buddiesGames->gameids->at(i);
         entry->game2 = buddiesGames->gameids2->at(i);
+	delete entry->gameObj; entry->gameObj = NULL;
+	delete entry->game2Obj; entry->game2Obj = NULL;
+	if(client->getGameResolver()) {
+	  entry->gameObj = client->getGameResolver()->resolveGame( entry->game, i, buddiesGames );
+	  entry->game2Obj = client->getGameResolver()->resolveGame( entry->game2, i, buddiesGames );
+	}
+	XDEBUG(( "%s: Game (%d): %s / Game2 (%d): %s\n",
+		 entry->username.c_str(),
+		 entry->game,
+		 (entry->gameObj == NULL ? "UNKNOWN" : entry->gameObj->getGameName().c_str()),
+		 entry->game2,
+		 (entry->game2Obj== NULL ? "UNKNOWN" :entry->game2Obj->getGameName().c_str())
+		 ));
       }else{
         XERROR(("Could not find buddy with this sid!\n"));
       }
@@ -162,6 +175,8 @@ namespace xfirelib {
   BuddyListEntry::BuddyListEntry() {
     memset(sid,0,16);
     statusmsg = std::string();
+    gameObj = NULL;
+    game2Obj = NULL;
   }
   bool BuddyListEntry::isOnline() {
     for(int i = 0 ; i < 16 ; i++) {
