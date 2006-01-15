@@ -40,6 +40,7 @@
 #include "../senddenyinvitationpacket.h"
 #include "../sendremovebuddypacket.h"
 #include "../sendnickchangepacket.h"
+#include "../dummyxfiregameresolver.h"
 
 namespace xfirelibtest {
   using namespace std;
@@ -48,6 +49,7 @@ namespace xfirelibtest {
   XFireTestClient::XFireTestClient(string username_,string password_) 
     : username(username_), password(password_) {
     client = new Client();
+    client->setGameResolver( new DummyXFireGameResolver() );
     lastInviteRequest = NULL;
   }
   XFireTestClient::~XFireTestClient() {
