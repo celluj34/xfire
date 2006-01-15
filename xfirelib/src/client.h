@@ -37,7 +37,11 @@ class Client : public PacketListener {
  public:
   Client();
   void connect(std::string username, std::string password);
-  void send(XFirePacketContent *content);
+  /**
+   * Sends a XFirePacketContent (does NOT delete content)
+   * Returns true if sent successfully.
+   */
+  bool send(XFirePacketContent *content);
 
   BuddyList *getBuddyList() { return buddyList; }
   void addPacketListener(PacketListener *packetListener);

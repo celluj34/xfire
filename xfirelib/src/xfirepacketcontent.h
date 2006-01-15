@@ -23,8 +23,8 @@
 #ifndef __XFIREPACKETCONTENT_H
 #define __XFIREPACKETCONTENT_H
 
-
 namespace xfirelib {
+  struct Client;
 
   class XFirePacketContent {
   public:

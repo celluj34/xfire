@@ -100,7 +100,7 @@ namespace xfirelib {
   void PacketReader::run() {
     // start receiving on socket...
     XDEBUG(("Starting run() method .... \n"));
-    while(1) {
+    while(socket != NULL) {
       string str;
       //int b = socket->recv(str);
       XFirePacket *packet = new XFirePacket(this);

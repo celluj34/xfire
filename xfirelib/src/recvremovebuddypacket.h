@@ -24,7 +24,7 @@
 #define __RECVREMOVEBUDDYPACKET_H
 
 #include "xfirerecvpacketcontent.h"
-
+#include <string>
 
 #define XFIRE_RECVREMOVEBUDDYPACKET 139
 
@@ -37,6 +37,15 @@ namespace xfirelib {
     void parseContent(char *buf, int length, int numberOfAtts);
 
     long userid;
+
+    /**
+     * I've added this attribute altough it is not part of the actual packet
+     * because by the time the packet content reaches the client
+     * application the user will no longer be in the BuddyList .. so no
+     * way for the client application to know which buddy was just removed.
+     * (it will be set by the BuddyList, not when parsing the packet)
+     */
+    std::string username;
   };
 
 };

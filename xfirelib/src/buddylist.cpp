@@ -132,6 +132,7 @@ namespace xfirelib {
 	if((*i)->userid == p->userid) {
 	  BuddyListEntry *buddy = *i;
 	  XINFO(( "%s (%s) was removed from BuddyList.\n", buddy->username.c_str(), buddy->nick.c_str() ));
+	  p->username = buddy->username;
 	  entries->erase(i);
 	  // i.erase();
 	  break; // we are done.

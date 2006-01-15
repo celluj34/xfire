@@ -33,21 +33,23 @@
 #define YELLOW 3
 #define WHITE  7
 #include <stdio.h>
+#include <pthread.h>
+
   #define XDEBUG(args) { \
     printf( "[0;33;40m" ); \
-    printf( " XFireLibDEBUG(%25s,%4d): ", __FILE__, __LINE__ ); \
+    printf( "[%5d] XFireLibDEBUG(%25s,%4d): ", pthread_self(), __FILE__, __LINE__ ); \
     printf args ; \
     printf( "[0;37;40m" ); \
   }
   #define XINFO(args)  { \
     printf( "[1;32;40m" ); \
-    printf( " XFireLibINFO (%25s,%4d): ", __FILE__, __LINE__ ); \
+    printf( "[%5d] XFireLibINFO (%25s,%4d): ", pthread_self(), __FILE__, __LINE__ ); \
     printf args ; \
     printf( "[0;37;40m" ); \
   }
   #define XERROR(args) { \
     printf( "[1;31;40m" ); \
-    printf( " XFireLibERROR(%25s,%4d): ", __FILE__, __LINE__ ); \
+    printf( "[%5d] XFireLibERROR(%25s,%4d): ", pthread_self(), __FILE__, __LINE__ ); \
     printf args ; \
     printf( "[0;37;40m" ); \
   }

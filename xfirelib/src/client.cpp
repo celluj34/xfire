@@ -99,23 +99,29 @@ Client::Client() {
       sleep(60 * 3); // Sleep for 3 minutes
       XDEBUG(( "Sending KeepAlivePacket\n" ));
       SendKeepAlivePacket packet;
-      me->send( &packet );
+      if(!me->send( &packet )) {
+	XINFO(( "Could not send KeepAlivePacket... exiting thread.\n" ));
+	break;
+      }
     }
   }
 
   void Client::disconnect(){
+    pthread_cancel (readthread);
+    pthread_cancel (sendpingthread);
     delete socket;
     socket = NULL;
   }
 
-  void Client::send( XFirePacketContent *content ) {
+  bool Client::send( XFirePacketContent *content ) {
     if(!socket) {
       XERROR(( "Trying to send content packet altough socket is NULL ! (ignored)\n" ));
-      return;
+      return false;
     }
     XFirePacket *packet = new XFirePacket(content);
     packet->sendPacket( socket );
     delete packet;
+    return true;
   }
 
   void Client::addPacketListener( PacketListener *listener ) {

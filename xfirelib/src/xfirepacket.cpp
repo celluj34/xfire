@@ -65,6 +65,7 @@ namespace xfirelib {
     int r2 = socket->recv( (void *)contentbuf, len-5 );
 
     XDEBUG(("packetid: %d numberOfAtts: %d length: %d Got: %d\n", (unsigned char)packetid,numberOfAtts,len-5,r2));
+    if(r2 < 1) return;
     XFirePacketContent *contentClass = reader->getPacketContentClass( (unsigned char)packetid );
 
     if(contentClass == NULL) {
