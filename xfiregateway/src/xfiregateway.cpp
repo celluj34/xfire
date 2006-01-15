@@ -222,13 +222,16 @@ pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
     }
     for(int i = 1 ; i < argc ; i++) {
       std::string param = std::string(argv[i]);
-      if(argv[i][0] == argv[i][1] == '-') {
+      if(argv[i][0] == argv[i][1] && argv[i][1] == '-') {
 	if(param == "--help") {
 	  printHelp();
 	  return 0;
 	} else {
-	  args[param.substr(2)] = std::string(argv[i++]);
+	  args[param.substr(2)] = std::string(argv[++i]);
+          printf("Setting %s to %s\n", param.substr(2).c_str(), args[param.substr(2)].c_str() );
 	}
+      } else {
+	printf("WTF ?! %s %c==%d==%d\n", argv[i],argv[i][0],argv[i][1],'-');
       }
     }
     //xfiregateway::XFireGateway gateway;
