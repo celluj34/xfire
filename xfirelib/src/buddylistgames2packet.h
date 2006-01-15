@@ -20,40 +20,27 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#ifndef __BUDDYLISTGAMESPACKET_H
-#define __BUDDYLISTGAMESPACKET_H
 
-#define XFIRE_BUDDYS_GAMES_ID 135
 
-#include <vector>
-#include <string>
+#ifndef __BUDDYLISTGAMES2PACKET_H
+#define __BUDDYLISTGAMES2PACKET_H
 
-#include "xfirepacketcontent.h"
-#include "variablevalue.h"
+#define XFIRE_BUDDYS_GAMES2_ID 147
 
+#include "buddylistgamespacket.h"
 
 namespace xfirelib {
-  using namespace std;
 
-  class BuddyListGamesPacket : public XFirePacketContent {
+  class BuddyListGames2Packet : public BuddyListGamesPacket {
   public:
-    BuddyListGamesPacket();
-
-    XFirePacketContent* newPacket() { return new BuddyListGamesPacket(); }
-
-    virtual int getPacketId() { return XFIRE_BUDDYS_GAMES_ID; }
-    int getPacketContent(char *buf) { return 0; }
-    int getPacketAttributeCount() { return 0; };
-    int getPacketSize() { return 1024; };
+    BuddyListGames2Packet();
+    XFirePacketContent* newPacket() { return new BuddyListGames2Packet(); }
+    virtual int getPacketId() { return XFIRE_BUDDYS_GAMES2_ID; }
     virtual void parseContent(char *buf, int length, int numberOfAtts);
-
-    vector<char *> *ips;
-    vector<long> *ports;
-    vector<long> *gameids;
-    vector<long> *gameids2;
-    vector<char *> *sids;
   };
+
 };
 
 
 #endif
+

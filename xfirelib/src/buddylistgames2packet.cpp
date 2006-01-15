@@ -20,40 +20,18 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#ifndef __BUDDYLISTGAMESPACKET_H
-#define __BUDDYLISTGAMESPACKET_H
-
-#define XFIRE_BUDDYS_GAMES_ID 135
-
-#include <vector>
-#include <string>
-
-#include "xfirepacketcontent.h"
-#include "variablevalue.h"
-
+#include "buddylistgames2packet.h"
+#include "xdebug.h"
 
 namespace xfirelib {
-  using namespace std;
+  BuddyListGames2Packet::BuddyListGames2Packet() : BuddyListGamesPacket() {
+    
+  }
+  void BuddyListGames2Packet::parseContent(char *buf, int length, int numberOfAtts) {
+    XDEBUG(( "....Parsing Packet Content of game 2 ??\n" ))
+    this->BuddyListGamesPacket::parseContent(buf,length,numberOfAtts);
+    XDEBUG(( "Parsed Packet Content of game 2 ??? ( %d )\n", gameids->at(0) ))
+  }
 
-  class BuddyListGamesPacket : public XFirePacketContent {
-  public:
-    BuddyListGamesPacket();
-
-    XFirePacketContent* newPacket() { return new BuddyListGamesPacket(); }
-
-    virtual int getPacketId() { return XFIRE_BUDDYS_GAMES_ID; }
-    int getPacketContent(char *buf) { return 0; }
-    int getPacketAttributeCount() { return 0; };
-    int getPacketSize() { return 1024; };
-    virtual void parseContent(char *buf, int length, int numberOfAtts);
-
-    vector<char *> *ips;
-    vector<long> *ports;
-    vector<long> *gameids;
-    vector<long> *gameids2;
-    vector<char *> *sids;
-  };
 };
 
-
-#endif

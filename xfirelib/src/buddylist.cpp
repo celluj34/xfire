@@ -26,6 +26,7 @@
 #include "buddylist.h"
 #include "buddylistonlinepacket.h"
 #include "buddylistgamespacket.h"
+#include "buddylistgames2packet.h"
 #include "recvremovebuddypacket.h"
 #include "recvstatusmessagepacket.h"
 #include "xdebug.h"
@@ -94,19 +95,25 @@ namespace xfirelib {
   }
 
   void BuddyList::updateBuddiesGame(BuddyListGamesPacket* buddiesGames) {
+    bool isFirst = buddiesGames->getPacketId() == XFIRE_BUDDYS_GAMES_ID;
     for(int i = 0 ; i < buddiesGames->sids->size() ; i++) {
       BuddyListEntry *entry = getBuddyBySid( buddiesGames->sids->at(i) );
       if(entry){
-        entry->game = buddiesGames->gameids->at(i);
-        entry->game2 = buddiesGames->gameids2->at(i);
-	delete entry->gameObj; entry->gameObj = NULL;
-	delete entry->game2Obj; entry->game2Obj = NULL;
+	if(isFirst) {
+	  entry->game = buddiesGames->gameids->at(i);
+	  delete entry->gameObj; entry->gameObj = NULL;
+	} else {
+	  entry->game2 = buddiesGames->gameids->at(i);
+	  delete entry->game2Obj; entry->game2Obj = NULL;
+	}
 	XDEBUG(( "Resolving Game ... \n" ));
 	XFireGameResolver *resolver = client->getGameResolver();
 	if(resolver) {
 	  XDEBUG(( "Resolving Game ... \n" ));
-	  entry->gameObj = resolver->resolveGame( entry->game, i, buddiesGames );
-	  entry->game2Obj = resolver->resolveGame( entry->game2, i, buddiesGames );
+	  if(isFirst)
+	    entry->gameObj = resolver->resolveGame( entry->game, i, buddiesGames );
+	  else
+	    entry->game2Obj = resolver->resolveGame( entry->game2, i, buddiesGames );
 	} else {
 	  XDEBUG(( "No GameResolver ? :(\n" ));
 	}
@@ -138,6 +145,7 @@ namespace xfirelib {
       this->updateOnlineBuddies( (BuddyListOnlinePacket *)content );
       break;
     }
+    case XFIRE_BUDDYS_GAMES2_ID:
     case XFIRE_BUDDYS_GAMES_ID: {
       XINFO(( "Recieved the game a buddy is playing..\n" ));
       this->updateBuddiesGame( (BuddyListGamesPacket *)content );
