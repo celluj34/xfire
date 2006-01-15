@@ -31,14 +31,14 @@ namespace xfirelib {
     XDEBUG(( "Resolving GameId: %d\n", gameid ));
     DummyXFireGame *game = new DummyXFireGame();
     switch(gameid) {
-    case 2: game->init( gameid, "America's Army: Special Forces", packet ); break;
-    case 3: game->init( gameid, "Unreal Tournament", packet ); break;
-    case 4: game->init( gameid, "Unreal Tournament 2003", packet ); break;
-    case 5: game->init( gameid, "Counter-Strike 1.6", packet ); break;
-    case 32: game->init( gameid, "Teamspeak", packet ); break;
-    case 4181: game->init( gameid, "Unreal Tournament 2004", packet ); break;
-    case 4578: game->init( gameid, "Battlefield 2", packet ); break;
-    case 4611: game->init( gameid, "Live for Speed", packet ); break;
+    case 2: game->init( gameid, "America's Army: Special Forces", packet,iterator ); break;
+    case 3: game->init( gameid, "Unreal Tournament", packet,iterator ); break;
+    case 4: game->init( gameid, "Unreal Tournament 2003", packet ,iterator); break;
+    case 5: game->init( gameid, "Counter-Strike 1.6", packet ,iterator); break;
+    case 32: game->init( gameid, "Teamspeak", packet ,iterator); break;
+    case 4181: game->init( gameid, "Unreal Tournament 2004", packet,iterator ); break;
+    case 4578: game->init( gameid, "Battlefield 2", packet ,iterator); break;
+    case 4611: game->init( gameid, "Live for Speed", packet,iterator ); break;
     default:
       XDEBUG(( "Unknown Game :( %d\n", gameid ));
       delete game;
