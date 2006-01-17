@@ -66,19 +66,15 @@ using namespace std;
       socket->send("UA01");
       XDEBUG(("Sent UA01\n"));
       ClientInformationPacket *infoPacket = new ClientInformationPacket();
-      XFirePacket *packet = new XFirePacket(infoPacket);
-      packet->sendPacket( socket );
+      this->send( infoPacket );
+      delete infoPacket;
       XINFO(("sent ClientInformationPacket\n"));
 
       ClientVersionPacket *versionPacket = new ClientVersionPacket();
       versionPacket->setProtocolVersion( 50 );
-      packet = new XFirePacket(versionPacket);
-      packet->sendPacket( socket );
-      XINFO(("sent ClientVersionPacket\n"));
-      
-      delete packet;
-      delete infoPacket;
+      this->send( versionPacket );
       delete versionPacket;
+      XINFO(("sent ClientVersionPacket\n"));
     } catch( SocketException ex ) {
       XERROR(("Socket Exception ?! %s \n",ex.description().c_str() ));
     }

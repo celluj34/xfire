@@ -24,7 +24,7 @@
 
 namespace xfirelib {
 
-  XFirePacketContent::XFirePacketContent() {
+  XFirePacketContent::XFirePacketContent() : MonitoredObj( "XFirePacketContent" ) {
   }
 
 };

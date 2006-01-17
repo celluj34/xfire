@@ -188,6 +188,8 @@ namespace xfirelib {
   BuddyListEntry::BuddyListEntry() {
     memset(sid,0,16);
     statusmsg = std::string();
+    game = 0;
+    game2 = 0;
     gameObj = NULL;
     game2Obj = NULL;
   }

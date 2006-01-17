@@ -42,6 +42,7 @@ Library libxfirelib :
 	xfiregame.cpp
 	xfiregameresolver.cpp
 	dummyxfiregameresolver.cpp
+	monitoredobj.cpp
 	;
 
 InstallLib $(LIBDIR) : libxfirelib$(SUFLIB) ;

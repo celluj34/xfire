@@ -115,6 +115,8 @@ namespace xfirelib {
 	XDEBUG(("Packet Content was NULL ... Unknown Packet Id ??\n"));
       }
       XDEBUG(("Notified Listeners\n"));// << b << "bytes: " << str << endl;
+      delete packet->getContent();
+      delete packet;
     }
   }
 

@@ -1,9 +1,8 @@
 /*
- *  xfirelib - C++ Library for the xfire protocol.
+ *  xfiregateway - Jabber Gateway for XFire.
  *  Copyright (C) 2006 by
- *          Beat Wolf <asraniel@fryx.ch> / http://gfire.sf.net
  *          Herbert Poul <herbert.poul@gmail.com> / http://goim.us
- *    http://xfirelib.sphene.net
+ *    http://xfirelib.sphene.net/
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,28 +19,31 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#ifndef __XFIREPACKETCONTENT_H
-#define __XFIREPACKETCONTENT_H
 
-#include "monitoredobj.h"
+#ifndef __MONITOREDOBJ_H
+#define __MONITOREDOBJ_H
+
+#include <typeinfo>
+#include <string>
+#include "xdebug.h"
+#include <map>
 
 namespace xfirelib {
-  struct Client;
-
-  class XFirePacketContent : public MonitoredObj {
+  class MonitoredObj {
   public:
-    XFirePacketContent();
-
-    virtual XFirePacketContent* newPacket() = 0;
-
-    virtual int getPacketContent(char *buf) = 0;
-    virtual int getPacketId() = 0;
-    virtual int getPacketAttributeCount() = 0;
-    virtual int getPacketSize() = 0;
-    virtual void parseContent(char *buf, int length, int numberOfAtts) = 0;
+    MonitoredObj(std::string classname);
+    ~MonitoredObj();
+    int getTotalObjectCount();
+    
+    std::string classname;
+    int myid;
+    static std::map<std::string,int> instances;
+    static int id;
   };
 
+
 };
+
 
 
 #endif
