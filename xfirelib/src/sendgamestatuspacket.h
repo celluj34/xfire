@@ -31,14 +31,17 @@
 namespace xfirelib {
   class SendGameStatusPacket : public XFireSendPacketContent {
   public:
+    SendGameStatusPacket();
 
     int getPacketId() { return XFIRE_GAME_STATUS_PACKET; }
 
     int getPacketContent(char *buf);
-    int getPacketAttributeCount() { return 1; }
+    int getPacketAttributeCount() { return 3; }
     int getPacketSize() { return 100; }
 
     long gameid;
+    char ip[4];
+    long port;
   private:
     
   };

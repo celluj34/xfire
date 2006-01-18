@@ -31,7 +31,9 @@ namespace xfirelib {
   /**
    * This is a virtual class which users of the library can
    * subclass so they can use their own gameid <-> XFireGame object
-   * resolver
+   * resolver (Implementors might want to consider that their application
+   * also requires backward converting .. from game to gameid since
+   * SendGameStatusPacket requires a gameid.
    */
   class XFireGameResolver {
   public:
