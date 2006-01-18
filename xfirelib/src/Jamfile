@@ -34,6 +34,8 @@ Library libxfirelib :
 	sendstatusmessagepacket.cpp
         sendmessagepacket.cpp
 	sendacceptinvitationpacket.cpp
+	sendgamestatuspacket.cpp
+	sendgameserverpacket.cpp
 	senddenyinvitationpacket.cpp
 	recvremovebuddypacket.cpp
 	sendremovebuddypacket.cpp

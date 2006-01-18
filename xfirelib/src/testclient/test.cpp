@@ -40,7 +40,9 @@
 #include "../senddenyinvitationpacket.h"
 #include "../sendremovebuddypacket.h"
 #include "../sendnickchangepacket.h"
+#include "../sendgamestatuspacket.h"
 #include "../dummyxfiregameresolver.h"
+#include "../sendgameserverpacket.h"
 
 namespace xfirelibtest {
   using namespace std;
@@ -84,6 +86,19 @@ namespace xfirelibtest {
 	  packet->awaymsg = joinString(cmds,1);//input.substr(5);
 	  client->send( packet );
 	  delete packet;
+	} else if(cmds[0] == "game") {
+	  SendGameStatusPacket *packet = new SendGameStatusPacket();
+	  packet->gameid = 512;
+	  client->send( packet );
+	  delete packet;
+	  
+	  SendGameServerPacket *packet2 = new SendGameServerPacket();
+	  packet2->port = 3343;
+	  char ip[] = {0,0,0,0};
+	  //packet2->ip = ip;
+	  memcpy(packet2->ip,ip,4);
+	  client->send( packet2 );
+	  delete packet2;
 	} else if(cmds[0] == "nick"){
 	  if(cmds.size() < 2) {
 	    cout << "Usage: nick <nickname>" << endl;
@@ -220,7 +235,7 @@ namespace xfirelibtest {
       printBuddyList();
     }
     }
-  }
+  } 
 
   void XFireTestClient::printBuddyList() {
       printf("Buddy List: (* marks online users)\n");
