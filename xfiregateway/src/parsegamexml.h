@@ -44,6 +44,7 @@ namespace xfiregateway {
     void streamEvent( Stanza *stanza );
 
     virtual xfirelib::XFireGame *resolveGame(int gameid, int iterator, xfirelib::BuddyListGamesPacket *packet);
+    GOIMGameInfo *getGameInfoByGOIMId(std::string goimid);
 
   protected:
     std::map<int,GOIMGameInfo *> games;

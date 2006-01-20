@@ -20,8 +20,8 @@
  */
 
 
-#ifndef __MONITOREDOBJ_H
-#define __MONITOREDOBJ_H
+#ifndef __GATEWAYMONITOREDOBJ_H
+#define __GATEWAYMONITOREDOBJ_H
 
 #include <typeinfo>
 #include <string>

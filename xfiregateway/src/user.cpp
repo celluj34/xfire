@@ -249,6 +249,24 @@ namespace xfiregateway {
 	pres->priority = atoi(prioritytag->cdata().c_str());
       else
 	XERROR(( "No priority in presence ?!\n" ));
+      Tag::TagList taglist = stanza->children();
+      for(Tag::TagList::iterator it = taglist.begin() ;
+	  it != taglist.end() ; it++) {
+	if( (*it)->hasAttribute( "xmlns", "http://goim.sphene.net/gameStatus" ) ) {
+	  std::string gameid = (*it)->findAttribute( "game" );
+	  std::string target = (*it)->findAttribute( "target" );
+	  XDEBUG(( "Received a game presence for game %s to target %s\n", gameid.c_str(), target.c_str() ));
+	  GOIMGameInfo *gameInfo = gateway->gameXML->getGameInfoByGOIMId( gameid );
+	  GOIMGame *game = new GOIMGame(gameInfo);
+	  sscanf(target.c_str(),"%d.%d.%d.%d:%d",
+		 &game->ip[0],
+		 &game->ip[1],
+		 &game->ip[2],
+		 &game->ip[3],&game->port);
+	  XDEBUG(( "Parsed target: %s\n", game->getTarget().c_str() ));
+	  pres->games.push_back( game );
+	}
+      }
       XDEBUG(( "Just parsed presence... msg: %s / priority: %d\n", pres->statusmsg.c_str(), pres->priority ));
     }
     presenceChanged();

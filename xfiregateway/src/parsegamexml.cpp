@@ -123,4 +123,13 @@ namespace xfiregateway {
     return game;
   }
 
+  GOIMGameInfo *ParseGameXML::getGameInfoByGOIMId(std::string goimid) {
+    for(std::map<int,GOIMGameInfo *>::iterator it = games.begin() ;
+	it != games.end() ; it++) {
+      if(it->second->goimid == goimid)
+	return it->second;
+    }
+    return NULL;
+  }
+
 };

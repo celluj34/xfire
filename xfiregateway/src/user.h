@@ -35,11 +35,13 @@
 
 #include "monitoredobj.h"
 #include "xfiregateway.h"
+#include "parsegamexml.h"
 
 namespace xfiregateway {
   using namespace gloox;
 
   struct XFireGateway;
+  struct MonitoredObj;
 
   class UserPresence : public MonitoredObj {
   public:
@@ -52,7 +54,7 @@ namespace xfiregateway {
     std::string statusmsg;
     std::string resource;
     int priority;
-
+    std::vector<GOIMGame *> games;
   };
 
   class User : public MonitoredObj, public xfirelib::PacketListener {

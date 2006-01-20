@@ -46,7 +46,7 @@ namespace xfiregateway {
 	reply->addAttrib( "from", gateway->getFQDN() );
 	Tag *query = new Tag( "query" );
 	query->addAttrib( "xmlns", "jabber:iq:register" );
-	query->addChild( new Tag("instructions", "Just fill out the freaking form") );
+	query->addChild( new Tag("instructions", "Enter your xfire username and password (This is still ALPHA!!).") );
 	query->addChild( new Tag("username") );
 	query->addChild( new Tag("password") );
 	
