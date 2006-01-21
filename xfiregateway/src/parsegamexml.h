@@ -63,12 +63,14 @@ namespace xfiregateway {
 
   class GOIMGameInfo {
   public:
-    GOIMGameInfo( int xfireid, std::string goimid, std::string name) {
+    GOIMGameInfo( int xfireid, std::string goimid, std::string name, bool changestatus) {
       this->xfireid = xfireid;
       this->goimid = goimid;
       this->name = name;
+      this->changestatus = changestatus;
     }
     int xfireid;
+    bool changestatus;
     std::string goimid;
     std::string name;
   };

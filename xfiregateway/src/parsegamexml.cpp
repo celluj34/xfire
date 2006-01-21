@@ -74,9 +74,14 @@ namespace xfiregateway {
       Tag* xfireid = (*it)->findChildWithAttrib( "name", "xfireid" );
       if(xfireid) {
 	int id = atoi( xfireid->findAttribute("value").c_str() );
+	bool changestatus = true;
+	std::string changestatus_str = (*it)->findAttribute("changestatus");
+	if(!changestatus_str.empty() && changestatus_str == "false")
+	  changestatus = false;
 	GOIMGameInfo *game = new GOIMGameInfo(id,
 					      (*it)->findAttribute( "id" ),
-					      this->relax((*it)->findAttribute( "name" )));
+					      this->relax((*it)->findAttribute( "name" )),
+					      changestatus);
 	games[game->xfireid] = game;
 	XINFO(( "XFireID of %s is %d\n", (*it)->findAttribute( "id" ).c_str(), id ));
       }

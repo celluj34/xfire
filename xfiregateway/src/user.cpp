@@ -39,6 +39,8 @@
 #include <xfirelib/recvremovebuddypacket.h>
 #include <xfirelib/buddylistgamespacket.h>
 #include <xfirelib/dummyxfiregameresolver.h>
+#include <xfirelib/sendgamestatuspacket.h>
+#include <xfirelib/sendgamestatus2packet.h>
 
 namespace xfiregateway {
   using namespace gloox;
@@ -47,6 +49,8 @@ namespace xfiregateway {
     client = NULL;
     this->gateway = gateway;
     this->comp = gateway->getComponent();
+    this->lastsentgame = 0;
+    this->lastsentgame2 = 0;
   }
   User::~User() {
     if(isOnline()) {
@@ -82,6 +86,8 @@ namespace xfiregateway {
       client->disconnect();
       delete client;
       client = NULL;
+      lastsentgame = 0;
+      lastsentgame2 = 0;
     }
   }
   void User::preRemove() {
@@ -403,6 +409,46 @@ namespace xfiregateway {
       if(pres->status != PRESENCE_AVAILABLE)
 	packet.awaymsg = "away: " + pres->statusmsg;
       client->send( &packet );
+
+      // TODO .. check all resources of joined games.
+      bool sentfirst = false;  // XFire only supports 1 game / 1 voip ..
+      bool sentsecond = false; // so remember which we've sent
+      for(std::vector<GOIMGame *>::iterator it = pres->games.begin() ;
+	  it != pres->games.end() && (sentfirst == false || sentsecond == false) ; it++) {
+	xfirelib::SendGameStatusPacket *packet = NULL;
+	if((*it)->info->changestatus) {
+	  if(!sentfirst) {
+	    sentfirst = true;
+	    if(lastsentgame != (*it)->info->xfireid) {
+	      lastsentgame = (*it)->info->xfireid;
+	      packet = new xfirelib::SendGameStatusPacket();
+	    }
+	  }
+	} else {
+	  if(!sentsecond) {
+	    sentsecond = true;
+	    if(lastsentgame2 != (*it)->info->xfireid) {
+	      lastsentgame2 = (*it)->info->xfireid;
+	      packet = new xfirelib::SendGameStatus2Packet();
+	    }
+	  }
+	}
+	if(packet) {
+	  packet->gameid = (*it)->info->xfireid;
+	  memcpy(packet->ip,(*it)->ip,4);
+	  packet->port = (*it)->port;
+	  client->send( packet );
+	  delete packet;
+	}
+      }
+      if(!sentfirst && lastsentgame > 0) {
+	xfirelib::SendGameStatusPacket packet;
+	client->send(&packet);
+      }
+      if(!sentsecond && lastsentgame2 > 0) {
+	xfirelib::SendGameStatus2Packet packet;
+	client->send(&packet);
+      }
     } else {
       if(client) {
 	XDEBUG(( "disconnecting client\n" ));

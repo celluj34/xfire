@@ -88,6 +88,8 @@ namespace xfiregateway {
 
     XFireGateway *gateway;
     gloox::Component *comp;
+    long lastsentgame;
+    long lastsentgame2;
   };
 
 };
