@@ -34,7 +34,7 @@ namespace xfirelib {
 
   int SendGameStatusPacket::getPacketContent(char *buf) {
     VariableValue val;
-    val.setName( "gameid" );
+    val.setName( getGameAttributeName() );
     val.setValueFromLong(gameid,4);
     
     int index = 0;
@@ -44,14 +44,14 @@ namespace xfirelib {
 
 
 
-    val.setName( "gip" );
+    val.setName( getIPAttributeName() );
     val.setValue(ip);
     val.setValueLength(4);
 
     index += val.writeName(buf, index);
     buf[index++] = 02;
     index += val.writeValue(buf, index);
-    val.setName("gport");
+    val.setName( getPortAttributeName() );
     val.setValueFromLong(port,4);
     index += val.writeName(buf, index);
     buf[index++] = 02;

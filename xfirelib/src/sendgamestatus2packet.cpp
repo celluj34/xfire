@@ -21,36 +21,6 @@
  */
 
 
-#ifndef _SENDGAMESTATUSPACKET_H_
-#define _SENDGAMESTATUSPACKET_H_
+#include "sendgamestatus2packet.h"
 
-#include "xfiresendpacketcontent.h"
-#include <string>
 
-#define XFIRE_GAME_STATUS_PACKET 04
-
-namespace xfirelib {
-  class SendGameStatusPacket : public XFireSendPacketContent {
-  public:
-    SendGameStatusPacket();
-
-    int getPacketId() { return XFIRE_GAME_STATUS_PACKET; }
-
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount() { return 3; }
-    int getPacketSize() { return 100; }
-
-    long gameid;
-    char ip[4];
-    long port;
-
-  protected:
-    virtual std::string getGameAttributeName() { return "gameid"; }
-    virtual std::string getIPAttributeName() { return "gip"; }
-    virtual std::string getPortAttributeName() { return "gport"; }
-  private:
-    
-  };
-
-};
-#endif //_SENDGAMESTATUSPACKET_H_

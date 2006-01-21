@@ -41,6 +41,7 @@
 #include "../sendremovebuddypacket.h"
 #include "../sendnickchangepacket.h"
 #include "../sendgamestatuspacket.h"
+#include "../sendgamestatus2packet.h"
 #include "../dummyxfiregameresolver.h"
 #include "../sendgameserverpacket.h"
 
@@ -86,12 +87,14 @@ namespace xfirelibtest {
 	  packet->awaymsg = joinString(cmds,1);//input.substr(5);
 	  client->send( packet );
 	  delete packet;
-	} else if(cmds[0] == "game") {
+	} else if(cmds[0] == "game" || cmds[0] == "game2") {
 	  int gameid = 0;
 	  if(cmds.size() > 1) {
 	    gameid = atoi(cmds[1].c_str());
 	  }
-	  SendGameStatusPacket *packet = new SendGameStatusPacket();
+	  SendGameStatusPacket *packet = 
+	    (cmds[0] == "game" ? new SendGameStatusPacket() :
+	     new SendGameStatus2Packet());
 	  packet->gameid = gameid;
 	  client->send( packet );
 	  delete packet;

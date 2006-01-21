@@ -21,36 +21,24 @@
  */
 
 
-#ifndef _SENDGAMESTATUSPACKET_H_
-#define _SENDGAMESTATUSPACKET_H_
+#ifndef _SENDGAMESTATUS2PACKET_H_
+#define _SENDGAMESTATUS2PACKET_H_
 
-#include "xfiresendpacketcontent.h"
-#include <string>
+#include "sendgamestatuspacket.h"
 
-#define XFIRE_GAME_STATUS_PACKET 04
+#define XFIRE_GAME_STATUS2_PACKET 15
 
 namespace xfirelib {
-  class SendGameStatusPacket : public XFireSendPacketContent {
+
+  class SendGameStatus2Packet : public SendGameStatusPacket {
   public:
-    SendGameStatusPacket();
-
-    int getPacketId() { return XFIRE_GAME_STATUS_PACKET; }
-
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount() { return 3; }
-    int getPacketSize() { return 100; }
-
-    long gameid;
-    char ip[4];
-    long port;
-
+    int getPacketId() { return XFIRE_GAME_STATUS2_PACKET; }
   protected:
-    virtual std::string getGameAttributeName() { return "gameid"; }
-    virtual std::string getIPAttributeName() { return "gip"; }
-    virtual std::string getPortAttributeName() { return "gport"; }
-  private:
-    
+    virtual std::string getGameAttributeName() { return "vid"; }
+    virtual std::string getIPAttributeName() { return "vip"; }
+    virtual std::string getPortAttributeName() { return "vport"; }
   };
 
 };
-#endif //_SENDGAMESTATUSPACKET_H_
+
+#endif
