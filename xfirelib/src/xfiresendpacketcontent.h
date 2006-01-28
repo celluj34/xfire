@@ -23,11 +23,11 @@
 #ifndef __XFIRESENDPACKETCONTENT_H
 #define __XFIRESENDPACKETCONTENT_H
 
-#include "xfiresendpacketcontent.h"
+#include "xfirepacketcontent.h"
 
 namespace xfirelib {
 
-  class XFireSendPacketContent : public XFireSendPacketContent {
+  class XFireSendPacketContent : public XFirePacketContent {
   public:
     /**
      * This method is not needed for outgoing packets.. since this method is only

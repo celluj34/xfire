@@ -23,7 +23,7 @@
 #ifndef __INVITEBUDDYPACKET_H
 #define __INVITEBUDDYPACKET_H
 
-#include "xfirepacketcontent.h"
+#include "xfiresendpacketcontent.h"
 #include <vector>
 #include <string>
 
@@ -36,7 +36,7 @@ namespace xfirelib {
    * Packet Used to Invite Buddy into Contact List
    * (Received is InviteRequestPacket)
    */
-  class InviteBuddyPacket : public XFirePacketContent {
+  class InviteBuddyPacket : public XFireSendPacketContent {
   public:
     InviteBuddyPacket();
     ~InviteBuddyPacket();

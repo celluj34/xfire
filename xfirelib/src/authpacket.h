@@ -23,14 +23,14 @@
 #ifndef __AUTHPACKET_H
 #define __AUTHPACKET_H
 
-#include "xfirepacketcontent.h"
+#include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
 #define XFIRE_PACKET_AUTH_ID 128
 
 namespace xfirelib {
 
-  class AuthPacket : public XFirePacketContent {
+  class AuthPacket : public XFireRecvPacketContent {
   public:
     XFirePacketContent* newPacket() { return new AuthPacket(); }
 

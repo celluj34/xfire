@@ -23,14 +23,14 @@
 #ifndef __OTHERLOGINPACKET_H
 #define __OTHERLOGINPACKET_H
 
-#include "xfirepacketcontent.h"
+#include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
 #define XFIRE_OTHER_LOGIN 145
 
 namespace xfirelib {
 
-  class OtherLoginPacket : public XFirePacketContent {
+  class OtherLoginPacket : public XFireRecvPacketContent {
   public:
     XFirePacketContent* newPacket() { return new OtherLoginPacket(); }
 

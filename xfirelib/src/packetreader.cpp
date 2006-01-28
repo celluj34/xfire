@@ -26,7 +26,6 @@
 #include <pthread.h>
 #include "xfirepacket.h"
 
-#include "loginpacket.h"
 #include "clientinformationpacket.h"
 #include "authpacket.h"
 #include "loginfailedpacket.h"
@@ -68,7 +67,6 @@ namespace xfirelib {
 
   void PacketReader::initPackets() {
     packets = new vector <XFirePacketContent *>();
-    packets->push_back( new LoginPacket() );
     packets->push_back( new ClientInformationPacket() );
     packets->push_back( new AuthPacket() );
     packets->push_back( new LoginFailedPacket() );

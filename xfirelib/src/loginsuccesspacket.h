@@ -23,14 +23,14 @@
 #ifndef __LOGINSUCCESSPACKET_H
 #define __LOGINSUCCESSPACKET_H
 
-#include "xfirepacketcontent.h"
+#include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
 #define XFIRE_LOGIN_SUCCESS_ID 130
 
 namespace xfirelib {
 
-  class LoginSuccessPacket : public XFirePacketContent {
+  class LoginSuccessPacket : public XFireRecvPacketContent {
   public:
     XFirePacketContent* newPacket() { return new LoginSuccessPacket(); }
 

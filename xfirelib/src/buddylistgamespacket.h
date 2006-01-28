@@ -28,14 +28,14 @@
 #include <vector>
 #include <string>
 
-#include "xfirepacketcontent.h"
+#include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
 
 namespace xfirelib {
   using namespace std;
 
-  class BuddyListGamesPacket : public XFirePacketContent {
+  class BuddyListGamesPacket : public XFireRecvPacketContent {
   public:
     BuddyListGamesPacket();
 

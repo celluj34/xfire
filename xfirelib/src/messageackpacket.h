@@ -23,13 +23,18 @@
 #ifndef __MESSAGEACKPACKET_H
 #define __MESSAGEACKPACKET_H
 
-#include "xfirepacketcontent.h"
+#include "xfiresendpacketcontent.h"
 
 #define XFIRE_MESSAGE_ACK_ID 2
 
 namespace xfirelib {
 
-  class MessageACKPacket : public XFirePacketContent {
+  /**
+   * (Internal) Packet used to acknowledge a received message.
+   * It is of no use to users of the library because it is already
+   * sent by the Client.
+   */
+  class MessageACKPacket : public XFireSendPacketContent {
   public:
     MessageACKPacket();
     ~MessageACKPacket();

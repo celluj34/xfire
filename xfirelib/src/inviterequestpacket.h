@@ -24,7 +24,7 @@
 #define __INVITEREQUESTPACKET_H
 
 #include <string>
-#include "xfirepacketcontent.h"
+#include "xfirerecvpacketcontent.h"
 
 #define XFIRE_PACKET_INVITE_REQUEST_PACKET 138
 
@@ -35,7 +35,7 @@ namespace xfirelib {
    * Received when someone invites you to his buddylist
    * (For sending invitations see InviteBuddyPacket)
    */
-  class InviteRequestPacket : public XFirePacketContent {
+  class InviteRequestPacket : public XFireRecvPacketContent {
   public:
     XFirePacketContent* newPacket() { return new InviteRequestPacket(); }
 

@@ -23,7 +23,7 @@
 #ifndef __MESSAGEPACKET_H
 #define __MESSAGEPACKET_H
 
-#include "xfirepacketcontent.h"
+#include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 #include <string>
 
@@ -31,7 +31,7 @@
 
 namespace xfirelib {
 
-  class MessagePacket : public XFirePacketContent {
+  class MessagePacket : public XFireRecvPacketContent {
   public:
 
     MessagePacket();

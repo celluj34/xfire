@@ -25,11 +25,16 @@
 #ifndef __CLIENTVERSIONPACKET_H
 #define __CLIENTVERSIONPACKET_H
 
-#include "xfirepacketcontent.h"
+#include "xfiresendpacketcontent.h"
 
 namespace xfirelib {
 
-  class ClientVersionPacket : public XFirePacketContent {
+  /**
+   * (Internal) Packet used to send client version information.
+   * it is sent in Client::connect( std::string, std::string )
+   * so users of xfirelib won't need this packet.
+   */
+  class ClientVersionPacket : public XFireSendPacketContent {
   public:
     XFirePacketContent* newPacket() { return new ClientVersionPacket(); }
 

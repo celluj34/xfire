@@ -27,17 +27,19 @@
 
 
 
-#include "xfirepacketcontent.h"
+#include "xfiresendpacketcontent.h"
 #include "variablevalue.h"
 #include <string.h>
 
 namespace xfirelib {
 
-   /**
-    *The Login Packet
-    *This Packet creates the Login Packet with the crypted Password
-    */
-  class ClientLoginPacket : public XFirePacketContent {
+  /**
+   * (Internal) Packet used to send login/authorization data.
+   * Users of xfirelib should not use it, call 
+   * Client::connect( std::string username, std::string password )
+   * instead.
+   */
+  class ClientLoginPacket : public XFireSendPacketContent {
   public:
     XFirePacketContent* newPacket() { return new ClientLoginPacket(); }
 

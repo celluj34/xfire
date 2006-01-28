@@ -25,7 +25,7 @@
 
 #include <vector>
 
-#include "xfirepacketcontent.h"
+#include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
 
@@ -33,7 +33,7 @@
 
 namespace xfirelib {
 using namespace std;
-  class BuddyListOnlinePacket : public XFirePacketContent {
+  class BuddyListOnlinePacket : public XFireRecvPacketContent {
   public:
     XFirePacketContent* newPacket() { return new BuddyListOnlinePacket(); }
 

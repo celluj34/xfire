@@ -25,11 +25,15 @@
 #ifndef __CLIENTINFORMATIONPACKET_H
 #define __CLIENTINFORMATIONPACKET_H
 
-#include "xfirepacketcontent.h"
+#include "xfiresendpacketcontent.h"
 
 namespace xfirelib {
 
-  class ClientInformationPacket : public XFirePacketContent {
+  /**
+   * (Internal) packet used by Client::login( std::string, std::string )
+   * Users of xfirelib won't need this packet.
+   */
+  class ClientInformationPacket : public XFireSendPacketContent {
   public:
     XFirePacketContent* newPacket() { return new ClientInformationPacket(); }
 

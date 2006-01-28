@@ -23,14 +23,14 @@
 #ifndef __LOGINFAILEDPACKET_H
 #define __LOGINFAILEDPACKET_H
 
-#include "xfirepacketcontent.h"
+#include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
 #define XFIRE_LOGIN_FAILED_ID 129
 
 namespace xfirelib {
 
-  class LoginFailedPacket : public XFirePacketContent {
+  class LoginFailedPacket : public XFireRecvPacketContent {
   public:
     XFirePacketContent* newPacket() { return new LoginFailedPacket(); }
 
