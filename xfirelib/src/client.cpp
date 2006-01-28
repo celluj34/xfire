@@ -71,7 +71,7 @@ using namespace std;
       XINFO(("sent ClientInformationPacket\n"));
 
       ClientVersionPacket *versionPacket = new ClientVersionPacket();
-      versionPacket->setProtocolVersion( 50 );
+      versionPacket->setProtocolVersion( 100 );
       this->send( versionPacket );
       delete versionPacket;
       XINFO(("sent ClientVersionPacket\n"));
