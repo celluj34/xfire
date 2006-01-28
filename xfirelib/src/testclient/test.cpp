@@ -76,6 +76,19 @@ namespace xfirelibtest {
       if(cmds.size() > 0) {
 	if(cmds[0] == "help") {
 	  cout << "No help available right now :(" << endl;
+	  cout << "But a short list of available commands: " << endl;
+	  cout << "  quit" << endl;
+	  cout << "  buddylist" << endl;
+	  cout << "  away" << endl;
+	  cout << "  back" << endl;
+	  cout << "  game <gameid>" << endl;
+	  cout << "  game2 <game2id>" << endl;
+	  cout << "  nick" << endl;
+	  cout << "  invite <username>" << endl;
+	  cout << "  accept [<username>]" << endl;
+	  cout << "  deny [<username>]" << endl;
+	  cout << "  remove <username>" << endl;
+	  cout << "  send <username> <message .....>" << endl;
 	} else if(cmds[0] == "quit") {
 	  client->disconnect();
 	  cout << "Quitting" << endl;
