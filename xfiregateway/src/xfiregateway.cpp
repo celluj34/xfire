@@ -133,7 +133,7 @@ namespace xfiregateway {
   }
 
   std::string XFireGateway::getFQDN() {
-    return "xfire.localhost";
+    return args["component"];
   }
   User *XFireGateway::getUserByJID(std::string barejid) {
     std::vector<User*>::iterator it = users->begin();
