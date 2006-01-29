@@ -184,7 +184,10 @@ namespace xfiregateway {
 	  }
 	  reply += "\n";
 	}
-	comp->send( Stanza::createMessageStanza( gateway->getFQDN(), reply ) );
+	Tag *r = Stanza::createMessageStanza( stanza->from(), reply );
+	r->addAttrib( "from",gateway->getFQDN());
+	comp->send(r);
+	
       }
     } else {
       User *user = gateway->getUserByJID( stanza->from().bare() );
