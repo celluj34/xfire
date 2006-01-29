@@ -83,6 +83,7 @@ namespace xfiregateway {
     xfirelib::Client *client;
 
   protected:
+    void sendUnavailableForAllBuddies();
     void createPacketExtension( xfirelib::XFireGame *game, Tag *parent, std::string &awaymsg );
     void presenceChanged();
 

@@ -55,20 +55,7 @@ namespace xfiregateway {
   User::~User() {
     if(isOnline()) {
       {
-	XDEBUG(( "Sending unavailable for all buddylist entries\n" ));
-	xfirelib::BuddyList *buddyList = client->getBuddyList();
-	vector<xfirelib::BuddyListEntry *> *entries = buddyList->getEntries();
-	vector<xfirelib::BuddyListEntry *>::iterator it = entries->begin();
-	while(it != entries->end()) {
-	  if(isInRoster((*it)->username)) {
-	    XDEBUG(( "Sending unavailable for %s\n", (*it)->username.c_str() ));
-	    Stanza *stanza = Stanza::createPresenceStanza( JID(jid), "", PRESENCE_UNAVAILABLE );
-	    stanza->addAttrib( "from", (*it)->username + "@" + gateway->getFQDN() );
-	    comp->send( stanza );
-	  }
-	  it++;
-	}
-	XDEBUG(( "Done\n" ));
+	sendUnavailableForAllBuddies();
       }
       
       Stanza *stanza = Stanza::createPresenceStanza( JID(jid), "", PRESENCE_UNAVAILABLE );
@@ -89,6 +76,22 @@ namespace xfiregateway {
       lastsentgame = 0;
       lastsentgame2 = 0;
     }
+  }
+  void User::sendUnavailableForAllBuddies() {
+    XDEBUG(( "Sending unavailable for all buddylist entries\n" ));
+    xfirelib::BuddyList *buddyList = client->getBuddyList();
+    vector<xfirelib::BuddyListEntry *> *entries = buddyList->getEntries();
+    vector<xfirelib::BuddyListEntry *>::iterator it = entries->begin();
+    while(it != entries->end()) {
+      if(isInRoster((*it)->username)) {
+	XDEBUG(( "Sending unavailable for %s\n", (*it)->username.c_str() ));
+	Stanza *stanza = Stanza::createPresenceStanza( JID(jid), "", PRESENCE_UNAVAILABLE );
+	stanza->addAttrib( "from", (*it)->username + "@" + gateway->getFQDN() );
+	comp->send( stanza );
+      }
+      it++;
+    }
+    XDEBUG(( "Done\n" ));
   }
   void User::preRemove() {
     for( vector<std::string>::iterator it = inroster.begin() ;
@@ -452,6 +455,7 @@ namespace xfiregateway {
     } else {
       if(client) {
 	XDEBUG(( "disconnecting client\n" ));
+	sendUnavailableForAllBuddies();
 	client->disconnect();
 	client = NULL;
       }
