@@ -71,16 +71,9 @@ namespace xfirelib {
     val.setName("im");
     val.setValue((char*)message.c_str(),message.size());
     index += val.writeName(buf,index);
-    if(message.size() <= 0xFF){
     buf[index++] = 01;
-    buf[index++] = message.size();
-    }else{
-    buf[index++] = 02;
     buf[index++] = message.size()%256;
     buf[index++] = (int)message.size()/256;
-    }
-
-    buf[index++] = 00;
     index += val.writeValue(buf,index);
 
     return index;
