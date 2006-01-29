@@ -37,6 +37,7 @@ namespace xfirelib {
 class Client : public PacketListener {
  public:
   Client();
+  ~Client();
   void connect(std::string username, std::string password);
   /**
    * Sends a XFirePacketContent (does NOT delete content)

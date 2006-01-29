@@ -46,7 +46,7 @@ namespace xfirelib {
     int getPacketId() { return 2; }
     int getPacketContent(char *buf);
     int getPacketAttributeCount() {return 2;};
-    int getPacketSize() { return 300; };
+    int getPacketSize() { return 1024; };
     char sid[16];
     long imindex;
     std::string message;

@@ -53,6 +53,13 @@ using namespace std;
     packetReader->addPacketListener( this );
     buddyList = new BuddyList( this );
   }
+  
+  Client::~Client(){
+  XDEBUG(("Client deconstructor ...\n"));
+  delete buddyList;
+  delete packetReader;
+  }
+
   void Client::connect( string username, string password ) {
     try {
       this->username = new string(username);

@@ -108,18 +108,13 @@ namespace xfirelibtest {
 	  SendGameStatusPacket *packet = 
 	    (cmds[0] == "game" ? new SendGameStatusPacket() :
 	     new SendGameStatus2Packet());
+	  packet->gameid = 2;
 	  packet->gameid = gameid;
+          char ip[] = {0,0,0,0};
+          memcpy(packet->ip,ip,4);
+          packet->port = 0;
 	  client->send( packet );
 	  delete packet;
-	  /*
-	  SendGameServerPacket *packet2 = new SendGameServerPacket();
-	  packet2->port = 3343;
-	  char ip[] = {0,0,0,0};
-	  //packet2->ip = ip;
-	  memcpy(packet2->ip,ip,4);
-	  client->send( packet2 );
-	  delete packet2;
-	  */
 	} else if(cmds[0] == "nick"){
 	  if(cmds.size() < 2) {
 	    cout << "Usage: nick <nickname>" << endl;
@@ -224,6 +219,8 @@ namespace xfirelibtest {
     cout << "TestClient :  Received Packet: " << content->getPacketId() << endl;
     switch(content->getPacketId()) {
     case XFIRE_LOGIN_FAILED_ID: {
+      client->disconnect();
+      delete client;
       cout << "TestClient : Login failed." << endl;
       break;
     case XFIRE_MESSAGE_ID: {
