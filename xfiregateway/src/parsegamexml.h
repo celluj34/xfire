@@ -93,10 +93,15 @@ namespace xfiregateway {
       XDEBUG(( "getting target...\n" ));
       char str[30];
       sprintf( str, "%d.%d.%d.%d:%ld",
-	       (unsigned char)ip[0],
-	       (unsigned char)ip[1],
+	       (unsigned char)ip[3],
 	       (unsigned char)ip[2],
-	       (unsigned char)ip[3], port );
+	       (unsigned char)ip[1],
+	       (unsigned char)ip[0], port );
+      //sprintf( str, "%d.%d.%d.%d:%ld",
+      //(unsigned char)ip[0],
+      //(unsigned char)ip[1],
+      //(unsigned char)ip[2],
+      //(unsigned char)ip[3], port );
       return std::string( str );
     }
 
