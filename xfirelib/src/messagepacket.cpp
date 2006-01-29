@@ -70,9 +70,10 @@ int MessagePacket::getPacketContent(char *packet){
         index++;//ignore 02
         index += imindex->readValue(buf,index,4);
         index += messageTemp.readName(buf,index);
-        index++;
-        int messageLength = buf[index];
-        index++;
+        int messageLengthLength = (unsigned int)buf[index++];
+        index += messageTemp.readValue(buf,index,messageLengthLength); 
+        int messageLength = messageTemp.getValueAsLong();
+
         index++;
         index = messageTemp.readValue(buf,index,messageLength);
 
