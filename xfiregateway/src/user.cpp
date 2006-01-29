@@ -400,6 +400,12 @@ namespace xfiregateway {
       sendUnavailableForAllBuddies();
       delete client;
       client = NULL;
+      Tag *r = Stanza::createMessageStanza( JID(jid), "Someone else logged into the same account. Forced to disconnect." );
+      r->addAttrib( "from",gateway->getFQDN());
+      comp->send(r);
+      r = Stanza::createPresenceStanza( JID(jid), "", PRESENCE_UNAVAILABLE );
+      r->addAttrib( "from",gateway->getFQDN());
+      comp->send(r);
       break;
     }
     }
