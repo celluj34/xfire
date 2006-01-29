@@ -101,7 +101,7 @@ using namespace std;
       ((Client*)ptr)->packetReader->run();
     } catch (SocketException ex) {
       XERROR(("Socket Exception ?! %s \n",ex.description().c_str() ));
-      ((Client*)ptr)->disconnect();
+      //((Client*)ptr)->disconnect();
     }
   }
   void *Client::startSendPingThread(void *ptr) {
