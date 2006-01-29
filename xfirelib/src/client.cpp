@@ -97,7 +97,12 @@ using namespace std;
     int ret2 = pthread_create( &sendpingthread, NULL, func2, (void*)this );
   }
   void *Client::startReadThread(void *ptr) {
-    ((Client*)ptr)->packetReader->run();
+    try {
+      ((Client*)ptr)->packetReader->run();
+    } catch (SocketException ex) {
+      XERROR(("Socket Exception ?! %s \n",ex.description().c_str() ));
+      ((Client*)ptr)->disconnect();
+    }
   }
   void *Client::startSendPingThread(void *ptr) {
     Client *me = (Client*)ptr;
@@ -112,7 +117,7 @@ using namespace std;
     }
   }
 
-  void Client::disconnect(){
+  void Client::disconnect() {
     pthread_cancel (readthread);
     pthread_cancel (sendpingthread);
     delete socket;
