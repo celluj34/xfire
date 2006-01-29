@@ -170,12 +170,30 @@ namespace xfiregateway {
     XDEBUG(( "Received message from %s to %s \n",
 	     stanza->from().full().c_str(),
 	     stanza->to().full().c_str() ));
-    User *user = gateway->getUserByJID( stanza->from().bare() );
-    if(!user) {
-      XINFO(( "Received message from someone not registered ?! (%s) \n",
-	      stanza->from().full().c_str() ));
+    if(stanza->to().full() == gateway->getFQDN()) {
+      if(stanza->body() == "") return;
+      if(stanza->body() == "users") {
+	std::string reply = "Current Users of this xfiregateway:\n";
+	for(std::vector<User*>::iterator it = gateway->getUsers()->begin() ;
+	    it != gateway->getUsers()->end() ; it++) {
+	  reply += (*it)->jid + " - " + (*it)->name;
+	  if((*it)->isOnline()) {
+	    reply += "(Online)";
+	  } else {
+	    reply += "(Offline)";
+	  }
+	  reply += "\n";
+	}
+	comp->send( Stanza::createMessageStanza( gateway->getFQDN(), reply ) );
+      }
     } else {
-      user->receivedMessage( stanza );
+      User *user = gateway->getUserByJID( stanza->from().bare() );
+      if(!user) {
+	XINFO(( "Received message from someone not registered ?! (%s) \n",
+		stanza->from().full().c_str() ));
+      } else {
+	user->receivedMessage( stanza );
+      }
     }
   }
 

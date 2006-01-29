@@ -41,6 +41,7 @@
 #include <xfirelib/dummyxfiregameresolver.h>
 #include <xfirelib/sendgamestatuspacket.h>
 #include <xfirelib/sendgamestatus2packet.h>
+#include <xfirelib/otherloginpacket.h>
 
 namespace xfiregateway {
   using namespace gloox;
@@ -393,6 +394,12 @@ namespace xfiregateway {
 	  sendPresenceTagForBuddy( entry );
 	}
       }
+      break;
+    }
+    case XFIRE_OTHER_LOGIN: {
+      sendUnavailableForAllBuddies();
+      delete client;
+      client = NULL;
       break;
     }
     }
