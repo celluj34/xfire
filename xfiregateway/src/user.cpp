@@ -298,10 +298,15 @@ namespace xfiregateway {
       comp->send(reply);
       return;
     }
-    xfirelib::SendMessagePacket packet;
-    packet.setSid(entry->sid);
-    packet.message = stanza->body();
-    client->send( &packet );
+    xfirelib::SendMessagePacket *packet = new xfirelib::SendMessagePacket();
+    XDEBUG(("setting sid ...\n"));
+    packet->setSid(entry->sid);
+    XDEBUG(("setting body ...\n"));
+    packet->message = stanza->body();
+    XDEBUG(("sending packet ...\n"));
+    client->send( packet );
+    XDEBUG(("done...\n"));
+    delete packet;
   }
 
   void User::receivedPacket(xfirelib::XFirePacket *packet) {
