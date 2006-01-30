@@ -416,6 +416,7 @@ namespace xfiregateway {
       XDEBUG(( "Got Presence... status: %d\n", pres->status ));
       if(!client) {
 	client = new xfirelib::Client();
+	mirrorPresence();
 	client->connect( name, password );
 	client->addPacketListener(this);
 	//client->setGameResolver( new xfirelib::DummyXFireGameResolver() );
