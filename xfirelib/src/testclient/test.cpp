@@ -192,7 +192,7 @@ namespace xfirelibtest {
   }
   string XFireTestClient::joinString(vector<string> s, int startindex, int endindex, string delimiter) {
     string ret;
-    int max = endindex > s.size() || endindex < 0 ? s.size() : endindex;
+    int max = (unsigned)endindex > s.size() || endindex < 0 ? s.size() : endindex;
     for(int i = startindex ; i < max ; i++) {
       if(i != startindex)
 	ret += delimiter;
