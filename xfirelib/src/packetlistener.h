@@ -31,6 +31,7 @@ namespace xfirelib {
 
   class PacketListener {
   public:
+    virtual ~PacketListener() { }
     virtual void receivedPacket(XFirePacket *packet) = 0;
   };
 

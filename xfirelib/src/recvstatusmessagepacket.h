@@ -34,6 +34,7 @@ namespace xfirelib {
   class RecvStatusMessagePacket : public XFireRecvPacketContent {
   public:
     RecvStatusMessagePacket();
+    virtual ~RecvStatusMessagePacket() { }
     XFirePacketContent *newPacket() { return new RecvStatusMessagePacket; }
     int getPacketId() { return XFIRE_RECV_STATUSMESSAGE_PACKET_ID; }
 

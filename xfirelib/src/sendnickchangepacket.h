@@ -33,8 +33,9 @@ namespace xfirelib {
 
   class SendNickChangePacket : public XFireSendPacketContent {
   public:
-    XFirePacketContent *newPacket() { return new SendNickChangePacket; }
+    virtual ~SendNickChangePacket() { }
 
+    XFirePacketContent *newPacket() { return new SendNickChangePacket; }
     int getPacketId() { return XFIRE_SEND_NICKCHANGE_PACKET_ID; }
 
     int getPacketContent(char *buf);

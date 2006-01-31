@@ -37,6 +37,7 @@ namespace xfirelib {
   class SendMessagePacket : public XFireSendPacketContent {
   public:
     SendMessagePacket() { }
+    virtual ~SendMessagePacket() { }
 
     void init(Client *client, string username, string message);
     void setSid(const char *sid);

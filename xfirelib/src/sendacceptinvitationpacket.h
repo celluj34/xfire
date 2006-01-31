@@ -32,7 +32,7 @@
 namespace xfirelib {
   class SendAcceptInvitationPacket : public XFireSendPacketContent {
   public:
-
+    virtual ~SendAcceptInvitationPacket() { }
     int getPacketId() { return XFIRE_ACCEPT_INVITATION_PACKET; }
 
     int getPacketContent(char *buf);

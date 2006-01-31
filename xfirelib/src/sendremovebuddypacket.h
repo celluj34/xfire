@@ -31,6 +31,7 @@ namespace xfirelib {
 
   class SendRemoveBuddyPacket : public XFireSendPacketContent {
   public:
+    virtual ~SendRemoveBuddyPacket() { }
     int getPacketId() { return XFIRE_SENDREMOVEBUDDYPACKET; }
 
     int getPacketContent(char *buf);

@@ -31,6 +31,7 @@ namespace xfirelib {
 
   class SendDenyInvitationPacket : public SendAcceptInvitationPacket {
   public:
+    virtual ~SendDenyInvitationPacket() { }
     int getPacketId() { return XFIRE_DENY_INVITATION_PACKET; }
 
   private:

@@ -30,7 +30,7 @@ namespace xfirelib {
   void BuddyListGames2Packet::parseContent(char *buf, int length, int numberOfAtts) {
     XDEBUG(( "....Parsing Packet Content of game 2 ??\n" ))
     this->BuddyListGamesPacket::parseContent(buf,length,numberOfAtts);
-    XDEBUG(( "Parsed Packet Content of game 2 ??? ( %d )\n", gameids->at(0) ))
+    XDEBUG(( "Parsed Packet Content of game 2 ??? ( %ld )\n", gameids->at(0) ))
   }
 
 };

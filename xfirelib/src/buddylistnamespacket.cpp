@@ -62,7 +62,7 @@ namespace xfirelib {
     for(int i = 0 ; i < numberOfIds ; i++) {
       index += friends.readValue(buf,index,4);
       userids->push_back(friends.getValueAsLong());
-      XDEBUG(( "UserID: %d\n", friends.getValueAsLong() ));
+      XDEBUG(( "UserID: %ld\n", friends.getValueAsLong() ));
     }
   }
 

@@ -129,7 +129,7 @@ namespace xfirelib {
 
   XFirePacketContent *PacketReader::getPacketContentClass(int packetId) {
     XDEBUG(("Searching for a content class...\n"));
-    for(int i = 0 ; i < packets->size() ; i++)
+    for(uint i = 0 ; i < packets->size() ; i++)
       if(packets->at(i)->getPacketId() == packetId) return packets->at(i);
     XDEBUG(("None Found\n"));
     return NULL;

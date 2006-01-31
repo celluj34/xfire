@@ -31,7 +31,7 @@ namespace xfirelib {
   class XFirePacketContent : public MonitoredObj {
   public:
     XFirePacketContent();
-
+    virtual ~XFirePacketContent() { }
     virtual XFirePacketContent* newPacket() = 0;
 
     virtual int getPacketContent(char *buf) = 0;

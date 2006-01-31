@@ -33,6 +33,7 @@ namespace xfirelib {
 
   class SendKeepAlivePacket : public XFireSendPacketContent {
   public:
+    virtual ~SendKeepAlivePacket() { }
     int getPacketId() { return XFIRE_SEND_KEEPALIVE_PACKET_ID; }
 
     int getPacketContent(char *buf);

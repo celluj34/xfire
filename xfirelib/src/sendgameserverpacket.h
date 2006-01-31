@@ -31,7 +31,7 @@
 namespace xfirelib {
   class SendGameServerPacket : public XFireSendPacketContent {
   public:
-
+    virtual ~SendGameServerPacket() { }
     int getPacketId() { return XFIRE_GAME_SERVER_PACKET; }
 
     int getPacketContent(char *buf);

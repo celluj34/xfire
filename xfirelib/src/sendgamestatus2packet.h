@@ -32,6 +32,7 @@ namespace xfirelib {
 
   class SendGameStatus2Packet : public SendGameStatusPacket {
   public:
+    virtual ~SendGameStatus2Packet() { }
     int getPacketId() { return XFIRE_GAME_STATUS2_PACKET; }
   protected:
     virtual std::string getGameAttributeName() { return "vid"; }

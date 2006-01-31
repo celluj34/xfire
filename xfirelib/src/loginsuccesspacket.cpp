@@ -36,7 +36,7 @@ namespace xfirelib {
 	read++; // ignore 02
 	read += val->readValue(buf, read, 3);
 	read++; // ignore 00
-	XDEBUG(( "My userid: %u\n", val->getValueAsLong() ));
+	XDEBUG(( "My userid: %lu\n", val->getValueAsLong() ));
       } else if(val->getName() == "sid") {
 	read++; // ignore 03
 	read+=val->readValue(buf, read, 16);

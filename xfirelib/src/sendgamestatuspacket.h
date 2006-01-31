@@ -33,7 +33,7 @@ namespace xfirelib {
   class SendGameStatusPacket : public XFireSendPacketContent {
   public:
     SendGameStatusPacket();
-
+    virtual ~SendGameStatusPacket() { }
     int getPacketId() { return XFIRE_GAME_STATUS_PACKET; }
 
     int getPacketContent(char *buf);

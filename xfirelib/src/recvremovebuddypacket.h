@@ -31,6 +31,7 @@
 namespace xfirelib {
   class RecvRemoveBuddyPacket : public XFireRecvPacketContent {
   public:
+    virtual ~RecvRemoveBuddyPacket() { }
     int getPacketId() { return XFIRE_RECVREMOVEBUDDYPACKET; }
 
     XFirePacketContent *newPacket() { return new RecvRemoveBuddyPacket(); }
