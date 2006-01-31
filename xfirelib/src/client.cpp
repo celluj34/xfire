@@ -106,6 +106,7 @@ using namespace std;
       XERROR(("Socket Exception ?! %s \n",ex.description().c_str() ));
       //((Client*)ptr)->disconnect();
     }
+    return NULL;
   }
   void *Client::startSendPingThread(void *ptr) {
     Client *me = (Client*)ptr;
@@ -118,6 +119,7 @@ using namespace std;
 	break;
       }
     }
+    return NULL;
   }
 
   void Client::disconnect() {
