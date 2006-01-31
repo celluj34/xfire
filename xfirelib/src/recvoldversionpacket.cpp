@@ -28,7 +28,9 @@
 #include <string>
 
 namespace xfirelib {
-  RecvOldVersionPacket::RecvOldVersionPacket() {
+  class RecvOldVersionPacket;
+
+  RecvOldVersionPacket::RecvOldVersionPacket() : XFireRecvPacketContent() {
   }
 
   void RecvOldVersionPacket::parseContent(char *buf, int length, int numberOfAtts) {
