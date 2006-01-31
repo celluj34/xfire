@@ -20,6 +20,7 @@
  */
 
 #include "gatewayhandler.h"
+#include "simplelib.h"
 
 #include <gloox/gloox.h>
 
@@ -83,7 +84,8 @@ namespace xfiregateway {
 	if(user == NULL) {
 	  XDEBUG(( "Registering...\n" ));
 	  user = new User(gateway);
-	  user->jid = jid;
+	  std::string lowerjid = SimpleLib::stringToLower(jid);
+	  user->jid = lowerjid;
 	  user->name = username;
 	  user->password = password;
 	  gateway->addUser( user );

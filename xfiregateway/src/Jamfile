@@ -2,6 +2,7 @@ SubDir TOP src ;
 
 LOCATE_TARGET = bin ;
 Main xfiregateway :
+	simplelib.cpp
 	xfiregateway.cpp
 	gatewayhandler.cpp
 	user.cpp

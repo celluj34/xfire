@@ -76,6 +76,7 @@ namespace xfiregateway {
       client = NULL;
       lastsentgame = 0;
       lastsentgame2 = 0;
+      XDEBUG(( "done client->disconnect() ....\n" ));
     }
   }
   void User::sendUnavailableForAllBuddies() {

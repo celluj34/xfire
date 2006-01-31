@@ -36,6 +36,7 @@
 #include <map>
 #include "parsegamexml.h"
 
+#include "simplelib.h"
 
 namespace xfiregateway {
   using namespace gloox;
@@ -94,7 +95,8 @@ namespace xfiregateway {
       if(args.size() < 3) continue;
       User *user = new User(this);
       users->push_back( user );
-      user->jid = args.at(0);
+      std::string lowerjid = SimpleLib::stringToLower(args.at(0));
+      user->jid = lowerjid;
       user->name = args.at(1);
       user->password = args.at(2);
       XDEBUG(( "User: %s (pass: %s)\n", user->name.c_str(),
@@ -121,6 +123,7 @@ namespace xfiregateway {
     return ret;
   }
   void XFireGateway::writeUserFile() {
+    XDEBUG(( "writeUserFile()\n" ));
     fstream f("xfiregateway_users.cfg", ios_base::out | ios_base::trunc);
     for(int i = users->size()-1 ; i >= 0 ; i--) {
       User *user = users->at(i);
@@ -130,12 +133,14 @@ namespace xfiregateway {
       }
       f << endl;
     }
+    XDEBUG(( "done writeUserFile()\n" ));
   }
 
   std::string XFireGateway::getFQDN() {
     return args["component"];
   }
   User *XFireGateway::getUserByJID(std::string barejid) {
+    barejid = SimpleLib::stringToLower(barejid);
     std::vector<User*>::iterator it = users->begin();
     while(it != users->end()) {
       if((*it)->jid == barejid)
