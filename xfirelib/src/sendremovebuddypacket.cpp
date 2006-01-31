@@ -31,7 +31,7 @@ namespace xfirelib {
     int index = 0;
     VariableValue val;
     val.setName("userid");
-    XDEBUG(( "Creating packet to remove userid %d\n", userid ));
+    XDEBUG(( "Creating packet to remove userid %ld\n", userid ));
     index += val.writeName(buf,index);
     val.setValueFromLong(userid,4);
     buf[index++] = 2;

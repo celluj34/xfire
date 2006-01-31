@@ -57,7 +57,7 @@ namespace xfirelib {
 
     unsigned int len = ((unsigned char)buf[0]) + (((unsigned char)buf[1]) * 256);
     int packetid = buf[2];
-    int zero = buf[3];
+    
     int numberOfAtts = (unsigned char)buf[4];
 
     char contentbuf[len-5];

@@ -49,7 +49,7 @@ namespace xfirelib {
     for(int i = 0 ; i < numberOfIds ; i++) {
       index += userid.readValue(buf,index,4);
       userids->push_back(userid.getValueAsLong());
-      XINFO(( "UserID: %d\n", userid.getValueAsLong() ));
+      XINFO(( "UserID: %ld\n", userid.getValueAsLong() ));
     }
 
     VariableValue sid;
@@ -58,7 +58,7 @@ namespace xfirelib {
     index ++; // Ignore 04
     index ++; // Ignore 03
 
-    int numberOfSids = (unsigned char)buf[index];
+    numberOfIds = (unsigned char)buf[index];
     index++;
     index++;//ignore 00
     for(int i = 0 ; i < numberOfIds ; i++) {

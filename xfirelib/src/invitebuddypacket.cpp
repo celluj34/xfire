@@ -65,7 +65,7 @@ namespace xfirelib {
     val.setName("name");
     index += val.writeName(buf,index);
     buf[index++] = names->size();
-    for(int i = 0 ; i < names->size() ; i++) {
+    for(uint i = 0 ; i < names->size() ; i++) {
       string name = names->at(i);
       buf[index++] = name.length();
       buf[index++] = 0;
@@ -75,7 +75,7 @@ namespace xfirelib {
     val.setName("msg");
     index += val.writeName(buf,index);
     buf[index++] = msgs->size();
-    for(int i = 0 ; i < msgs->size() ; i++) {
+    for(uint i = 0 ; i < msgs->size() ; i++) {
       string msg = msgs->at(i);
       buf[index++] = msg.length();
       buf[index++] = 0;
