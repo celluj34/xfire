@@ -28,6 +28,8 @@ Library libxfirelib :
 	invitebuddypacket.cpp
 	inviterequestpacket.cpp
 	xfirerecvpacketcontent.cpp
+        recvdidpacket.cpp
+        recvprefspacket.cpp
 	xfiresendpacketcontent.cpp
 	recvstatusmessagepacket.cpp
 	sendstatusmessagepacket.cpp
