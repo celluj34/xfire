@@ -41,7 +41,7 @@ namespace xfirelib {
 
 
     int getPacketId() { return XFIRE_PACKET_INVITE_REQUEST_PACKET; }
-    int getPacketContent(char *buf) { }
+    int getPacketContent(char *buf) { return 0;}
     int getPacketAttributeCount() { return 3; };
     int getPacketSize() { return 100; };
     void parseContent(char *buf, int length, int numberOfAtts);

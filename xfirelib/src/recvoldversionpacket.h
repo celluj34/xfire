@@ -32,6 +32,7 @@ namespace xfirelib {
   class RecvOldVersionPacket : public XFireRecvPacketContent {
   public:
     RecvOldVersionPacket();
+    ~RecvOldVersionPacket();
     XFirePacketContent *newPacket() { return new RecvOldVersionPacket; }
     int getPacketId() { return XFIRE_RECV_OLDVERSION_PACKET_ID; }
 

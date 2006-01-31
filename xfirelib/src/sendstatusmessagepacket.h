@@ -33,6 +33,7 @@ namespace xfirelib {
 
   class SendStatusMessagePacket : public XFireSendPacketContent {
   public:
+    ~SendStatusMessagePacket(){};
     XFirePacketContent *newPacket() { return new SendStatusMessagePacket; }
 
     int getPacketId() { return XFIRE_SEND_STATUSMESSAGE_PACKET_ID; }
