@@ -41,6 +41,7 @@ Library libxfirelib :
         sendnickchangepacket.cpp
         sendkeepalivepacket.cpp
 	xfiregame.cpp
+        recvoldversionpacket.cpp
 	xfiregameresolver.cpp
 	dummyxfiregameresolver.cpp
 	monitoredobj.cpp

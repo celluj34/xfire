@@ -40,6 +40,7 @@
 #include "inviterequestpacket.h"
 #include "recvremovebuddypacket.h"
 #include "recvstatusmessagepacket.h"
+#include "recvoldversionpacket.h"
 
 #include "xdebug.h"
 //#include "packetlistener.h"
@@ -81,6 +82,7 @@ namespace xfirelib {
     packets->push_back( new InviteRequestPacket() );
     packets->push_back( new RecvRemoveBuddyPacket() );
     packets->push_back( new RecvStatusMessagePacket() );
+    packets->push_back( new RecvOldVersionPacket() );
   }
 
 

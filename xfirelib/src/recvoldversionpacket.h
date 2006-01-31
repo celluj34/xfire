@@ -20,47 +20,26 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
+#ifndef __RECVOLDVERSIONPACKET_H
+#define __RECVOLDVERSIONPACKET_H
 
+#define XFIRE_RECV_OLDVERSION_PACKET_ID 134
 
-#ifndef __XDEBUG_H
-#define __XDEBUG_H
+#include "xfirerecvpacketcontent.h"
 
-#define RESET 0
+namespace xfirelib {
 
-#define BLACK  0
-#define RED    1
-#define GREEN  2
-#define YELLOW 3
-#define WHITE  7
-#include <stdio.h>
-#include <pthread.h>
+  class RecvOldVersionPacket : public XFireRecvPacketContent {
+  public:
+    RecvOldVersionPacket();
+    XFirePacketContent *newPacket() { return new RecvOldVersionPacket; }
+    int getPacketId() { return XFIRE_RECV_OLDVERSION_PACKET_ID; }
 
-  #define XDEBUG(args) { \
-    printf( "[0;33;40m" ); \
-    printf( "[%5d] XFireLibDEBUG(%25s,%4d): ", (int)pthread_self(), __FILE__, __LINE__ ); \
-    printf args ; \
-    printf( "[0;37;40m" ); \
-  }
-  #define XINFO(args)  { \
-    printf( "[1;32;40m" ); \
-    printf( "[%5d] XFireLibINFO (%25s,%4d): ", (int)pthread_self(), __FILE__, __LINE__ ); \
-    printf args ; \
-    printf( "[0;37;40m" ); \
-  }
-  #define XERROR(args) { \
-    printf( "[1;31;40m" ); \
-    printf( "[%5d] XFireLibERROR(%25s,%4d): ", (int)pthread_self(), __FILE__, __LINE__ ); \
-    printf args ; \
-    printf( "[0;37;40m" ); \
-  }
-#ifndef XENABLEDEBUG
-  #undef XDEBUG
-  #define XDEBUG(args)
-  #ifndef XINFO
-    #define XINFO(args)
-  #endif
-#endif
+    void parseContent(char *buf, int length, int numberOfAtts);
+
+  };
+
+};
 
 
 #endif
-

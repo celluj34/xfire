@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
- */
+ */ 
 
 
 #include "xdebug.h"
@@ -32,6 +32,7 @@
 #include "messagepacket.h"
 #include "sendmessagepacket.h"
 #include "messageackpacket.h"
+#include "recvoldversionpacket.h"
 #include "sendkeepalivepacket.cpp"
 #include <iostream>
 
@@ -52,12 +53,14 @@ using namespace std;
     packetReader = new PacketReader(NULL);
     packetReader->addPacketListener( this );
     buddyList = new BuddyList( this );
+    protocolVersion = 100; 
   }
   
   Client::~Client(){
   XDEBUG(("Client deconstructor ...\n"));
   delete buddyList;
   delete packetReader;
+
   }
 
   void Client::connect( string username, string password ) {
@@ -68,8 +71,8 @@ using namespace std;
       packetReader->setSocket(socket);
       startThreads();
       //packetReader->startListening();
-      
-      
+
+
       socket->send("UA01");
       XDEBUG(("Sent UA01\n"));
       ClientInformationPacket *infoPacket = new ClientInformationPacket();
@@ -78,7 +81,7 @@ using namespace std;
       XINFO(("sent ClientInformationPacket\n"));
 
       ClientVersionPacket *versionPacket = new ClientVersionPacket();
-      versionPacket->setProtocolVersion( 100 );
+      versionPacket->setProtocolVersion( protocolVersion);
       this->send( versionPacket );
       delete versionPacket;
       XINFO(("sent ClientVersionPacket\n"));
@@ -92,9 +95,9 @@ using namespace std;
   void Client::startThreads() {
     void* (*func)(void*) = &xfirelib::Client::startReadThread;
     XINFO(("About to start thread\n"));
-    int ret = pthread_create( &readthread, NULL, func, (void*)this );
+    pthread_create( &readthread, NULL, func, (void*)this );
     void* (*func2)(void*) = &xfirelib::Client::startSendPingThread;
-    int ret2 = pthread_create( &sendpingthread, NULL, func2, (void*)this );
+    pthread_create( &sendpingthread, NULL, func2, (void*)this );
   }
   void *Client::startReadThread(void *ptr) {
     try {
@@ -120,8 +123,10 @@ using namespace std;
   void Client::disconnect() {
     pthread_cancel (readthread);
     pthread_cancel (sendpingthread);
-    delete socket;
-    socket = NULL;
+    if(socket){
+        delete socket;
+        socket = NULL;
+    }
   }
 
   bool Client::send( XFirePacketContent *content ) {
@@ -165,6 +170,7 @@ using namespace std;
       delete login;
       break;
     }
+
     case XFIRE_MESSAGE_ID: {
       XDEBUG(( "Got Message, sending ACK\n" ));
         MessagePacket *message = (MessagePacket*)packet->getContent();

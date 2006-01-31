@@ -44,6 +44,7 @@
 #include "../sendgamestatus2packet.h"
 #include "../dummyxfiregameresolver.h"
 #include "../sendgameserverpacket.h"
+#include "../recvoldversionpacket.h"
 
 namespace xfirelibtest {
   using namespace std;
@@ -223,6 +224,7 @@ namespace xfirelibtest {
       delete client;
       cout << "TestClient : Login failed." << endl;
       break;
+    }
     case XFIRE_MESSAGE_ID: {
       cout << "TestClient : Got Message." << endl;
         if( (( MessagePacket*)content)->getMessageType() == 0){
@@ -231,6 +233,11 @@ namespace xfirelibtest {
             cout << "TestClient : from user " << entry->nick << "(" << entry->username << ")" <<endl;
         }
       break;
+    }
+    case XFIRE_RECV_OLDVERSION_PACKET_ID: {
+        cout << "Testclient: Our protocol version is too old" << endl;
+        break;
+    }
     case XFIRE_PACKET_INVITE_REQUEST_PACKET: {
       cout << "Invitation Request: " << endl;
       InviteRequestPacket *invite = (InviteRequestPacket*)content;
@@ -242,8 +249,7 @@ namespace xfirelibtest {
       lastInviteRequest = new string(invite->name);
       break;
     }
-    }
-    case XFIRE_OTHER_LOGIN:
+    case XFIRE_OTHER_LOGIN:{
       client->disconnect();
       delete client;
       cout << "TestClient : Someone loged in with our account.disconnect" << endl;
@@ -252,17 +258,20 @@ namespace xfirelibtest {
     case XFIRE_BUDDYS_NAMES_ID: {
       printBuddyList();
     }
+default:
+cout << "nothing--------" << endl;
+break;
     }
-  } 
+}
 
   void XFireTestClient::printBuddyList() {
       printf("Buddy List: (* marks online users)\n");
       printf("----------------- Buddy List --------------------------------------------------------\n");
       printf("  %20s | %20s | %10s | %20s | %7s | %7s\n","User Name", "Nick", "UserId", "Status Msg" ,"Gameid" ,"Gameid2" );
       vector<BuddyListEntry*> *entries = client->getBuddyList()->getEntries();
-      for(int i = 0 ; i < entries->size() ; i ++) {
+      for(uint i = 0 ; i < entries->size() ; i ++) {
 	BuddyListEntry *entry = entries->at(i);
-	printf("%1s %20s | %20s | %10d | %20s | %7d | %7d\n",
+	printf("%1s %20s | %20s | %10ld | %20s | %7ld | %ld\n",
 	       (entry->isOnline() ? "*" : ""),
 	       entry->username.c_str(),
 	       entry->nick.c_str(),

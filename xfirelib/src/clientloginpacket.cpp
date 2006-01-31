@@ -83,9 +83,6 @@ void ClientLoginPacket::hashSha1(const char *string, unsigned char *sha){
 
 	char result[41];
         unsigned char temp[1024];
-	int i;
-	int number;
-	char hex[2];
         CSHA1 sha1;
         sha1.Reset();
         sha1.Update((UINT_8 *)string, strlen(string));

@@ -69,6 +69,7 @@ class Client : public PacketListener {
   BuddyList *buddyList;
   pthread_t readthread;
   pthread_t sendpingthread;
+  int protocolVersion;
 };
 
 };
