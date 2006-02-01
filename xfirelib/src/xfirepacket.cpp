@@ -82,6 +82,7 @@ namespace xfirelib {
     char *buf = (char*)malloc(size * sizeof(char));
     XDEBUG(("Allocated %d characters\n", size));
     int rsize = content->getPacketContent( buf );
+    XDEBUG(("Real Size: %d\n", rsize));
     int realsize = rsize + 5;
     char *sendbuf = (char*)malloc(realsize * sizeof(char));
     memcpy( sendbuf + 5, buf, rsize );
@@ -91,7 +92,9 @@ namespace xfirelib {
     sendbuf[3] = 0;
     sendbuf[4] = content->getPacketAttributeCount();
 
+    XDEBUG(("Sending packet...\n"));
     socket->send( sendbuf, realsize );
+    XDEBUG(("Sent packet.\n"));
     free(buf); free(sendbuf);
   }
 
