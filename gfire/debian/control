@@ -1,0 +1,13 @@
+Source: gaim-xfire
+Priority: optional
+Maintainer: Carl Furstenberg <azatoth@gmail.com>
+Build-Depends: debhelper (>= 4.0.0), autotools-dev, gaim-dev (>= 1.5.0), libglib2.0-dev
+Standards-Version: 3.6.1
+Section: libs
+
+Package: gaim-xfire
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, gaim (>= 1.5.0)
+Description: Protocol Plugin (prpl) for Gaim to send messages via XFire.
+ Protocol Plugin (prpl) for Gaim to send messages via XFire.
