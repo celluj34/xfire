@@ -30,6 +30,8 @@ namespace xfirelib {
 class VariableValue {
  public:
     VariableValue();
+    ~VariableValue();
+
     void setName(std::string name);
     void setValueLength(int valueLength);
     void setValue( char * value );

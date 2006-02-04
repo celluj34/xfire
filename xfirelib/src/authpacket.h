@@ -32,6 +32,9 @@ namespace xfirelib {
 
   class AuthPacket : public XFireRecvPacketContent {
   public:
+    AuthPacket();
+    virtual ~AuthPacket();
+
     XFirePacketContent* newPacket() { return new AuthPacket(); }
 
 

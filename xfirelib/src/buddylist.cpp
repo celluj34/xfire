@@ -41,6 +41,10 @@ namespace xfirelib {
     this->client->addPacketListener( this );
   }
   BuddyList::~BuddyList() {
+    for(vector<BuddyListEntry *>::iterator it = entries->begin();
+	it != entries->end(); it++) {
+      delete *it;
+    }
     delete entries;
   }
 

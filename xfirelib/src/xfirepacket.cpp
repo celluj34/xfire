@@ -80,17 +80,17 @@ namespace xfirelib {
   void XFirePacket::sendPacket(Socket *socket) {
     int size = content->getPacketSize();
     char *buf = (char*)malloc(size * sizeof(char));
-    XDEBUG(("Allocated %d characters\n", size));
+    XDEBUG(("Allocated %d characters (%d)\n", size, sizeof(char)));
     int rsize = content->getPacketContent( buf );
     XDEBUG(("Real Size: %d\n", rsize));
     int realsize = rsize + 5;
     char *sendbuf = (char*)malloc(realsize * sizeof(char));
-    memcpy( sendbuf + 5, buf, rsize );
     sendbuf[0] = realsize % 256;
     sendbuf[1] = (int)realsize / 256;
     sendbuf[2] = content->getPacketId();
     sendbuf[3] = 0;
     sendbuf[4] = content->getPacketAttributeCount();
+    memcpy( sendbuf + 5, buf, rsize );
 
     XDEBUG(("Sending packet...\n"));
     socket->send( sendbuf, realsize );

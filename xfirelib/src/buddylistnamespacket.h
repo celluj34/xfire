@@ -38,6 +38,7 @@ namespace xfirelib {
   class BuddyListNamesPacket : public XFireRecvPacketContent {
   public:
     BuddyListNamesPacket();
+    virtual ~BuddyListNamesPacket();
 
     XFirePacketContent* newPacket() { return new BuddyListNamesPacket(); }
 

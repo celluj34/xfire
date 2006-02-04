@@ -26,6 +26,9 @@
 #define __CLIENTINFORMATIONPACKET_H
 
 #include "xfiresendpacketcontent.h"
+#include "variablevalue.h"
+
+#include <string>
 
 namespace xfirelib {
 
@@ -42,6 +45,7 @@ namespace xfirelib {
     int getPacketAttributeCount();
     int getPacketSize() { return 46; };
     void parseContent(char *buf, int length, int numberOfAtts) { };
+    std::string skinname;
   private:
     int length;
   };

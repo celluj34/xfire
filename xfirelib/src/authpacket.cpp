@@ -29,6 +29,13 @@
 namespace xfirelib {
   using namespace std;
 
+  AuthPacket::AuthPacket() : XFireRecvPacketContent() {
+    salt = 0;
+  }
+  AuthPacket::~AuthPacket() {
+    delete salt;
+  }
+
   void AuthPacket::parseContent(char *buf, int length, int numberOfAtts) {
 	
     //XFireParse parse;

@@ -33,8 +33,19 @@ namespace xfirelib {
   using namespace std;
 
   BuddyListGamesPacket::BuddyListGamesPacket() {
+    ips = 0;
+    ports = 0;
+    gameids = 0;
+    gameids2 = 0;
+    sids = 0;
   }
   BuddyListGamesPacket::~BuddyListGamesPacket() {
+    if(ips) {
+      for( vector<char*>::iterator it = ips->begin() ;
+	   it != ips->end() ; it++) {
+	delete[] *it;
+      }
+    }
     delete ips;
     delete ports;
     delete gameids;

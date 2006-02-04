@@ -56,6 +56,7 @@ namespace xfirelib {
 	// If we find something we don't know .. we stop parsing the 
 	// packet.. who cares about the rest...
       }
+      delete val;
     }
   }
 

@@ -57,9 +57,14 @@ using namespace std;
   }
   
   Client::~Client(){
-    XDEBUG(("Client deconstructor ...\n"));
+    XDEBUG(("Client destructor ...\n"));
+    delete username;
+    delete password;
     delete buddyList;
     delete packetReader;
+    delete socket;
+    delete packetReader;
+    delete buddyList;
   }
 
   void Client::connect( string username, string password ) {

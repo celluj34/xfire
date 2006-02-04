@@ -91,7 +91,6 @@ namespace xfirelibtest {
 	  cout << "  remove <username>" << endl;
 	  cout << "  send <username> <message .....>" << endl;
 	} else if(cmds[0] == "quit") {
-	  client->disconnect();
 	  cout << "Quitting" << endl;
 	  done = true;
 	} else if(cmds[0] == "buddylist") {
@@ -189,6 +188,8 @@ namespace xfirelibtest {
 	}
       }
     }
+    client->disconnect();
+    delete client;
   }
   string XFireTestClient::joinString(vector<string> s, int startindex, int endindex, string delimiter) {
     string ret;

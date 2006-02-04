@@ -31,6 +31,11 @@ namespace xfirelib {
 using namespace std;
 
   VariableValue::VariableValue() {
+    value = 0;
+  }
+  VariableValue::~VariableValue() {
+    if(value)
+      delete[] value;
   }
 
   void VariableValue::setName(std::string name){
@@ -42,6 +47,7 @@ using namespace std;
   }
 
   void VariableValue::setValue( char * value) {
+    if(this->value) delete[] value;
     this->value = value;
   }
   void VariableValue::setValue( std::string value ) {
@@ -107,6 +113,7 @@ using namespace std;
       if(ignoreZeroAfterLength) read++;
     }
 
+    if(value) delete[] value;
     value = new char[valueLength];
     memcpy(value,packet+index+read,valueLength);
     read+=valueLength;

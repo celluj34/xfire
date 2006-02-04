@@ -37,6 +37,11 @@ namespace xfirelib {
     nicks = 0;
     userids = 0;
   }
+  BuddyListNamesPacket::~BuddyListNamesPacket() {
+    delete usernames;
+    delete nicks;
+    delete userids;
+  }
 
   void BuddyListNamesPacket::parseContent(char *buf, int length, int numberOfAtts) {
     int index = 0;
