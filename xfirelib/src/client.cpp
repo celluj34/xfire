@@ -63,8 +63,6 @@ using namespace std;
     delete buddyList;
     delete packetReader;
     delete socket;
-    delete packetReader;
-    delete buddyList;
   }
 
   void Client::connect( string username, string password ) {

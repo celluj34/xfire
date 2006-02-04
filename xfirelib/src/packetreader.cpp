@@ -63,7 +63,6 @@ namespace xfirelib {
     // TODO: delete each packetListener ..
     delete packetListeners;
 
-    delete socket;
     while(!packets->empty()) { delete packets->at(packets->size()-1); packets->pop_back(); }
     delete packets;
   }

@@ -58,6 +58,7 @@ namespace xfirelibtest {
   }
   XFireTestClient::~XFireTestClient() {
     delete client;
+    delete lastInviteRequest;
   }
 
   void XFireTestClient::run() {
@@ -190,6 +191,7 @@ namespace xfirelibtest {
     }
     client->disconnect();
     delete client;
+    client = 0;
   }
   string XFireTestClient::joinString(vector<string> s, int startindex, int endindex, string delimiter) {
     string ret;
@@ -223,6 +225,7 @@ namespace xfirelibtest {
     case XFIRE_LOGIN_FAILED_ID: {
       client->disconnect();
       delete client;
+      client = 0;
       cout << "TestClient : Login failed." << endl;
       break;
     }
@@ -253,6 +256,7 @@ namespace xfirelibtest {
     case XFIRE_OTHER_LOGIN:{
       client->disconnect();
       delete client;
+      client = 0;
       cout << "TestClient : Someone loged in with our account.disconnect" << endl;
       break;
     }
@@ -301,5 +305,6 @@ int main(int argc, char **params) {
   } catch( exception e ) {
     cout << "Exception: " << e.what() << endl;
   }
+  delete testClient;
   return 0;
 }
