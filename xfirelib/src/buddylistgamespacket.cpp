@@ -34,6 +34,13 @@ namespace xfirelib {
 
   BuddyListGamesPacket::BuddyListGamesPacket() {
   }
+  BuddyListGamesPacket::~BuddyListGamesPacket() {
+    delete ips;
+    delete ports;
+    delete gameids;
+    delete gameids2;
+    delete sids;
+  }
 
   void BuddyListGamesPacket::parseContent(char *buf, int length, int numberOfAtts) {
     int index = 0;
