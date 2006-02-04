@@ -20,12 +20,16 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
 
+DOCUMENTATION
+
+  Please visit http://xfirelib.sphene.net for further documentation
+  (tutorials, API, etc.), bug reports and forums.
+
 REQUIREMENTS:
 
   To compile xfirelib you will need jam:
     http://www.perforce.com/jam/jam.html
   It also requires pthreads support.
-
 
 COMPILING:
 
