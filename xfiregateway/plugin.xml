@@ -64,6 +64,9 @@
          <exename
                name="BF2.exe"
                os="win32"/>
+         <param
+               name="xfireid"
+               value="4578"/>
       </game>
       <game
             changestatus="true"
@@ -74,6 +77,9 @@
          <exename
                name="Soldat.exe"
                os="win32"/>
+         <param
+               name="xfireid"
+               value="4183"/>
       </game>
       <game
             changestatus="true"
@@ -84,6 +90,9 @@
          <exename
                name="wow.exe"
                os="win32"/>
+         <param
+               name="xfireid"
+               value="4216"/>
       </game>
       <game
             changestatus="true"
@@ -106,6 +115,9 @@
          <param
                name="win32registryappend"
                value="war3.exe"/>
+         <param
+               name="xfireid"
+               value="4112"/>
       </game>
       <game
             changestatus="true"
@@ -116,6 +128,9 @@
          <exename
                name="et.exe"
                os="win32"/>
+         <param
+               name="xfireid"
+               value="4097"/>
       </game>
       <game
             changestatus="true"
@@ -126,6 +141,9 @@
          <exename
                name="codmp.exe"
                os="win32"/>
+         <param
+               name="xfireid"
+               value="4120"/>
       </game>
       <game
             changestatus="true"
@@ -136,6 +154,9 @@
          <exename
                name="coduo.exe"
                os="win32"/>
+         <param
+               name="xfireid"
+               value="4311"/>
       </game>
       <game
             changestatus="true"
@@ -146,6 +167,9 @@
          <exename
                name="COD2MP_s.exe"
                os="win32"/>
+         <param
+               name="xfireid"
+               value="4684"/>
       </game>
       <game
             changestatus="true"
@@ -156,6 +180,9 @@
          <exename
                name="sof2mp.exe"
                os="win32"/>
+         <param
+               name="xfireid"
+               value="4151"/>
       </game>
       <game
             changestatus="true"
@@ -166,6 +193,9 @@
          <exename
                name="bf1942.exe"
                os="win32"/>
+         <param
+               name="xfireid"
+               value="4105"/>
       </game>
       <game
             changestatus="true"
@@ -176,6 +206,9 @@
          <exename
                name="bfvietnam.exe"
                os="win32"/>
+         <param
+               name="xfireid"
+               value="4182"/>
       </game>
       <game
             changestatus="true"
@@ -195,6 +228,9 @@
          <param
                name="win32registryappend"
                value="planetside.exe"/>
+         <param
+               name="xfireid"
+               value="4110"/>
       </game>
       <game
             changestatus="true"
@@ -214,6 +250,9 @@
          <param
                name="win32registryappend"
                value="PES5.exe"/>
+         <param
+               name="xfireid"
+               value="4718"/>
       </game>
       <game
             changestatus="true"
@@ -233,6 +272,37 @@
          <param
                name="win32registryappend"
                value="Civilization4.exe"/>
+         <param
+               name="xfireid"
+               value="4685"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.generalimplementors.GeneralGameImplementation"
+            icon="misc/icons/mtasa.png"
+            id="mtasa"
+            name="Multi Theft Auto: San Andreas">
+         <exename
+               name="Multi Theft Auto.exe"
+               os="win32"/>
+         <param
+               name="win32registrykey"
+               value="SOFTWARE\Multi Theft Auto: San Andreas"/>
+         <param
+               name="win32registryvalue"
+               value="GTA:SA Path"/>
+         <param
+               name="win32registryappend"
+               value="Multi Theft Auto.exe"/>
+         <param
+               name="defaultgameport"
+               value="22003"/>
+         <param
+               name="defaultqueryport"
+               value="22126"/>
+         <param
+               name="connectcommand"
+               value="{gamepath} mtasa://race@{serverip}:{serverport}"/>
       </game>
    </extension>
 

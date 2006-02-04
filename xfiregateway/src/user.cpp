@@ -175,7 +175,7 @@ namespace xfiregateway {
     } else {
       tag->addAttrib( "type", "unavailable" );
     }
-    sleep(1);
+    //sleep(1);
     XDEBUG(( "mirrorPresence sending tag ..\n" ));
     comp->send( tag );
     XDEBUG(( "mirrorPresence end\n" ));
