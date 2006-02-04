@@ -47,3 +47,12 @@ INSTALLING:
    can't choose a target directory for libxfirelib.a)
   Anyway, you can always run 'jam uninstall' to remove all installed 
   files.
+
+IN ACTION:
+
+  Beside the xfiretestclient xfirelib is used by 'xfiregateway'
+  a gateway between jabber and xfire. Visit
+  http://xfirelib.sphene.net/wiki/show/XFireGateway for more 
+  information.
+
+

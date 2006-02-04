@@ -122,12 +122,16 @@ using namespace std;
   }
 
   void Client::disconnect() {
+    XDEBUG(( "cancelling readthread ... %d\n", (int)readthread ));
     pthread_cancel (readthread);
+    XDEBUG(( "cancelling sendpingthread ... %d\n", (int)sendpingthread ));
     pthread_cancel (sendpingthread);
+    XDEBUG(( "deleting socket ...\n" ));
     if(socket){
         delete socket;
         socket = NULL;
     }
+    XDEBUG(( "done\n" ));
   }
 
   bool Client::send( XFirePacketContent *content ) {
