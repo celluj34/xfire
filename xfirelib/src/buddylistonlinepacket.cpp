@@ -31,22 +31,22 @@
 
 namespace xfirelib {
   using namespace std;
-
-    BuddyListOnlinePacket::BuddyListOnlinePacket(){
-        userids = NULL;
-        sids = NULL;
-    }
-
-   BuddyListOnlinePacket::~BuddyListOnlinePacket(){
-   delete userids;
+  
+  BuddyListOnlinePacket::BuddyListOnlinePacket(){
+    userids = NULL;
+    sids = NULL;
+  }
+  
+  BuddyListOnlinePacket::~BuddyListOnlinePacket() {
+    delete userids;
     if(sids){
-        for(vector<char *>::iterator it = sids->begin();
-        it != sids->end(); it++) {
-             delete *it;
-         }
-    delete sids;
+      for(vector<char *>::iterator it = sids->begin();
+	  it != sids->end(); it++) {
+	delete[] *it;
+      }
+      delete sids;
     }
-    }
+  }
 
   void BuddyListOnlinePacket::parseContent(char *buf, int length, int numberOfAtts) {
     XINFO(( "Got List of buddys that are online\n" ));
