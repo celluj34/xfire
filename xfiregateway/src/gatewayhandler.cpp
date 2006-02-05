@@ -62,13 +62,25 @@ namespace xfiregateway {
 	  XDEBUG(( "Someone wants to be removed...\n" ));
 	  User *user = gateway->getUserByJID( stanza->from().bare() );
 	  gateway->removeUser( user );
-	  // TODO allow people to be removed ...
+
 	  Tag *reply = new Tag("iq");
 	  reply->addAttrib( "type", "result" );
 	  reply->addAttrib( "from", gateway->getFQDN() );
 	  reply->addAttrib( "to", stanza->from().full() );
 	  reply->addAttrib( "id", stanza->id() );
 	  comp->send( reply );
+
+	  reply = new Tag( "presence" );
+	  reply->addAttrib( "type", "unsubscribe" );
+	  reply->addAttrib( "from", gateway->getFQDN() );
+	  reply->addAttrib( "to", stanza->from().full() );
+	  comp->send( reply );
+	  reply = new Tag("presence");
+	  reply->addAttrib( "type", "unsubscribed" );
+	  reply->addAttrib( "to", stanza->from().full() );
+	  reply->addAttrib( "from", gateway->getFQDN() );
+	  comp->send( reply );
+	  
 	  return true;
 	}
 	XDEBUG(( "Someone wants to register or change password\n" ));
@@ -83,13 +95,27 @@ namespace xfiregateway {
 	User *user = gateway->getUserByJID(jid);
 	if(user == NULL) {
 	  XDEBUG(( "Registering...\n" ));
-	  user = new User(gateway);
-	  std::string lowerjid = SimpleLib::stringToLower(jid);
-	  user->jid = lowerjid;
-	  user->name = username;
-	  user->password = password;
-	  gateway->addUser( user );
-	  sendsubscribe = true;
+	  user = gateway->getUserByXFireName(username);
+	  if(user) {
+	    Stanza *r = stanza->clone(true);
+	    Tag *error = new Tag("error");
+	    error->addAttrib( "code", "409" );
+	    error->addAttrib( "type", "cancel" );
+	    Tag *conflict = new Tag("conflict");
+	    conflict->addAttrib( "xmlns", "urn:ietf:params:xml:ns:xmpp-stanzas" );
+	    conflict->setCData( "Someone else already registered with this xfire username (" + user->jid + ")" );
+	    error->addChild( conflict );
+	    r->addChild( error );
+	    comp->send( r );
+	  } else {
+	    user = new User(gateway);
+	    std::string lowerjid = SimpleLib::stringToLower(jid);
+	    user->jid = lowerjid;
+	    user->name = username;
+	    user->password = password;
+	    gateway->addUser( user );
+	    sendsubscribe = true;
+	  }
 	} else {
 	  XDEBUG(( "Changing Password...\n" ));
 	  user->password = password;

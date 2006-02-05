@@ -304,6 +304,47 @@
                name="connectcommand"
                value="{gamepath} mtasa://race@{serverip}:{serverport}"/>
       </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.generalimplementors.GeneralGameImplementation"
+            icon="misc/icons/tms_16.png"
+            id="tms"
+            name="TrackMania Sunrise">
+         <exename
+               name="TmSunrise.exe"
+               os="win32"/>
+         <param
+               name="win32registrykey"
+               value="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\TmSunrise_is1"/>
+         <param
+               name="win32registryvalue"
+               value="Inno Setup: App Path"/>
+         <param
+               name="win32registryappend"
+               value="TmSunrise.exe"/>
+         <param
+               name="xfireid"
+               value="4566"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.generalimplementors.GeneralGameImplementation"
+            icon="misc/icons/tmn_16.png"
+            id="tmn"
+            name="TrackMania Nations ESWC">
+         <exename
+               name="TmNationsESWC.exe"
+               os="win32"/>
+         <param
+               name="win32registrykey"
+               value="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\TmNations_is1"/>
+         <param
+               name="win32registryvalue"
+               value="Inno Setup: App Path"/>
+         <param
+               name="win32registryappend"
+               value="TmNationsESWC.exe"/>
+      </game>
    </extension>
 
 </plugin>

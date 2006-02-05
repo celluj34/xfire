@@ -46,6 +46,7 @@ namespace xfiregateway {
     void readUserFile();
 
     User *getUserByJID(std::string barejid);
+    User *getUserByXFireName(std::string username);
     void addUser(User *user);
     void removeUser(User *user);
     void quit();

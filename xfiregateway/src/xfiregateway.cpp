@@ -149,6 +149,14 @@ namespace xfiregateway {
     }
     return NULL;
   }
+  User *XFireGateway::getUserByXFireName(std::string user) {
+    for( std::vector<User*>::iterator it = users->begin();
+	 it != users->end(); it++ ) {
+      if((*it)->name == user)
+	return *it;
+    }
+    return NULL;
+  }
   void XFireGateway::run() {
     XINFO(( "Running XFireGateway ...\n" ));
     /*
