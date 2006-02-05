@@ -5,7 +5,6 @@
 
 #include "xdebug.h"
 #include "socket.h"
-#include "string.h"
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>

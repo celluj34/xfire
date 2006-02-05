@@ -33,9 +33,11 @@ namespace xfirelib {
 
   RecvStatusMessagePacket::~RecvStatusMessagePacket() {
     delete msgs;
-    for(std::vector<char *>::iterator it = sids->begin();
-    it != sids->end(); it++) {
-        delete *it;
+    if(sids){
+        for(std::vector<char *>::iterator it = sids->begin();
+        it != sids->end(); it++) {
+            delete []*it;
+        }
     }
     delete sids;
   }
