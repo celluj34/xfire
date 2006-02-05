@@ -31,6 +31,15 @@ namespace xfirelib {
   RecvStatusMessagePacket::RecvStatusMessagePacket() {
   }
 
+  RecvStatusMessagePacket::~RecvStatusMessagePacket() {
+    delete msgs;
+    for(std::vector<char *>::iterator it = sids->begin();
+    it != sids->end(); it++) {
+        delete *it;
+    }
+    delete sids;
+  }
+
   void RecvStatusMessagePacket::parseContent(char *buf, int length, int numberOfAtts) {
     int index = 0;
     int numberOfIds = 0;

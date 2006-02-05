@@ -36,7 +36,7 @@ using namespace std;
   class BuddyListOnlinePacket : public XFireRecvPacketContent {
   public:
     XFirePacketContent* newPacket() { return new BuddyListOnlinePacket(); }
-
+    ~BuddyListOnlinePacket();
 
     int getPacketId() { return XFIRE_BUDDYS_ONLINE_ID; }
     int getPacketContent(char *buf) { return 0; }

@@ -299,7 +299,7 @@ int main(int argc, char **params) {
     return 0;
   }
   XFireTestClient *testClient = new 
-  XFireTestClient(string(params[1]),string(params[2]));
+    XFireTestClient(string(params[1]),string(params[2]));
   try {
     testClient->run();
   } catch( exception e ) {

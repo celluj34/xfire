@@ -50,6 +50,13 @@ namespace xfirelib {
     delete ports;
     delete gameids;
     delete gameids2;
+
+    if(sids) {
+      for( vector<char*>::iterator it = sids->begin() ;
+	   it != sids->end() ; it++) {
+	delete[] *it;
+      }
+    }
     delete sids;
   }
 
