@@ -200,8 +200,9 @@ namespace xfiregateway {
 	     stanza->to().full().c_str() ));
     if(stanza->to().full() == gateway->getFQDN()) {
       if(stanza->body() == "") return;
+      std::string reply;
       if(stanza->body() == "users") {
-	std::string reply = "Current Users of this xfiregateway:\n";
+	reply = "Current Users of this xfiregateway:\n";
 	for(std::vector<User*>::iterator it = gateway->getUsers()->begin() ;
 	    it != gateway->getUsers()->end() ; it++) {
 	  reply += (*it)->jid + " - " + (*it)->name;
@@ -212,10 +213,24 @@ namespace xfiregateway {
 	  }
 	  reply += "\n";
 	}
+      } else if(stanza->body() == "uptime") {
+	time_t uptime;
+	time(&uptime);
+	int seconds = uptime % 60;
+	uptime /= 60;
+	int minutes = uptime % 60;
+	uptime /= 60;
+	int hours = uptime % 24;
+	uptime /= 24;
+	int days = uptime;
+	char buf[128];
+	sprintf(buf,"Current uptime is %d days, %d hours, %d minutes, %d seconds",days,hours,minutes,seconds);
+	reply = buf;
+      }
+      if(!reply.empty()) {
 	Tag *r = Stanza::createMessageStanza( stanza->from(), reply );
 	r->addAttrib( "from",gateway->getFQDN());
 	comp->send(r);
-	
       }
     } else {
       User *user = gateway->getUserByJID( stanza->from().bare() );

@@ -25,6 +25,7 @@
 #include <string>
 #include <gloox/component.h>
 #include <vector>
+#include <time.h>
 #include "user.h"
 #include "parsegamexml.h"
 
@@ -53,6 +54,7 @@ namespace xfiregateway {
     std::vector<User*> *getUsers() { return users; }
 
     xfiregateway::ParseGameXML *gameXML;
+    time_t startTime;
   private:
     std::map<std::string,std::string> args;
     std::vector<std::string> explodeString(std::string s,

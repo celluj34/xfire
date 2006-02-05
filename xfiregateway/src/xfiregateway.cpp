@@ -34,6 +34,7 @@
 #include <xfirelib/client.h>
 #include <string>
 #include <map>
+#include <time.h>
 #include "parsegamexml.h"
 
 #include "simplelib.h"
@@ -45,6 +46,9 @@ namespace xfiregateway {
     this->users = 0;
     this->args = args;
     this->gameXML = new xfiregateway::ParseGameXML();
+    if(time(&this->startTime) < 0) {
+      XERROR(( "time() didn't return a valid value.\n" ));
+    }
   }
   XFireGateway::~XFireGateway() {
     XINFO(( "Destructing XFireGateway\n" ));
