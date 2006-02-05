@@ -63,6 +63,7 @@ namespace xfirelib {
   class BuddyListEntry {
   public:
     BuddyListEntry();
+    ~BuddyListEntry();
     bool isOnline();
 
     void setSid(const char *sid);

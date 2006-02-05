@@ -197,6 +197,12 @@ namespace xfirelib {
     gameObj = NULL;
     game2Obj = NULL;
   }
+
+  BuddyListEntry::~BuddyListEntry() {
+    delete gameObj;
+    delete game2Obj;
+  }
+
   bool BuddyListEntry::isOnline() {
     for(int i = 0 ; i < 16 ; i++) {
       if(sid[i]) return true;
