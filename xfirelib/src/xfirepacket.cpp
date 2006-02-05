@@ -85,6 +85,10 @@ namespace xfirelib {
     XDEBUG(("Real Size: %d\n", rsize));
     int realsize = rsize + 5;
     char *sendbuf = (char*)malloc(realsize * sizeof(char));
+    if(!sendbuf) {
+      XERROR(( "OMG! malloc(..) did not return a valid pointer ?! out of memory ??\n" ));
+      return;
+    }
     sendbuf[0] = realsize % 256;
     sendbuf[1] = (int)realsize / 256;
     sendbuf[2] = content->getPacketId();
