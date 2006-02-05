@@ -29,6 +29,8 @@
 
 namespace xfirelib {
   RecvStatusMessagePacket::RecvStatusMessagePacket() {
+    sids = NULL;
+    msgs = NULL;
   }
 
   RecvStatusMessagePacket::~RecvStatusMessagePacket() {
