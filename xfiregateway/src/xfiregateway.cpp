@@ -60,6 +60,7 @@ namespace xfiregateway {
     }
     users->clear();
     comp->disconnect();
+    delete this->gameXML;
 
 
     XINFO(( "Done Deconstructor.\n" ));

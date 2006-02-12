@@ -216,6 +216,7 @@ namespace xfiregateway {
       } else if(stanza->body() == "uptime") {
 	time_t uptime;
 	time(&uptime);
+	uptime -= gateway->startTime;
 	int seconds = uptime % 60;
 	uptime /= 60;
 	int minutes = uptime % 60;
