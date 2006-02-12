@@ -63,7 +63,6 @@ using namespace std;
     delete buddyList;
     delete packetReader;
     delete socket;
-    delete gameResolver;
   }
 
   void Client::connect( string username, string password ) {
