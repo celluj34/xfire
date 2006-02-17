@@ -39,7 +39,7 @@
 
 #define XFIRE_SERVER "cs.xfire.com"
 #define XFIRE_PORT 25999
-#define XFIRE_VERSION 50
+#define XFIRE_VERSION 100
 
 #define XFIRE_CONNECT_STEPS 3
 
