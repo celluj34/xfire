@@ -25,7 +25,7 @@ xfiregateway - jabber gateway to xfire.
 
 DEPENDENCIES
 
-  gloox - http://camaya.net/gloox
+  gloox - http://camaya.net/gloox (v0.7.6.1)
     (Hint: if you get a "This server is not XMPP-compliant 
 	[blahblahblah]" you might want to comment out
 	line 117 in clientbase.cpp of gloox/src)
