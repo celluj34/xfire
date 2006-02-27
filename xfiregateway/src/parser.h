@@ -37,7 +37,7 @@ namespace xfiregateway
    * @author Jakob Schroeter <js@camaya.net>
    * @since 0.4
    */
-  class GLOOX_EXPORT Parser
+  class Parser
   {
     public:
       /**

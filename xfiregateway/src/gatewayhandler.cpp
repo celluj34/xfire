@@ -203,15 +203,15 @@ namespace xfiregateway {
       std::string reply;
       if(stanza->body() == "users") {
 	reply = "Current Users of this xfiregateway:\n";
+	char buf[128];
 	for(std::vector<User*>::iterator it = gateway->getUsers()->begin() ;
 	    it != gateway->getUsers()->end() ; it++) {
-	  reply += (*it)->jid + " - " + (*it)->name;
-	  if((*it)->isOnline()) {
-	    reply += "(Online)";
-	  } else {
-	    reply += "(Offline)";
-	  }
-	  reply += "\n";
+	  sprintf(buf,"%s - %s - %d Buddies %s\n",
+		  (*it)->jid.c_str(),
+		  (*it)->name.c_str(),
+		  (*it)->inroster.size(),
+		  ((*it)->isOnline() ? "(Online)" : ""));
+	  reply += buf;
 	}
       } else if(stanza->body() == "uptime") {
 	time_t uptime;
