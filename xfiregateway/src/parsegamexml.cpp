@@ -36,8 +36,8 @@ namespace xfiregateway {
     //feed( "<stream:stream><?xml version=\"1.0\" encoding=\"UTF-8\"?><xml><abc a='b'><hehe /></abc><hehe><def /></hehe>blahblah</xml></stream:stream>" );
 
     struct stat st;
-    if(stat("xfiregateway_users.cfg", &st) != 0) {
-      XINFO(( "No user file yet ?\n" ));
+    if(stat("plugin.xml", &st) != 0) {
+      XINFO(( "Could not find plugin.xml ?!\n" ));
       return;
     }
     std::fstream f("plugin.xml", std::ios_base::in);
@@ -46,6 +46,7 @@ namespace xfiregateway {
       std::getline(f,str);
       feed( str );
     }
+    XDEBUG(( "Done constructing ParseGameXML()\n" ));
     /*
     feed( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xml><abc a='b'><hehe /></abc><hehe><def /></hehe>blahblah" );
     feed( "</xml>" );
