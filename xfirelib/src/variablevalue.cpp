@@ -79,7 +79,10 @@ using namespace std;
   }
 
   char* VariableValue::getValue() {
-    return value;
+    if(!value) return NULL;
+    char *toreturn = new char[valueLength];
+    memcpy(toreturn,value,valueLength);
+    return toreturn;
   }
 
   long VariableValue::getValueAsLong() {
