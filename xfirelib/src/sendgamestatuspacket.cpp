@@ -45,8 +45,7 @@ namespace xfirelib {
 
 
     val.setName( getIPAttributeName() );
-    val.setValue(ip);
-    val.setValueLength(4);
+    val.setValue(ip,4);
 
     index += val.writeName(buf, index);
     buf[index++] = 02;

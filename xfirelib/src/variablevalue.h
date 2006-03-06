@@ -34,12 +34,18 @@ class VariableValue {
 
     void setName(std::string name);
     void setValueLength(int valueLength);
-    void setValue( char * value );
+    //void setValue( char * value );
     void setValue( std::string value );
+    /**
+     * Stores a copy of valueLength chars of the provided value pointer.
+     */
     void setValue( const char *value, int valueLength );
     void setValueFromLong( long value, int bytes );
     std::string getName();
     int getValueLength();
+    /**
+     * Returns a COPY of the value. ie. you have to delete[] it yourself !
+     */
     char* getValue();
 
     int readName(char *packet, int index);

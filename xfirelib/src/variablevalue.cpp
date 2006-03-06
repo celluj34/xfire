@@ -45,11 +45,13 @@ using namespace std;
   void VariableValue::setValueLength(int valueLength){
     this->valueLength = valueLength;
   }
-
+  /* 
+     This method should not be used since it does not copy the value of char *
   void VariableValue::setValue( char * value) {
     if(this->value) delete[] value;
     this->value = value;
   }
+  */
   void VariableValue::setValue( std::string value ) {
     const char *val = value.c_str();
     setValue( val, value.length() );
@@ -76,7 +78,7 @@ using namespace std;
     return valueLength;
   }
 
-  char* VariableValue::getValue(){
+  char* VariableValue::getValue() {
     return value;
   }
 
