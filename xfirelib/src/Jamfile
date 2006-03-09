@@ -48,6 +48,7 @@ Library libxfirelib :
 	dummyxfiregameresolver.cpp
 	monitoredobj.cpp
 	sendgamestatus2packet.cpp
+	xdebug.cpp
 	;
 
 InstallLib $(LIBDIR) : libxfirelib$(SUFLIB) ;

@@ -79,12 +79,12 @@ namespace xfirelib {
 
   void XFirePacket::sendPacket(Socket *socket) {
     int size = content->getPacketSize();
-    char *buf = (char*)malloc(size * sizeof(char));
+    char *buf = new char[size]; //(char*)malloc(size * sizeof(char));
     XDEBUG(("Allocated %d characters (%d)\n", size, sizeof(char)));
     int rsize = content->getPacketContent( buf );
     XDEBUG(("Real Size: %d\n", rsize));
     int realsize = rsize + 5;
-    char *sendbuf = (char*)malloc(realsize * sizeof(char));
+    char *sendbuf = new char[realsize]; //(char*)malloc(realsize * sizeof(char));
     if(!sendbuf) {
       XERROR(( "OMG! malloc(..) did not return a valid pointer ?! out of memory ??\n" ));
       return;
@@ -99,7 +99,8 @@ namespace xfirelib {
     XDEBUG(("Sending packet...\n"));
     socket->send( sendbuf, realsize );
     XDEBUG(("Sent packet.\n"));
-    free(buf); free(sendbuf);
+    delete[] buf; delete[] sendbuf;
+    //free(buf); free(sendbuf);
   }
 
 };

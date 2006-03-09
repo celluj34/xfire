@@ -33,7 +33,10 @@
 #define YELLOW 3
 #define WHITE  7
 #include <stdio.h>
+#include <stdarg.h>
 #include <pthread.h>
+
+int printferr(char* fmt, ...);
 
   #define XDEBUG(args) { \
     printf( "[0;33;40m" ); \
@@ -52,8 +55,11 @@
     printf( "[%5d] XFireLibERROR(%25s,%4d): ", (int)pthread_self(), __FILE__, __LINE__ ); \
     printf args ; \
     printf( "[0;37;40m" ); \
+    fprintf( stderr, "[%5d] XFireLibERROR(%25s,%4d): ", (int)pthread_self(), __FILE__, __LINE__ ); \
+    printferr args ; \
   }
 #ifndef XENABLEDEBUG
+
   #undef XDEBUG
   #define XDEBUG(args)
   #ifndef XINFO
