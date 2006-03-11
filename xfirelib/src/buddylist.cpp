@@ -93,7 +93,7 @@ namespace xfirelib {
         if(entry){
          entry->setSid( buddiesOnline->sids->at(i) );
         }else{
-         XERROR(("Could not find buddy with this sid!\n"));
+         XDEBUG(("Could not find buddy with this sid!\n"));
         }
     }
   }
