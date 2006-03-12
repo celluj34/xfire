@@ -115,6 +115,7 @@ using namespace std;
     valueLength = length;
     if(valueLength < 0) {
       valueLength = (unsigned char)packet[index+read];read++;
+      XDEBUG(( "valueLength: %d - next char: %d\n", valueLength, packet[index+read] ));
       if(ignoreZeroAfterLength) read++;
     }
 
@@ -157,35 +158,13 @@ using namespace std;
 
 
   int VariableValue::readVariableValue(char *packet, int index, int packetLength){
-    VariableValue *value = this;
-    int nameLength = packet[index];
     
-    int i = 1;
-    int attLengthLength = 0;
-    int attLength = 0;
-    string name;
-    
-    for(; i <= nameLength;i++){
-      name += packet[index+i];
-    }
-    value->setName(name);
-    
-    index += i;
-    attLengthLength = packet[index];
-    index++;
-    
-    for(i = 0; i < attLengthLength;i++){
-      attLength += (unsigned char)packet[index+i];/*todo: make it work if length is longer than 1 byte*/
-    }
-    value->setValueLength(attLength);
-    
-    char *att = new char[attLength];
-    index += i+1;
-    for(i = 0; i < attLength;i++){
-      att[i] = packet[index+i];
-    }
-    value->setValue(att);
-    index += i;
+    index += this->readName(packet, index);
+    index += this->readValue( packet, index, -1 );
+    long length = this->getValueAsLong();
+    index++; // Ignore 0
+    index += this->readValue( packet, index, length );
+
     if( index > packetLength ) {
       XERROR(( "Possibly read more than packet.. index: %d - packetLength: %d\n", index, packetLength ));
       XERROR(( " `- Name: %s\n", name.c_str() ));
