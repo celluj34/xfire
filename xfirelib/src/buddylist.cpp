@@ -129,7 +129,7 @@ namespace xfirelib {
 		 (entry->game2Obj== NULL ? "UNKNOWN" :entry->game2Obj->getGameName().c_str())
 		 ));
       }else{
-        XERROR(("Could not find buddy with this sid!\n"));
+        XDEBUG(("Could not find buddy with this sid!\n"));
       }
     }
   }

@@ -186,6 +186,10 @@ using namespace std;
     }
     value->setValue(att);
     index += i;
+    if( index >= packetLength ) {
+      XERROR(( "Possibly read more than packet.. index: %d - packetLength: %d\n", index, packetLength ));
+      XERROR(( " `- Name: %s\n", name.c_str() ));
+    }
     return index;
   }
 

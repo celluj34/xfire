@@ -82,6 +82,9 @@ namespace xfirelib {
     char *buf = new char[size]; //(char*)malloc(size * sizeof(char));
     XDEBUG(("Allocated %d characters (%d)\n", size, sizeof(char)));
     int rsize = content->getPacketContent( buf );
+    if(rsize > size) {
+      XERROR(( "ContentPacket wrote more bytes than reserved !!!! ?!?!?! (%d vs. %d) - Id: %d\n", rsize, size, content->getPacketId() ));
+    }
     XDEBUG(("Real Size: %d\n", rsize));
     int realsize = rsize + 5;
     char *sendbuf = new char[realsize]; //(char*)malloc(realsize * sizeof(char));
