@@ -40,7 +40,7 @@ namespace xfirelib {
 
     int getPacketContent(char *buf);
     int getPacketAttributeCount() { return 1; }
-    int getPacketSize() { return 100; }
+    int getPacketSize();
 
 
     string awaymsg;

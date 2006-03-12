@@ -37,5 +37,9 @@ namespace xfirelib {
     return index;
   }
 
+  int SendStatusMessagePacket::getPacketSize() {
+    return awaymsg.length() + 10; // We only need + 5 .. but .. i want to be sure ;)
+  }
+
 
 };
