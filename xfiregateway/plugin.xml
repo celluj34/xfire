@@ -345,6 +345,51 @@
                name="win32registryappend"
                value="TmNationsESWC.exe"/>
       </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.generalimplementors.GeneralGameImplementation"
+            icon="misc/icons/tetrinet2_16.png"
+            id="tetrinet2"
+            name="TetriNet2">
+         <exename
+               name="TetriNET.exe"
+               os="win32"/>
+         <param
+               name="win32registrykey"
+               value="SOFTWARE\TetriNet2"/>
+         <param
+               name="win32registryvalue"
+               value=""
+               />
+         <param
+               name="win32registryappend"
+               value="TetriNET.exe"/>
+      </game>
+      <game
+            changestatus="true"
+            class="net.sphene.goim.games.generalimplementors.GeneralGameImplementation"
+            icon="misc/icons/guildwars16.png"
+            id="guildwars"
+            name="GuildWars">
+         <exename
+               name="Gw.exe"
+               os="win32"/>
+         <param
+               name="win32registrykey"
+               value="SOFTWARE\ArenaNet\Guild Wars"/>
+         <param
+               name="win32registryvalue"
+               value="Path"/>
+         <param
+               name="win32registryappend"
+               value=""/>
+         <param
+               name="defaultgameport"
+               value="6112"/>
+         <param
+               name="xfireid"
+               value="4345"/>
+      </game>
    </extension>
 
 </plugin>

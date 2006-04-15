@@ -30,6 +30,7 @@
 #include <xfirelib/sendacceptinvitationpacket.h>
 #include <xfirelib/invitebuddypacket.h>
 #include <xfirelib/inviterequestpacket.h>
+
 #include <xfirelib/buddylist.h>
 #include <xfirelib/buddylistnamespacket.h>
 #include <xfirelib/buddylistonlinepacket.h>
@@ -59,8 +60,8 @@ namespace xfiregateway {
 	sendUnavailableForAllBuddies();
       }
       
-      Stanza *stanza = Stanza::createPresenceStanza( JID(jid), "", PRESENCE_UNAVAILABLE );
-      stanza->addAttrib( "from", gateway->getFQDN() );
+      Stanza *stanza = Stanza::createPresenceStanza( JID(jid), "", PresenceUnavailable );
+      stanza->addAttribute( "from", gateway->getFQDN() );
       comp->send( stanza );
 
       UserPresenceMap::iterator it = presences.begin();
@@ -87,8 +88,8 @@ namespace xfiregateway {
     while(it != entries->end()) {
       if(isInRoster((*it)->username)) {
 	XDEBUG(( "Sending unavailable for %s\n", (*it)->username.c_str() ));
-	Stanza *stanza = Stanza::createPresenceStanza( JID(jid), "", PRESENCE_UNAVAILABLE );
-	stanza->addAttrib( "from", (*it)->username + "@" + gateway->getFQDN() );
+	Stanza *stanza = Stanza::createPresenceStanza( JID(jid), "", PresenceUnavailable );
+	stanza->addAttribute( "from", (*it)->username + "@" + gateway->getFQDN() );
 	comp->send( stanza );
       }
       it++;
@@ -99,19 +100,19 @@ namespace xfiregateway {
     for( vector<std::string>::iterator it = inroster.begin() ;
 	 it != inroster.end() ; it++ ) {
       Tag *tag = new Tag("presence");
-      tag->addAttrib( "to", jid );
-      tag->addAttrib( "from", (*it) + "@" + gateway->getFQDN() );
-      tag->addAttrib( "type", "unavailable" );
+      tag->addAttribute( "to", jid );
+      tag->addAttribute( "from", (*it) + "@" + gateway->getFQDN() );
+      tag->addAttribute( "type", "unavailable" );
       comp->send(tag);
       tag = new Tag("presence");
-      tag->addAttrib( "to", jid );
-      tag->addAttrib( "from", (*it) + "@" + gateway->getFQDN() );
-      tag->addAttrib( "type", "unsubscribe" );
+      tag->addAttribute( "to", jid );
+      tag->addAttribute( "from", (*it) + "@" + gateway->getFQDN() );
+      tag->addAttribute( "type", "unsubscribe" );
       comp->send(tag);
       tag = new Tag("presence");
-      tag->addAttrib( "to", jid );
-      tag->addAttrib( "from", (*it) + "@" + gateway->getFQDN() );
-      tag->addAttrib( "type", "unsubscribed" );
+      tag->addAttribute( "to", jid );
+      tag->addAttribute( "from", (*it) + "@" + gateway->getFQDN() );
+      tag->addAttribute( "type", "unsubscribed" );
       comp->send(tag);
     }
   }
@@ -127,27 +128,31 @@ namespace xfiregateway {
   }
   void User::sendInitialPresences() {
     Tag *tag = new Tag("presence");
-    tag->addAttrib( "type", "probe" );
-    tag->addAttrib( "from", gateway->getFQDN() );
-    tag->addAttrib( "to", jid );
+    tag->addAttribute( "type", "probe" );
+    tag->addAttribute( "from", gateway->getFQDN() );
+    tag->addAttribute( "to", jid );
     comp->send( tag );
   }
   void User::createPacketExtension( xfirelib::XFireGame *game, Tag *parent, std::string &awaymsg ) {
     XDEBUG(( "createPacketExtension( ... )\n" ));
     GOIMGame *g = (GOIMGame*)game;
     Tag *x = new Tag( "x" );
-    x->addAttrib( "xmlns", "http://goim.sphene.net/gameStatus" );
-    x->addAttrib( "game", g->info->goimid );
-    x->addAttrib( "target", g->getTarget() );
+    x->addAttribute( "xmlns", "http://goim.sphene.net/gameStatus" );
+    x->addAttribute( "game", g->info->goimid );
+    x->addAttribute( "target", g->getTarget() );
     parent->addChild( x );
     awaymsg += "Playing: " + g->getGameName() + " at " + g->getTarget() + "  ";
   }
   void User::sendPresenceTagForBuddy(xfirelib::BuddyListEntry *buddy) {
     Tag *tag = new Tag("presence");
-    tag->addAttrib( "to", jid );
-    tag->addAttrib( "from", buddy->username + "@" + gateway->getFQDN() );
+    tag->addAttribute( "to", jid );
+    std::string from;
+    from.append(buddy->username);
+    from.append("@");
+    from.append(gateway->getFQDN());
+    tag->addAttribute( "from", from );
     if(!buddy->isOnline())
-      tag->addAttrib( "type", "unavailable" );
+      tag->addAttribute( "type", "unavailable" );
     else {
       if(buddy->statusmsg != "") {
 	tag->addChild( new Tag("show", "away" ) );
@@ -168,12 +173,12 @@ namespace xfiregateway {
   void User::mirrorPresence() {
     XDEBUG(( "mirrorPresence\n" ));
     Tag *tag = new Tag("presence");
-    tag->addAttrib( "to", jid );
-    tag->addAttrib( "from", gateway->getFQDN() );
+    tag->addAttribute( "to", jid );
+    tag->addAttribute( "from", gateway->getFQDN() );
     if(client) {
       
     } else {
-      tag->addAttrib( "type", "unavailable" );
+      tag->addAttribute( "type", "unavailable" );
     }
     //sleep(1);
     XDEBUG(( "mirrorPresence sending tag ..\n" ));
@@ -186,10 +191,10 @@ namespace xfiregateway {
     XDEBUG(( "Presence for %s\n", stanza->to().full().c_str() ));
     if(stanza->to().username() != "") {
       if(!client) {
-	XERROR(( "WTF ?! client is NULL !!! HELP !!!\n" ));
+	XDEBUG(( "WTF ?! client is NULL !!! HELP !!!\n" ));
 	return;
       }
-      if(stanza->subtype() == STANZA_S10N_SUBSCRIBED) {
+      if(stanza->subtype() == StanzaS10nSubscribed) {
 	if(!isInRoster( stanza->to().username() ) ) {
 	  XDEBUG(( "Recevied SUBSCRIBED ... adding to roster %s\n", stanza->to().username().c_str() ));
 	  xfirelib::BuddyListEntry *buddy = client->getBuddyList()->getBuddyByName( stanza->to().username() );
@@ -202,12 +207,12 @@ namespace xfiregateway {
 	    sendPresenceTagForBuddy( buddy );
 	  }
 	}
-      } else if(stanza->subtype() == STANZA_S10N_SUBSCRIBE) {
+      } else if(stanza->subtype() == StanzaS10nSubscribe) {
 	if(client->getBuddyList()->getBuddyByName( stanza->to().username() )) {
 	  Tag *tag = new Tag("presence");
-	  tag->addAttrib( "to", stanza->from().bare() );
-	  tag->addAttrib( "from", stanza->to().bare() );
-	  tag->addAttrib( "type", "subscribed" );
+	  tag->addAttribute( "to", stanza->from().bare() );
+	  tag->addAttribute( "from", stanza->to().bare() );
+	  tag->addAttribute( "type", "subscribed" );
 	  comp->send( tag );
 	} else {
 	  XDEBUG(( "sending invite to username: %s\n",stanza->to().username().c_str() ));
@@ -215,8 +220,8 @@ namespace xfiregateway {
 	  invite.addInviteName( stanza->to().username(), "Pls add me :) (Default msg by GOIM xfire jabber gateway http://goim.us )" );
 	  client->send( &invite );
 	}
-      } else if(stanza->subtype() == STANZA_S10N_UNSUBSCRIBE ||
-		stanza->subtype() == STANZA_S10N_UNSUBSCRIBED) {
+      } else if(stanza->subtype() == StanzaS10nUnsubscribe ||
+		stanza->subtype() == StanzaS10nUnsubscribed) {
 	xfirelib::BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(stanza->to().username());
 	if(entry) {
 	  xfirelib::SendRemoveBuddyPacket removeBuddy;
@@ -228,22 +233,22 @@ namespace xfiregateway {
 	  client->send( &deny );
 	}
 	Tag *tag = new Tag("presence");
-	tag->addAttrib( "to", jid );
-	tag->addAttrib( "from", stanza->to().username() + "@" + gateway->getFQDN() );
-	if(stanza->subtype() == STANZA_S10N_UNSUBSCRIBE) {
-	  tag->addAttrib( "type", "unsubscribe" );
+	tag->addAttribute( "to", jid );
+	tag->addAttribute( "from", stanza->to().username() + "@" + gateway->getFQDN() );
+	if(stanza->subtype() == StanzaS10nUnsubscribe) {
+	  tag->addAttribute( "type", "unsubscribe" );
 	} else {
-	  tag->addAttrib( "type", "unsubscribed" );
+	  tag->addAttribute( "type", "unsubscribed" );
 	}
 	comp->send( tag );
       }
       return;
     }
-    if(stanza->show() == PRESENCE_UNAVAILABLE) {
+    if(stanza->show() == PresenceUnavailable) {
       delete presences[ resource ];
       presences.erase( resource );
-    } else if(stanza->subtype() == STANZA_PRES_AVAILABLE) {
-      //if(stanza->show() != PRESENCE_AVAILABLE) return; // None of our business...
+    } else if(stanza->subtype() == StanzaPresenceAvailable) {
+      //if(stanza->show() != PresenceAvailable) return; // None of our business...
       //presence.find
       UserPresence *pres;
       if(presences.count( resource ) < 1) {
@@ -287,7 +292,7 @@ namespace xfiregateway {
     if(!client) {
       // TODO send error message back
       Stanza * reply = Stanza::createMessageStanza( stanza->from(), "Error while sending message: No Client connection !" );
-      reply->addAttrib( "from", gateway->getFQDN() );
+      reply->addAttribute( "from", gateway->getFQDN() );
       comp->send(reply);
       return;
     }
@@ -295,7 +300,7 @@ namespace xfiregateway {
     if(!entry || !entry->isOnline()) {
       // TODO send error message
       Stanza * reply = Stanza::createMessageStanza( stanza->from(), "Error while sending message: User is not online (xfire does not support offline message sending) !" );
-      reply->addAttrib( "from", gateway->getFQDN() );
+      reply->addAttribute( "from", gateway->getFQDN() );
       comp->send(reply);
       return;
     }
@@ -316,7 +321,7 @@ namespace xfiregateway {
     case XFIRE_MESSAGE_ID: {
       xfirelib::MessagePacket *msg = (xfirelib::MessagePacket*)content;
       Stanza *stanza = Stanza::createMessageStanza( JID(jid), msg->getMessage() );
-      stanza->addAttrib( "from", client->getBuddyList()->getBuddyBySid( msg->getSid() )->username + "@" + gateway->getFQDN() );
+      stanza->addAttribute( "from", client->getBuddyList()->getBuddyBySid( msg->getSid() )->username + "@" + gateway->getFQDN() );
       comp->send(stanza);
       break;
     }
@@ -327,16 +332,16 @@ namespace xfiregateway {
       while(it != entries->end()) {
 	if(!isInRoster((*it)->username)) {
 	  Tag *tag = new Tag("presence");
-	  tag->addAttrib( "type", "subscribe" );
-	  tag->addAttrib( "from", (*it)->username + "@" + gateway->getFQDN() );
-	  tag->addAttrib( "to", jid );
+	  tag->addAttribute( "type", "subscribe" );
+	  tag->addAttribute( "from", (*it)->username + "@" + gateway->getFQDN() );
+	  tag->addAttribute( "to", jid );
 	  comp->send( tag );
 	}
 	/*
 	Tag *tag = new Tag("presence");
-	tag->addAttrib( "type", "probe" );
-	tag->addAttrib( "from", (*it)->username + "@" + gateway->getFQDN() );
-	tag->addAttrib( "to", jid );
+	tag->addAttribute( "type", "probe" );
+	tag->addAttribute( "from", (*it)->username + "@" + gateway->getFQDN() );
+	tag->addAttribute( "to", jid );
 	comp->send( tag );
 	*/
 	it++;
@@ -349,7 +354,11 @@ namespace xfiregateway {
       vector<long>::iterator it = packet->userids->begin();
       while(it != packet->userids->end()) {
 	xfirelib::BuddyListEntry *buddy = buddyList->getBuddyById( (*it) );
-	sendPresenceTagForBuddy( buddy );
+	if(buddy) {
+	  sendPresenceTagForBuddy( buddy );
+	} else {
+	  XERROR(( "Unable to find buddy in buddylist but received buddys online packet ?!\n" ));
+	}
 	it++;
       }
       break;
@@ -360,7 +369,11 @@ namespace xfiregateway {
       vector<char *>::iterator it = packet->sids->begin();
       while(it != packet->sids->end()) {
 	xfirelib::BuddyListEntry *buddy = buddyList->getBuddyBySid( (*it) );
-        sendPresenceTagForBuddy( buddy );
+	if(buddy) {
+	  sendPresenceTagForBuddy( buddy );
+	} else {
+	  XDEBUG(( "Received presence packet from someone not in my buddylist ?!\n" ));
+	}
         it++;
       }
       break;
@@ -368,18 +381,18 @@ namespace xfiregateway {
     case XFIRE_PACKET_INVITE_REQUEST_PACKET: {
       xfirelib::InviteRequestPacket *invite = (xfirelib::InviteRequestPacket*)content;
       Tag *tag = new Tag("presence");
-      tag->addAttrib( "from", invite->name + "@" + gateway->getFQDN() );
-      tag->addAttrib( "to", jid );
-      tag->addAttrib( "type", "subscribe" );
+      tag->addAttribute( "from", invite->name + "@" + gateway->getFQDN() );
+      tag->addAttribute( "to", jid );
+      tag->addAttribute( "type", "subscribe" );
       comp->send(tag);
       break;
     }
     case XFIRE_RECVREMOVEBUDDYPACKET: {
       xfirelib::RecvRemoveBuddyPacket *p = (xfirelib::RecvRemoveBuddyPacket*)content;
       Tag *tag = new Tag("presence");
-      tag->addAttrib( "from", p->username + "@" + gateway->getFQDN() );
-      tag->addAttrib( "to", jid );
-      tag->addAttrib( "type", "unsubscribed" );
+      tag->addAttribute( "from", p->username + "@" + gateway->getFQDN() );
+      tag->addAttribute( "to", jid );
+      tag->addAttribute( "type", "unsubscribed" );
       comp->send(tag);
       std::vector<std::string>::iterator it = inroster.begin();
       while(it != inroster.end()) {
@@ -407,10 +420,10 @@ namespace xfiregateway {
       delete client;
       client = NULL;
       Tag *r = Stanza::createMessageStanza( JID(jid), "Someone else logged into the same account. Forced to disconnect." );
-      r->addAttrib( "from",gateway->getFQDN());
+      r->addAttribute( "from",gateway->getFQDN());
       comp->send(r);
-      r = Stanza::createPresenceStanza( JID(jid), "", PRESENCE_UNAVAILABLE );
-      r->addAttrib( "from",gateway->getFQDN());
+      r = Stanza::createPresenceStanza( JID(jid), "", PresenceUnavailable );
+      r->addAttribute( "from",gateway->getFQDN());
       comp->send(r);
       break;
     }
@@ -429,7 +442,7 @@ namespace xfiregateway {
 	client->setGameResolver( gateway->gameXML );
       }
       xfirelib::SendStatusMessagePacket packet;
-      if(pres->status != PRESENCE_AVAILABLE)
+      if(pres->status != PresenceAvailable)
 	packet.awaymsg = "away: " + pres->statusmsg;
       client->send( &packet );
 

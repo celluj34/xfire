@@ -69,6 +69,9 @@ namespace xfiregateway {
       this->name = name;
       this->changestatus = changestatus;
     }
+    ~GOIMGameInfo() {
+      XERROR(( "Destructor of GOIMGameInfo .. this shouldn't happen until xfiregateway is exiting.\n" ));
+    }
     int xfireid;
     bool changestatus;
     std::string goimid;

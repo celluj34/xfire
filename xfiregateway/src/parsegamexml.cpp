@@ -130,6 +130,7 @@ namespace xfiregateway {
   }
 
   GOIMGameInfo *ParseGameXML::getGameInfoByGOIMId(std::string goimid) {
+    XDEBUG(( "getGameInfoByGOIMId %s\n", goimid.c_str() ));
     for(std::map<int,GOIMGameInfo *>::iterator it = games.begin() ;
 	it != games.end() ; it++) {
       if(it->second->goimid == goimid)

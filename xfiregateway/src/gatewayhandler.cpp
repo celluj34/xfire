@@ -38,15 +38,15 @@ namespace xfiregateway {
   bool GatewayHandler::handleIq(Stanza *stanza) {
     XDEBUG(( "I'm in handleIq(Stanza)\n" ));
     if(stanza->xmlns() == "jabber:iq:register") {
-      if(stanza->subtype() == STANZA_IQ_GET) {
+      if(stanza->subtype() == StanzaIqGet) {
 	XDEBUG(( "ok .. we're having jabber:iq:register with get :)\n" ));
 	Tag *reply = new Tag( "iq" );
-	reply->addAttrib( "id", stanza->id() );
-	reply->addAttrib( "type", "result" );
-	reply->addAttrib( "to", stanza->from().full() );
-	reply->addAttrib( "from", gateway->getFQDN() );
+	reply->addAttribute( "id", stanza->id() );
+	reply->addAttribute( "type", "result" );
+	reply->addAttribute( "to", stanza->from().full() );
+	reply->addAttribute( "from", gateway->getFQDN() );
 	Tag *query = new Tag( "query" );
-	query->addAttrib( "xmlns", "jabber:iq:register" );
+	query->addAttribute( "xmlns", "jabber:iq:register" );
 	query->addChild( new Tag("instructions", "Enter your xfire username and password (This is still ALPHA!!).") );
 	query->addChild( new Tag("username") );
 	query->addChild( new Tag("password") );
@@ -55,7 +55,7 @@ namespace xfiregateway {
 	comp->send( reply );
 
 	return true;
-      } else if(stanza->subtype() == STANZA_IQ_SET) {
+      } else if(stanza->subtype() == StanzaIqSet) {
 	bool sendsubscribe = false;
 	Tag *query = stanza->findChild( "query" );
 	if(query->hasChild( "remove" )) {
@@ -64,21 +64,21 @@ namespace xfiregateway {
 	  gateway->removeUser( user );
 
 	  Tag *reply = new Tag("iq");
-	  reply->addAttrib( "type", "result" );
-	  reply->addAttrib( "from", gateway->getFQDN() );
-	  reply->addAttrib( "to", stanza->from().full() );
-	  reply->addAttrib( "id", stanza->id() );
+	  reply->addAttribute( "type", "result" );
+	  reply->addAttribute( "from", gateway->getFQDN() );
+	  reply->addAttribute( "to", stanza->from().full() );
+	  reply->addAttribute( "id", stanza->id() );
 	  comp->send( reply );
 
 	  reply = new Tag( "presence" );
-	  reply->addAttrib( "type", "unsubscribe" );
-	  reply->addAttrib( "from", gateway->getFQDN() );
-	  reply->addAttrib( "to", stanza->from().full() );
+	  reply->addAttribute( "type", "unsubscribe" );
+	  reply->addAttribute( "from", gateway->getFQDN() );
+	  reply->addAttribute( "to", stanza->from().full() );
 	  comp->send( reply );
 	  reply = new Tag("presence");
-	  reply->addAttrib( "type", "unsubscribed" );
-	  reply->addAttrib( "to", stanza->from().full() );
-	  reply->addAttrib( "from", gateway->getFQDN() );
+	  reply->addAttribute( "type", "unsubscribed" );
+	  reply->addAttribute( "to", stanza->from().full() );
+	  reply->addAttribute( "from", gateway->getFQDN() );
 	  comp->send( reply );
 	  
 	  return true;
@@ -97,12 +97,12 @@ namespace xfiregateway {
 	  XDEBUG(( "Registering...\n" ));
 	  user = gateway->getUserByXFireName(username);
 	  if(user) {
-	    Stanza *r = stanza->clone(true);
+	    Stanza *r = stanza->clone();
 	    Tag *error = new Tag("error");
-	    error->addAttrib( "code", "409" );
-	    error->addAttrib( "type", "cancel" );
+	    error->addAttribute( "code", "409" );
+	    error->addAttribute( "type", "cancel" );
 	    Tag *conflict = new Tag("conflict");
-	    conflict->addAttrib( "xmlns", "urn:ietf:params:xml:ns:xmpp-stanzas" );
+	    conflict->addAttribute( "xmlns", "urn:ietf:params:xml:ns:xmpp-stanzas" );
 	    conflict->setCData( "Someone else already registered with this xfire username (" + user->jid + ")" );
 	    error->addChild( conflict );
 	    r->addChild( error );
@@ -122,35 +122,35 @@ namespace xfiregateway {
 	  gateway->writeUserFile();
 	}
         Tag *reply = new Tag( "iq" );
-        reply->addAttrib( "id", stanza->id() );
-        reply->addAttrib( "type", "result" );
-        reply->addAttrib( "to", stanza->from().full() );
-        reply->addAttrib( "from", gateway->getFQDN() );
+        reply->addAttribute( "id", stanza->id() );
+        reply->addAttribute( "type", "result" );
+        reply->addAttribute( "to", stanza->from().full() );
+        reply->addAttribute( "from", gateway->getFQDN() );
         Tag *rquery = new Tag( "query" );
-        rquery->addAttrib( "xmlns", "jabber:iq:register" );
+        rquery->addAttribute( "xmlns", "jabber:iq:register" );
 
         reply->addChild(rquery);
         comp->send( reply );
 	if(sendsubscribe) {
 	  reply = new Tag("presence");
-	  reply->addAttrib( "from", gateway->getFQDN() );
-	  reply->addAttrib( "to", stanza->from().bare() );
-	  reply->addAttrib( "type", "subscribe" );
+	  reply->addAttribute( "from", gateway->getFQDN() );
+	  reply->addAttribute( "to", stanza->from().bare() );
+	  reply->addAttribute( "type", "subscribe" );
 
 	  comp->send( reply );
 	}
 	return true;
       }
     } else if(stanza->xmlns() == "jabber:iq:gateway") {
-      if(stanza->subtype() == STANZA_IQ_GET || stanza->subtype() == STANZA_IQ_SET) {
+      if(stanza->subtype() == StanzaIqGet || stanza->subtype() == StanzaIqSet) {
 	Tag *reply = new Tag("iq");
-	reply->addAttrib( "from", gateway->getFQDN() );
-	reply->addAttrib( "to", stanza->from().full() );
-	reply->addAttrib( "id", stanza->id() );
-	reply->addAttrib( "type", "result" );
+	reply->addAttribute( "from", gateway->getFQDN() );
+	reply->addAttribute( "to", stanza->from().full() );
+	reply->addAttribute( "id", stanza->id() );
+	reply->addAttribute( "type", "result" );
 	
 	Tag *replyquery = new Tag("query");
-	replyquery->addAttrib( "xmlns", "jabber:iq:gateway" );
+	replyquery->addAttribute( "xmlns", "jabber:iq:gateway" );
 
 	Tag *query = stanza->findChild( "query" );
 	Tag *prompt = query->findChild( "prompt" );
@@ -180,11 +180,11 @@ namespace xfiregateway {
     if(!user) {
       XINFO(( "Received presence from someone not registered ?! (%s)\n", stanza->from().full().c_str() ));
     } else {
-      if(stanza->subtype() == STANZA_S10N_SUBSCRIBE && stanza->to().username() == "") {
+      if(stanza->subtype() == StanzaS10nSubscribe && stanza->to().username() == "") {
 	Tag *reply = new Tag("presence");
-	reply->addAttrib( "to", stanza->from().bare() );
-	reply->addAttrib( "from", stanza->to().bare() );
-	reply->addAttrib( "type", "subscribed" );
+	reply->addAttribute( "to", stanza->from().bare() );
+	reply->addAttribute( "from", stanza->to().bare() );
+	reply->addAttribute( "type", "subscribed" );
 	comp->send( reply );
       }
       user->receivedPresence( stanza );
@@ -230,7 +230,7 @@ namespace xfiregateway {
       }
       if(!reply.empty()) {
 	Tag *r = Stanza::createMessageStanza( stanza->from(), reply );
-	r->addAttrib( "from",gateway->getFQDN());
+	r->addAttribute( "from",gateway->getFQDN());
 	comp->send(r);
       }
     } else {
@@ -271,3 +271,4 @@ namespace xfiregateway {
   }
 
 };
+

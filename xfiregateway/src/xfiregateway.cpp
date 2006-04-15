@@ -155,9 +155,11 @@ namespace xfiregateway {
     return NULL;
   }
   User *XFireGateway::getUserByXFireName(std::string user) {
+    user = SimpleLib::stringToLower(user);
     for( std::vector<User*>::iterator it = users->begin();
 	 it != users->end(); it++ ) {
-      if((*it)->name == user)
+      std::string cmpname = SimpleLib::stringToLower((*it)->name);
+      if(cmpname == user)
 	return *it;
     }
     return NULL;
@@ -278,6 +280,7 @@ pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
     gateway = new xfiregateway::XFireGateway(args);
     signal(SIGINT, catchSignal);
     gateway->run();
+    XERROR(( "Exiting ...\n" ));
   }
   
 
