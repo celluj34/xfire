@@ -70,6 +70,10 @@ namespace xfiregateway {
     writeUserFile();
   }
   void XFireGateway::removeUser( User *user ) {
+    if(!user) {
+      XERROR(( "Someone called 'removeUser' with null value ! FIX ME\n" ));
+      return; // removing null ?! no way !
+    }
     bool removed = false;
     user->preRemove();
     for(std::vector<User*>::iterator it = users->begin() ; it != users->end() ; it++) {

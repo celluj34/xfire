@@ -61,6 +61,9 @@ namespace xfiregateway {
 	if(query->hasChild( "remove" )) {
 	  XDEBUG(( "Someone wants to be removed...\n" ));
 	  User *user = gateway->getUserByJID( stanza->from().bare() );
+	  if(!user) {
+	    return false;
+	  }
 	  gateway->removeUser( user );
 
 	  Tag *reply = new Tag("iq");
