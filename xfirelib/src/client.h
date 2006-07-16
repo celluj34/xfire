@@ -31,12 +31,16 @@
 #include "buddylist.h"
 #include "xfiregameresolver.h"
 
+//#define XFIRE_HOST "cs.xfire.com"
+#define XFIRE_HOST "204.71.190.24"
+#define XFIRE_PORT 25999
+
 namespace xfirelib {
   struct BuddyList;
 
 class Client : public PacketListener {
  public:
-  Client();
+  Client(std::string xfireHost = XFIRE_HOST, int xfirePort = XFIRE_PORT);
   ~Client();
   void connect(std::string username, std::string password);
   /**
@@ -70,6 +74,8 @@ class Client : public PacketListener {
   pthread_t readthread;
   pthread_t sendpingthread;
   int protocolVersion;
+  std::string _xfireHost;
+  int _xfirePort;
 };
 
 };

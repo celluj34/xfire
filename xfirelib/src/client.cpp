@@ -36,10 +36,6 @@
 #include "sendkeepalivepacket.cpp"
 #include <iostream>
 
-//#define XFIRE_HOST "cs.xfire.com"
-#define XFIRE_HOST "204.71.190.24"
-#define XFIRE_PORT 25999
-
 //#define UINT_8 unsigned char
 //#define UINT_32 unsigned long
 
@@ -47,7 +43,7 @@ namespace xfirelib {
 
 using namespace std; 
 
-  Client::Client() {
+  Client::Client(string xfireHost, int xfirePort) {
     XDEBUG(("Client constructor ...\n"));
     readthread = 0;
     sendpingthread = 0;
@@ -56,6 +52,8 @@ using namespace std;
     packetReader->addPacketListener( this );
     buddyList = new BuddyList( this );
     protocolVersion = 100; 
+    _xfireHost = xfireHost;
+    _xfirePort = xfirePort;
   }
   
   Client::~Client(){
@@ -72,7 +70,7 @@ using namespace std;
     try {
       this->username = new string(username);
       this->password = new string(password);
-      socket = new Socket( XFIRE_HOST, XFIRE_PORT );
+      socket = new Socket( _xfireHost, _xfirePort );
       packetReader->setSocket(socket);
       startThreads();
       //packetReader->startListening();
