@@ -54,6 +54,7 @@ namespace xfirelib {
       if(entry->userid == userid)
 	return entry;
     }
+    XDEBUG(( "Unable to find buddy with id %ld\n", userid ));
     return 0;
   }
 

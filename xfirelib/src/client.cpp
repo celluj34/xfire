@@ -49,6 +49,8 @@ using namespace std;
 
   Client::Client() {
     XDEBUG(("Client constructor ...\n"));
+    readthread = 0;
+    sendpingthread = 0;
     gameResolver = NULL;
     packetReader = new PacketReader(NULL);
     packetReader->addPacketListener( this );
@@ -58,6 +60,7 @@ using namespace std;
   
   Client::~Client(){
     XDEBUG(("Client destructor ...\n"));
+    this->disconnect();
     delete username;
     delete password;
     delete buddyList;
@@ -125,11 +128,20 @@ using namespace std;
   }
 
   void Client::disconnect() {
-    XDEBUG(( "cancelling readthread ... %d\n", (int)readthread ));
-    pthread_cancel (readthread);
-    XDEBUG(( "cancelling sendpingthread ... %d\n", (int)sendpingthread ));
-    pthread_cancel (sendpingthread);
-    XDEBUG(( "deleting socket ...\n" ));
+    int r;
+
+    if(readthread && sendpingthread) {
+      XDEBUG(( "cancelling readthread ... %d\n", (int)readthread ));
+      r = pthread_cancel (readthread);
+      if(!r) XERROR(( "error while cancelling thread %d ... (%d)\n", (int)readthread, r ));
+      XDEBUG(( "cancelling sendpingthread ... %d\n", (int)sendpingthread ));
+      
+      r = pthread_cancel (sendpingthread);
+      if(!r) XERROR(( "error while cancelling thread %d ... (%d)\n", (int)readthread, r ));
+      XDEBUG(( "deleting socket ...\n" ));
+      readthread = 0; sendpingthread = 0;
+    }
+
     if(socket){
         delete socket;
         socket = NULL;
