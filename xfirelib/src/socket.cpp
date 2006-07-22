@@ -10,6 +10,11 @@
 #include <fcntl.h>
 #include <iostream>
 
+// Fix for MacOS X
+// see http://xfirelib.sphene.net/board2/showThread/108
+#ifndef MSG_NOSIGNAL
+  #define MSG_NOSIGNAL 0x2000
+#endif
 
 Socket::Socket( std::string host, int port ) :
   m_sock ( -1 )
