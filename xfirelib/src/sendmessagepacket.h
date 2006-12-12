@@ -64,6 +64,9 @@ namespace xfirelib {
      * Message body to be sent.
      */
     std::string message;
+
+  protected:
+    static std::map<std::string,int> imindexes;
   };
 
 };

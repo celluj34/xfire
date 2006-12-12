@@ -60,10 +60,11 @@ namespace xfirelib {
     this->socket = socket;
   }
   PacketReader::~PacketReader() {
+    XDEBUG(( "Destructor: PacketReader\n" ));
     // TODO: delete each packetListener ..
     delete packetListeners;
 
-    while(!packets->empty()) { delete packets->at(packets->size()-1); packets->pop_back(); }
+    while(!packets->empty()) { XDEBUG(( "Deleting Packet.\n" )); delete packets->at(packets->size()-1); packets->pop_back(); }
     delete packets;
   }
 

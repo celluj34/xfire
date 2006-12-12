@@ -29,7 +29,13 @@
 namespace xfirelib {
   using namespace std;
 
+  std::map<std::string,int> SendMessagePacket::imindexes;
+
   void SendMessagePacket::init(Client *client, string username, string message) {
+    if( imindexes.count( username ) < 1 )
+      imindex = imindexes[username] = 1;
+    else
+      imindex = ++imindexes[username];
     BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(username);
     if(entry) {
       setSid(entry->sid);
