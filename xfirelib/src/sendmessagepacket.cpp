@@ -32,21 +32,29 @@ namespace xfirelib {
   std::map<std::string,int> SendMessagePacket::imindexes;
 
   void SendMessagePacket::init(Client *client, string username, string message) {
-    if( imindexes.count( username ) < 1 )
-      imindex = imindexes[username] = 1;
-    else
-      imindex = ++imindexes[username];
     BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(username);
     if(entry) {
       setSid(entry->sid);
     }
     this->message = message;
+    initIMIndex();
+  }
+
+  void SendMessagePacket::initIMIndex() {
+    string str_sid(sid);
+    if( imindexes.count( str_sid ) < 1 )
+      imindex = imindexes[str_sid] = 1;
+    else
+      imindex = ++imindexes[str_sid];
+    
   }
   void SendMessagePacket::setSid(const char *sid) {
     memcpy(this->sid,sid,16);
   }
 
   int SendMessagePacket::getPacketContent(char *buf) {
+    if( imindex == 0 ) initIMIndex();
+
     int index = 0;
     VariableValue val;
     val.setName("sid");

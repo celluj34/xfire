@@ -66,7 +66,10 @@ namespace xfirelib {
     std::string message;
 
   protected:
+    void initIMIndex();
+
     static std::map<std::string,int> imindexes;
+    
   };
 
 };
