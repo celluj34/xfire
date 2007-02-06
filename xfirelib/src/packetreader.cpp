@@ -43,6 +43,7 @@
 #include "recvoldversionpacket.h"
 #include "recvdidpacket.h"
 #include "recvprefspacket.h"
+#include "recvnicknamechangepacket.h"
 
 #include "xdebug.h"
 //#include "packetlistener.h"
@@ -87,6 +88,7 @@ namespace xfirelib {
     packets->push_back( new RecvStatusMessagePacket() );
     packets->push_back( new RecvOldVersionPacket() );
     packets->push_back( new RecvPrefsPacket() );
+    packets->push_back( new RecvNicknameChangePacket() );
   }
 
 

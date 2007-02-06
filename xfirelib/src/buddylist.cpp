@@ -29,6 +29,7 @@
 #include "buddylistgames2packet.h"
 #include "recvremovebuddypacket.h"
 #include "recvstatusmessagepacket.h"
+#include "recvnicknamechangepacket.h"
 #include "xdebug.h"
 
 
@@ -184,6 +185,17 @@ namespace xfirelib {
         entry->statusmsg = status->msgs->at(i).c_str();
     }
 
+      break;
+    }
+    case XFIRE_RECV_NICKNAMECHANGE_PACKET_ID: {
+      RecvNicknameChangePacket *nickPacket = (RecvNicknameChangePacket*) content;
+      XINFO(( "Someone changed his nickname to %s\n", nickPacket->nickname.c_str() ));
+      BuddyListEntry *entry = getBuddyById( nickPacket->userId );
+      if(entry == NULL) {
+        XERROR(( "No such Entry - Got Nickname Change packet for someone not in buddylist ? -> %ld\n", nickPacket->userId ));
+        return;
+      }
+      entry->nick = nickPacket->nickname;
       break;
     }
     }

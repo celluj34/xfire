@@ -49,6 +49,7 @@ Library libxfirelib :
 	monitoredobj.cpp
 	sendgamestatus2packet.cpp
 	xdebug.cpp
+	recvnicknamechangepacket.cpp
 	;
 
 InstallLib $(LIBDIR) : libxfirelib$(SUFLIB) ;
