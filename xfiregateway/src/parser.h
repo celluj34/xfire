@@ -79,6 +79,10 @@ namespace xfiregateway
       friend int tagHook( Parser *parser, char *name, char **atts, int type );
   };
 
+  // GCC 4.x compatbility .. see http://xfirelib.sphene.net/board2/showThread/271
+  //int cdataHook( Parser *parser, char *data, size_t len );
+  //int tagHook( Parser *parser, char *name, char **atts, int type );
+
 }
 
 #endif // PARSER_H__
