@@ -100,6 +100,7 @@ namespace xfiregateway {
 	  XDEBUG(( "Registering...\n" ));
 	  user = gateway->getUserByXFireName(username);
 	  if(user) {
+	    XDEBUG(( "User already exists .. :( \n" ));
 	    Stanza *r = stanza->clone();
 	    Tag *error = new Tag("error");
 	    error->addAttribute( "code", "409" );
@@ -111,6 +112,7 @@ namespace xfiregateway {
 	    r->addChild( error );
 	    comp->send( r );
 	  } else {
+	    XDEBUG(( "We got a new user, YEAH\n" ));
 	    user = new User(gateway);
 	    std::string lowerjid = SimpleLib::stringToLower(jid);
 	    user->jid = lowerjid;
@@ -118,6 +120,7 @@ namespace xfiregateway {
 	    user->password = password;
 	    gateway->addUser( user );
 	    sendsubscribe = true;
+	    XDEBUG(( "Added user, sending response...\n" ));
 	  }
 	} else {
 	  XDEBUG(( "Changing Password...\n" ));
@@ -178,6 +181,10 @@ namespace xfiregateway {
 
 
   void GatewayHandler::handlePresence(Stanza *stanza) {
+    if(stanza->subtype() == StanzaPresenceError) {
+      XERROR(( "Received error presence from %s - XML: %s\n", stanza->from().full().c_str(), stanza->xml().c_str() ));
+      return;
+    }
     XDEBUG(( "Received presence from %s\n", stanza->from().full().c_str() ));
     User *user = gateway->getUserByJID( stanza->from().bare() );
     if(!user) {

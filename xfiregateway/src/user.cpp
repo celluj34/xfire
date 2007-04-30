@@ -490,6 +490,7 @@ namespace xfiregateway {
 	XDEBUG(( "disconnecting client\n" ));
 	sendUnavailableForAllBuddies();
 	client->disconnect();
+	delete client;
 	client = NULL;
       }
     }
