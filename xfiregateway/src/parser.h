@@ -80,8 +80,8 @@ namespace xfiregateway
   };
 
   // GCC 4.x compatbility .. see http://xfirelib.sphene.net/board2/showThread/271
-  //int cdataHook( Parser *parser, char *data, size_t len );
-  //int tagHook( Parser *parser, char *name, char **atts, int type );
+  int cdataHook( Parser *parser, char *data, size_t len );
+  int tagHook( Parser *parser, char *name, char **atts, int type );
 
 }
 
