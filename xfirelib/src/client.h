@@ -32,7 +32,8 @@
 #include "xfiregameresolver.h"
 
 //#define XFIRE_HOST "cs.xfire.com"
-#define XFIRE_HOST "204.71.190.24"
+//#define XFIRE_HOST "204.71.190.24"
+#define XFIRE_HOST "206.220.42.147"
 #define XFIRE_PORT 25999
 
 namespace xfirelib {
