@@ -28,7 +28,14 @@
 namespace xfirelib {
 
   XFireGame *DummyXFireGameResolver::resolveGame(int gameid, int iterator, BuddyListGamesPacket *packet) {
-    XDEBUG(( "Resolving GameId: %d\n", gameid ));
+    char *ip = packet->ips->at(iterator);
+    long port = packet->ports->at(iterator);
+    XDEBUG(( "Resolving GameId: %d / IP: %d.%d.%d.%d / Port: %ld\n", gameid,
+	     (unsigned char)ip[3],
+	     (unsigned char)ip[2],
+	     (unsigned char)ip[1],
+	     (unsigned char)ip[0],
+	     port));
     DummyXFireGame *game = new DummyXFireGame();
     switch(gameid) {
     case 2: game->init( gameid, "America's Army: Special Forces", packet,iterator ); break;
