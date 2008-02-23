@@ -27,12 +27,16 @@ package net.sphene.xfirelib.packets;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.sphene.xfirelib.XfireConnection;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
+import net.sphene.xfirelib.packets.content.recv.AuthPacket;
 
 public class PacketReader extends Thread {
-
+	private static Logger logger = Logger.getLogger(PacketReader.class.getName());
+	
 	private XfireConnection xfireConnection;
 	private InputStream inputStream;
 	
@@ -47,11 +51,30 @@ public class PacketReader extends Thread {
 	
 	protected void init() {
 		// all packet contents which can be received
-		addPacketContent()
+		addPacketContent(new AuthPacket());
+	}
+
+	private void addPacketContent(AuthPacket packetContent) {
+		recvpacketcontent.put(packetContent.getPacketId(), packetContent);
 	}
 
 	@Override
 	public void run() {
 		
+	}
+
+	public RecvPacketContent createPacketContentById(int packetId) {
+		RecvPacketContent packetContent = recvpacketcontent.get(packetId);
+		if (packetContent == null) {
+			return null;
+		}
+		try {
+			return packetContent.getClass().newInstance();
+		} catch(Exception e) {
+			logger.log(Level.SEVERE,
+						"Error while creating new instance for packet content id {" +
+						packetId + "} / {" + packetContent.getClass().getName() + "}");
+		}
+		return null;
 	}
 }

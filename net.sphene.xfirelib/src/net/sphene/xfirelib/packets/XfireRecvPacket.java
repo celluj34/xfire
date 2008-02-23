@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
+import net.sphene.xfirelib.packets.content.RecvPacketContent;
 import net.sphene.xfirelib.packets.content.XfirePacketContent;
 
 /**
@@ -38,12 +39,13 @@ import net.sphene.xfirelib.packets.content.XfirePacketContent;
  * 
  * @author kahless
  */
-public class XfirePacket {
+public class XfireRecvPacket {
 	
-	private static Logger logger = Logger.getLogger(XfirePacket.class.getName());
+	private static Logger logger = Logger.getLogger(XfireRecvPacket.class.getName());
 	private PacketReader reader;
+	private RecvPacketContent packetContent;
 	
-	public XfirePacket(PacketReader reader) {
+	public XfireRecvPacket(PacketReader reader) {
 		this.reader = reader;
 	}
 
@@ -64,13 +66,20 @@ public class XfirePacket {
 		if(c != 5) {
 			throw new IOException("Unable to read 5 bytes - read only {" + c + "}.");
 		}
-		long length = XfireUtils.convertBytesToInt(buf, 0, 2);
+		int length = (int) XfireUtils.convertBytesToInt(buf, 0, 2);
 		int packetid = buf[2];
-		int numberofAtts = buf[4];
+		int numberOfAtts = buf[4];
 		logger.fine("Received packet header. length: {" + length +
 				"} packetid: {" + packetid + "} numberofAtts: {" +
-				numberofAtts + "}");
+				numberOfAtts + "}");
 		
-		reader.getPacketContent
+		byte[] buf2 = new byte[length-5];
+		int c2 = stream.read(buf2, 0, length - 5);
+		if(c2 < length - 5) {
+			logger.severe("Didn't read enough bytes - expected {" + (length-5) + "} but was {" + c2 + "}");
+		}
+		
+		packetContent = reader.createPacketContentById(packetid);
+		packetContent.parseContent(buf2, c2, numberOfAtts);
 	}
 }
