@@ -1,5 +1,5 @@
 /*
- * File    : XfireArrayAttributeValue.java
+ * File    : BuddyListGames2Packet.java
  * Created : 23.02.2008
  * By      : kahless
  *
@@ -22,24 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
-package net.sphene.xfirelib.packets.attributes;
+package net.sphene.xfirelib.packets.content.recv;
 
-import java.util.Arrays;
-
-
-public class XfireArrayAttributeValue implements XfireAttributeValue {
-	private XfireAttributeValue[] values;
-
-	public XfireArrayAttributeValue(XfireAttributeValue[] values) {
-		this.values = values;
-	}
-	
-	public XfireAttributeValue[] getValues() {
-		return values;
-	}
-	
+public class BuddyListGames2Packet extends BuddyListGamesPacket {
 	@Override
-	public String toString() {
-		return Arrays.toString(values);
+	public int getPacketId() {
+		return 147;
 	}
 }

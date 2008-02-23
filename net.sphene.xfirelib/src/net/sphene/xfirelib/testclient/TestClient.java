@@ -25,19 +25,23 @@
 package net.sphene.xfirelib.testclient;
 
 import java.io.IOException;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import net.sphene.xfirelib.ConnectionListener;
 import net.sphene.xfirelib.XfireConnection;
+import net.sphene.xfirelib.packets.buddylist.BuddyList;
 
-public class TestClient {
+public class TestClient implements ConnectionListener {
 	private static Logger logger = Logger.getLogger(TestClient.class.getName());
 	
 	private String username;
 	private String password;
 	private XfireConnection conn;
+
+	@SuppressWarnings("unused")
+	private BuddyList list;
 
 	public TestClient(String username, String password) {
 		this.username = username;
@@ -63,10 +67,15 @@ public class TestClient {
 
 	private void run() {
 		conn = new XfireConnection();
+		conn.addConnectionListener(this);
 		try {
 			conn.connect(username, password);
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Error while connecting to xfire server", e);
 		}
+	}
+
+	public void gotConnected(XfireConnection conn) {
+		list = new BuddyList(conn);
 	}
 }

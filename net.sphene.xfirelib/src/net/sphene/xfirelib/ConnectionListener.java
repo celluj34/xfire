@@ -1,5 +1,5 @@
 /*
- * File    : XfireArrayAttributeValue.java
+ * File    : ConnectionListener.java
  * Created : 23.02.2008
  * By      : kahless
  *
@@ -22,24 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
-package net.sphene.xfirelib.packets.attributes;
-
-import java.util.Arrays;
+package net.sphene.xfirelib;
 
 
-public class XfireArrayAttributeValue implements XfireAttributeValue {
-	private XfireAttributeValue[] values;
-
-	public XfireArrayAttributeValue(XfireAttributeValue[] values) {
-		this.values = values;
-	}
-	
-	public XfireAttributeValue[] getValues() {
-		return values;
-	}
-	
-	@Override
-	public String toString() {
-		return Arrays.toString(values);
-	}
+public interface ConnectionListener {
+	public void gotConnected(XfireConnection conn);
 }

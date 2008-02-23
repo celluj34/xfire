@@ -24,6 +24,8 @@
  */
 package net.sphene.xfirelib.packets.attributes;
 
+import net.sphene.xfirelib.packets.XfireUtils;
+
 
 public class XfireScalarAttributeValue implements XfireAttributeValue {
 	
@@ -40,6 +42,14 @@ public class XfireScalarAttributeValue implements XfireAttributeValue {
 	
 	@Override
 	public String toString() {
+		return getStringValue();
+	}
+
+	public int getIntValue() {
+		return (int) XfireUtils.convertBytesToInt(value);
+	}
+
+	public String getStringValue() {
 		return new String(value);
 	}
 }

@@ -24,23 +24,41 @@
  */
 package net.sphene.xfirelib.packets.content.recv;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import net.sphene.xfirelib.packets.XfireRecvPacket;
+import net.sphene.xfirelib.packets.attributes.XfireArrayAttributeValue;
 import net.sphene.xfirelib.packets.attributes.XfireAttribute;
+import net.sphene.xfirelib.packets.attributes.XfireAttributeValue;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 
-public class GenericRecvPacket extends RecvPacketContent {
+public abstract class GenericRecvPacket extends RecvPacketContent {
+	
+	Map<String, XfireAttribute> attributes = new HashMap<String, XfireAttribute>();
+	
+	private static Logger logger = Logger.getLogger(GenericRecvPacket.class.getName());
 
 	@Override
 	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
 		for(int i = 0 ; i < numberOfAtts ; i++) {
 			XfireAttribute attr = packet.readAttribute();
-			System.out.println("attr {" + attr.getName() + "} / value {" + attr.getValue().toString() + "}");
+			logger.finer("attr {" + attr.getName() + "} / value {" + attr.getValue().toString() + "}");
+			attributes.put(attr.getName(), attr);
 		}
 	}
-
-	@Override
-	public int getPacketId() {
-		return 0;
+	
+	public XfireAttributeValue getAttributeValue(String attributeName) {
+		XfireAttribute attr = attributes.get(attributeName);
+		if(attr == null) return null;
+		
+		return attr.getValue();
 	}
+
+	public XfireAttributeValue[] getArrayAttributeValue(String attributeName) {
+		return ((XfireArrayAttributeValue) getAttributeValue(attributeName)).getValues();
+	}
+
 
 }

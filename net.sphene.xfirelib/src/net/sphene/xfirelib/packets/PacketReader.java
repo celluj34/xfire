@@ -33,21 +33,24 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.omg.PortableInterceptor.SUCCESSFUL;
-
 import net.sphene.xfirelib.XfireConnection;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 import net.sphene.xfirelib.packets.content.recv.AuthPacket;
-import net.sphene.xfirelib.packets.content.recv.GenericRecvPacket;
+import net.sphene.xfirelib.packets.content.recv.BuddyListGames2Packet;
+import net.sphene.xfirelib.packets.content.recv.BuddyListGamesPacket;
+import net.sphene.xfirelib.packets.content.recv.BuddyListNamesPacket;
+import net.sphene.xfirelib.packets.content.recv.BuddyListOnlinePacket;
 import net.sphene.xfirelib.packets.content.recv.IgnoreRecvPacket;
 import net.sphene.xfirelib.packets.content.recv.LoginFailedPacket;
 import net.sphene.xfirelib.packets.content.recv.LoginSuccessPacket;
+import net.sphene.xfirelib.packets.content.recv.RecvStatusMessagePacket;
 
 public class PacketReader extends Thread {
 	private static Logger logger = Logger.getLogger(PacketReader.class.getName());
 	
 	private List<PacketListener> listenerList = new ArrayList<PacketListener>();
 	
+	@SuppressWarnings("unused")
 	private XfireConnection xfireConnection;
 	private InputStream inputStream;
 	
@@ -63,8 +66,13 @@ public class PacketReader extends Thread {
 	protected void init() {
 		// all packet contents which can be received
 		addPacketContent(new AuthPacket());
+		addPacketContent(new BuddyListGames2Packet());
+		addPacketContent(new BuddyListGamesPacket());
+		addPacketContent(new BuddyListNamesPacket());
+		addPacketContent(new BuddyListOnlinePacket());
 		addPacketContent(new LoginFailedPacket());
 		addPacketContent(new LoginSuccessPacket());
+		addPacketContent(new RecvStatusMessagePacket());
 		
 		ignorePacketIds(new int[] {
 				141, // ignore preference packet ..
@@ -137,7 +145,7 @@ public class PacketReader extends Thread {
 	public RecvPacketContent createPacketContentById(int packetId) {
 		RecvPacketContent packetContent = recvpacketcontent.get(packetId);
 		if (packetContent == null) {
-			return new GenericRecvPacket();
+			return null;
 		}
 		try {
 			return packetContent.getClass().newInstance();

@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -64,6 +66,8 @@ public class XfireConnection implements PacketListener {
 	
 	private Socket socket;
 	private PacketReader packetReader;
+	
+	private List<ConnectionListener> listenerList = new ArrayList<ConnectionListener>();
 	
 	
 	/**
@@ -103,6 +107,8 @@ public class XfireConnection implements PacketListener {
 		outputStream.write("UA01".getBytes());
 		logger.info("Sent UA01");
 		
+		fireGotConnectedEvent();
+		
 		send(new ClientInformationPacket());
 		send(new ClientVersionPacket());
 		
@@ -128,5 +134,25 @@ public class XfireConnection implements PacketListener {
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Error while sending packet {" + packetContent.getClass().getName() + "}", e);
 		}
+	}
+
+
+	public PacketReader getPacketReader() {
+		return packetReader;
+	}
+	
+	
+	
+	private void fireGotConnectedEvent() {
+		for(ConnectionListener listener : listenerList) {
+			listener.gotConnected(this);
+		}
+	}
+	
+	public void addConnectionListener(ConnectionListener listener) {
+		listenerList.add(listener);
+	}
+	public void removeConnectionListener(ConnectionListener listener) {
+		listenerList.remove(listener);
 	}
 }

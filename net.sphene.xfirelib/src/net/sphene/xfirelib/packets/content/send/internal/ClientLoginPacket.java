@@ -51,7 +51,6 @@ public class ClientLoginPacket extends SendPacketContent {
 	@Override
 	public void fillPacketContent(XfireSendPacket packet) {
 		byte[] username = this.username.getBytes();
-		byte[] password = this.password.getBytes();
 
 		// Username
 		packet.addAttributeName("name");

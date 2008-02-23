@@ -24,7 +24,6 @@
  */
 package net.sphene.xfirelib.packets;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -69,7 +68,7 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 	public void recvPacket(InputStream stream) throws IOException {
 		// read 5 bytes packet header, containing
 		// 1. + 2.: packet content length
-		// 3: ???
+		// 3: ??? zero ???
 		// 4: packet content type id
 		// 5: number of attributes
 		
@@ -131,7 +130,9 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 		BufferedReader asciir = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(a.toByteArray())));
 		
 		try {
-			System.out.println("debugging buffer");
+			ByteArrayOutputStream outputArray = new ByteArrayOutputStream();
+			PrintWriter output = new PrintWriter(outputArray);
+			output.println("debugging buffer");
 			while(true) {
 				String leftline = lr.readLine();
 				String rightline = rr.readLine();
@@ -142,8 +143,10 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 				int leftlen = perline * 4;
 				int rightlen = perline * 3;
 				int asciilen = perline * 2;
-				System.out.printf("%-" + leftlen + "s || %-" + rightlen + "s || %-" + asciilen + "s\n", leftline, rightline, asciiline);
+				output.printf("%-" + leftlen + "s || %-" + rightlen + "s || %-" + asciilen + "s\n", leftline, rightline, asciiline);
 			}
+			output.close();
+			logger.fine(new String(outputArray.toByteArray()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -195,29 +198,6 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 		logger.finer("read attribute {" + name + "}");
 		int valuetype = inputStream.read();
 		return new XfireAttribute(name, readAttributeValue(valuetype));
-//		int length;
-//		if(lengthtype == 1) {
-//			byte[] attrlength = readAttributeValue(1, false);
-//			length = (int) XfireUtils.convertBytesToInt(attrlength);
-//			int zero = inputStream.read();
-//			logger.finest("Ignoring zero in readAttribute {" + zero + "}");
-//		} else if(lengthtype == 2) {
-//			length = 4;
-//		} else if(lengthtype == 3) {
-//			length = 16;
-//		} else if(lengthtype == 4) {
-//			length = 3;
-//		} else if(lengthtype == 6) {
-//			length = 21;
-//		} else {
-//			logger.severe("Unknown value length type {" + lengthtype + "}");
-//			return null;
-//		}
-//		int zero = inputStream.read();
-//		logger.finest("Ignoring zero in readAttribute {" + zero + "}");
-//		byte[] value = readAttributeValue(length, false);
-//		return new XfireAttribute(name, value);
-//		return null;
 	}
 	
 	private void readZero() {
@@ -248,7 +228,7 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 				readZero();
 				XfireAttributeValue[] values = new XfireAttributeValue[count];
 				for(int i = 0 ; i < count ; i++) {
-					values[0] = readAttributeValue(valuetypes);
+					values[i] = readAttributeValue(valuetypes);
 				}
 				return new XfireArrayAttributeValue(values);
 			default:

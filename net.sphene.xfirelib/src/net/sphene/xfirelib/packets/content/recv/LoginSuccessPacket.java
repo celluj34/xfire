@@ -24,19 +24,8 @@
  */
 package net.sphene.xfirelib.packets.content.recv;
 
-import net.sphene.xfirelib.packets.XfireRecvPacket;
-import net.sphene.xfirelib.packets.attributes.XfireAttribute;
-import net.sphene.xfirelib.packets.content.RecvPacketContent;
 
-public class LoginSuccessPacket extends RecvPacketContent {
-
-	@Override
-	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
-		for(int i = 0 ; i < numberOfAtts ; i++) {
-			XfireAttribute attr = packet.readAttribute();
-			System.out.println("attr {" + attr.getName() + "} / value {" + attr.getValue().toString() + "}");
-		}
-	}
+public class LoginSuccessPacket extends GenericRecvPacket {
 
 	@Override
 	public int getPacketId() {
