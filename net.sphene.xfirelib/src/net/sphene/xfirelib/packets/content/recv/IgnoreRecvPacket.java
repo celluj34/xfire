@@ -1,5 +1,5 @@
 /*
- * File    : LoginSuccessPacket.java
+ * File    : IgnoreRecvPacket.java
  * Created : 23.02.2008
  * By      : kahless
  *
@@ -25,22 +25,18 @@
 package net.sphene.xfirelib.packets.content.recv;
 
 import net.sphene.xfirelib.packets.XfireRecvPacket;
-import net.sphene.xfirelib.packets.attributes.XfireAttribute;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 
-public class LoginSuccessPacket extends RecvPacketContent {
+public class IgnoreRecvPacket extends RecvPacketContent {
 
 	@Override
 	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
-		for(int i = 0 ; i < numberOfAtts ; i++) {
-			XfireAttribute attr = packet.readAttribute();
-			System.out.println("attr {" + attr.getName() + "} / value {" + attr.getValue().toString() + "}");
-		}
 	}
 
 	@Override
 	public int getPacketId() {
-		return 130;
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

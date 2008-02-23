@@ -25,8 +25,9 @@
 package net.sphene.xfirelib.packets.content.recv;
 
 
-import net.sphene.xfirelib.packets.XfireAttribute;
 import net.sphene.xfirelib.packets.XfireRecvPacket;
+import net.sphene.xfirelib.packets.attributes.XfireAttribute;
+import net.sphene.xfirelib.packets.attributes.XfireScalarAttributeValue;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 
 public class AuthPacket extends RecvPacketContent {
@@ -36,7 +37,7 @@ public class AuthPacket extends RecvPacketContent {
 	@Override
 	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
 		XfireAttribute attr = packet.readAttribute();
-		salt = attr.getValue();
+		salt = ((XfireScalarAttributeValue)attr.getValue()).getByteValue();
 	}
 
 	@Override

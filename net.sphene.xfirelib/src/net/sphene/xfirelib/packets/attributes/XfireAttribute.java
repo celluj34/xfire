@@ -1,5 +1,5 @@
 /*
- * File    : LoginSuccessPacket.java
+ * File    : XfireAttribute.java
  * Created : 23.02.2008
  * By      : kahless
  *
@@ -22,25 +22,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
-package net.sphene.xfirelib.packets.content.recv;
+package net.sphene.xfirelib.packets.attributes;
 
-import net.sphene.xfirelib.packets.XfireRecvPacket;
-import net.sphene.xfirelib.packets.attributes.XfireAttribute;
-import net.sphene.xfirelib.packets.content.RecvPacketContent;
 
-public class LoginSuccessPacket extends RecvPacketContent {
+/**
+ * A class representing a 'xfire attribute' within a packet's content.
+ * currently only used for receiving packets.
+ * 
+ * @author kahless
+ */
+public class XfireAttribute {
+	private String name;
+	private XfireAttributeValue value;
+	
 
-	@Override
-	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
-		for(int i = 0 ; i < numberOfAtts ; i++) {
-			XfireAttribute attr = packet.readAttribute();
-			System.out.println("attr {" + attr.getName() + "} / value {" + attr.getValue().toString() + "}");
-		}
+	public XfireAttribute(String name, XfireAttributeValue value) {
+		this.name = name;
+		this.value = value;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
-	@Override
-	public int getPacketId() {
-		return 130;
+	public void setName(String name) {
+		this.name = name;
 	}
 
+	public XfireAttributeValue getValue() {
+		return value;
+	}
+
+	public void setValue(XfireAttributeValue value) {
+		this.value = value;
+	}
 }

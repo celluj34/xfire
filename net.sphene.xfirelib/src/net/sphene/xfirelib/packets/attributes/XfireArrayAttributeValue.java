@@ -1,5 +1,5 @@
 /*
- * File    : XfireAttribute.java
+ * File    : XfireArrayAttributeValue.java
  * Created : 23.02.2008
  * By      : kahless
  *
@@ -22,37 +22,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
-package net.sphene.xfirelib.packets;
+package net.sphene.xfirelib.packets.attributes;
 
-/**
- * A class representing a 'xfire attribute' within a packet's content.
- * currently only used for receiving packets.
- * 
- * @author kahless
- */
-public class XfireAttribute {
-	private String name;
-	private byte[] value;
-	
+import java.util.Arrays;
 
-	public XfireAttribute(String name, byte[] value) {
-		this.name = name;
-		this.value = value;
+
+public class XfireArrayAttributeValue implements XfireAttributeValue {
+	private XfireAttributeValue[] values;
+
+	public XfireArrayAttributeValue(XfireAttributeValue[] values) {
+		this.values = values;
 	}
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public byte[] getValue() {
-		return value;
-	}
-
-	public void setValue(byte[] value) {
-		this.value = value;
+	@Override
+	public String toString() {
+		return Arrays.toString(values);
 	}
 }

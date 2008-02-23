@@ -35,6 +35,10 @@ import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.sphene.xfirelib.packets.attributes.XfireArrayAttributeValue;
+import net.sphene.xfirelib.packets.attributes.XfireAttribute;
+import net.sphene.xfirelib.packets.attributes.XfireAttributeValue;
+import net.sphene.xfirelib.packets.attributes.XfireScalarAttributeValue;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 import net.sphene.xfirelib.packets.content.XfirePacketContent;
 
@@ -77,10 +81,11 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 		}
 		int length = (int) XfireUtils.convertBytesToInt(buf, 0, 2);
 		int packetid = buf[2] & 0xFF;
+		int unknown = buf[3] & 0xFF;
 		this.packetId = packetid;
 		int numberOfAtts = buf[4];
 		logger.fine("Received packet header. length: {" + length +
-				"} packetid: {" + packetid + "} numberofAtts: {" +
+				"} packetid: {" + packetid + "} unknown: {" + unknown + "} numberofAtts: {" +
 				numberOfAtts + "}");
 		
 		byte[] buf2 = new byte[length-5];
@@ -115,7 +120,7 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 			}
 			dec.printf("%3d ", buf2[i] & 0xff);
 			hex.printf("%2x ", buf2[i]);
-			ascii.printf("%1c ", buf2[i] == 0 ? 6 : buf2[i] & 0xff);
+			ascii.printf("%1c ", buf2[i] < 15 ? 0 : buf2[i] & 0xff);
 		}
 		dec.close();
 		hex.close();
@@ -188,25 +193,69 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 	public XfireAttribute readAttribute() {
 		String name = readAttributeName();
 		logger.finer("read attribute {" + name + "}");
-		int lengthtype = inputStream.read();
-		int length;
-		if(lengthtype == 1) {
-			byte[] attrlength = readAttributeValue(1, false);
-			length = (int) XfireUtils.convertBytesToInt(attrlength);
-			int zero = inputStream.read();
-			logger.finest("Ignoring zero in readAttribute {" + zero + "}");
-		} else if(lengthtype == 2) {
-			length = 4;
-		} else if(lengthtype == 3) {
-			length = 16;
-		} else {
-			logger.severe("Unknown value length type {" + lengthtype + "}");
-			return null;
-		}
+		int valuetype = inputStream.read();
+		return new XfireAttribute(name, readAttributeValue(valuetype));
+//		int length;
+//		if(lengthtype == 1) {
+//			byte[] attrlength = readAttributeValue(1, false);
+//			length = (int) XfireUtils.convertBytesToInt(attrlength);
+//			int zero = inputStream.read();
+//			logger.finest("Ignoring zero in readAttribute {" + zero + "}");
+//		} else if(lengthtype == 2) {
+//			length = 4;
+//		} else if(lengthtype == 3) {
+//			length = 16;
+//		} else if(lengthtype == 4) {
+//			length = 3;
+//		} else if(lengthtype == 6) {
+//			length = 21;
+//		} else {
+//			logger.severe("Unknown value length type {" + lengthtype + "}");
+//			return null;
+//		}
 //		int zero = inputStream.read();
 //		logger.finest("Ignoring zero in readAttribute {" + zero + "}");
-		byte[] value = readAttributeValue(length, false);
-		return new XfireAttribute(name, value);
+//		byte[] value = readAttributeValue(length, false);
+//		return new XfireAttribute(name, value);
+//		return null;
+	}
+	
+	private void readZero() {
+		int zero = inputStream.read();
+		assert zero == 0 : "reading zero but got {" + zero + "}";
+	}
+
+	private XfireAttributeValue readAttributeValue(int valuetype) {
+		int length;
+		switch(valuetype) {
+			case 1:
+				// String
+				length = inputStream.read();
+				readZero();
+				break;
+			case 2:
+				// small int
+				length = 4;
+				break;
+			case 3:
+				// ???
+				length = 16;
+				break;
+			case 4:
+				// array
+				int valuetypes = inputStream.read();
+				int count = inputStream.read();
+				readZero();
+				XfireAttributeValue[] values = new XfireAttributeValue[count];
+				for(int i = 0 ; i < count ; i++) {
+					values[0] = readAttributeValue(valuetypes);
+				}
+				return new XfireArrayAttributeValue(values);
+			default:
+				throw new RuntimeException("Invalid value type {" + valuetype + "}");
+		}
+		
+		return new XfireScalarAttributeValue(readAttributeValue(length, false));
 	}
 	
 }

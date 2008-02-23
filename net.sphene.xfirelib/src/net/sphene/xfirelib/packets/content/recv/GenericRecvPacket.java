@@ -1,5 +1,5 @@
 /*
- * File    : LoginSuccessPacket.java
+ * File    : GenericRecvPacket.java
  * Created : 23.02.2008
  * By      : kahless
  *
@@ -28,7 +28,7 @@ import net.sphene.xfirelib.packets.XfireRecvPacket;
 import net.sphene.xfirelib.packets.attributes.XfireAttribute;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 
-public class LoginSuccessPacket extends RecvPacketContent {
+public class GenericRecvPacket extends RecvPacketContent {
 
 	@Override
 	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
@@ -40,7 +40,7 @@ public class LoginSuccessPacket extends RecvPacketContent {
 
 	@Override
 	public int getPacketId() {
-		return 130;
+		return 0;
 	}
 
 }

@@ -38,6 +38,8 @@ import org.omg.PortableInterceptor.SUCCESSFUL;
 import net.sphene.xfirelib.XfireConnection;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 import net.sphene.xfirelib.packets.content.recv.AuthPacket;
+import net.sphene.xfirelib.packets.content.recv.GenericRecvPacket;
+import net.sphene.xfirelib.packets.content.recv.IgnoreRecvPacket;
 import net.sphene.xfirelib.packets.content.recv.LoginFailedPacket;
 import net.sphene.xfirelib.packets.content.recv.LoginSuccessPacket;
 
@@ -63,6 +65,32 @@ public class PacketReader extends Thread {
 		addPacketContent(new AuthPacket());
 		addPacketContent(new LoginFailedPacket());
 		addPacketContent(new LoginSuccessPacket());
+		
+		ignorePacketIds(new int[] {
+				141, // ignore preference packet ..
+				151,
+				152,
+				155,
+				157,
+				177,
+				163,
+				144, // DID packet ?!
+		}
+		);
+//		recvpacketcontent.put(141, new IgnoreRecvPacket()); // ignore preference packet ..
+//		recvpacketcontent.put(151, new IgnoreRecvPacket());
+//		recvpacketcontent.put(152, new IgnoreRecvPacket());
+//		recvpacketcontent.put(155, new IgnoreRecvPacket());
+//		recvpacketcontent.put(157, new IgnoreRecvPacket());
+//		recvpacketcontent.put(177, new IgnoreRecvPacket());
+//		recvpacketcontent.put(163, new IgnoreRecvPacket());
+	}
+
+	private void ignorePacketIds(int[] ids) {
+		IgnoreRecvPacket ignore = new IgnoreRecvPacket();
+		for(int id : ids) {
+			recvpacketcontent.put(id, ignore);
+		}
 	}
 
 	private void addPacketContent(RecvPacketContent packetContent) {
@@ -109,7 +137,7 @@ public class PacketReader extends Thread {
 	public RecvPacketContent createPacketContentById(int packetId) {
 		RecvPacketContent packetContent = recvpacketcontent.get(packetId);
 		if (packetContent == null) {
-			return null;
+			return new GenericRecvPacket();
 		}
 		try {
 			return packetContent.getClass().newInstance();

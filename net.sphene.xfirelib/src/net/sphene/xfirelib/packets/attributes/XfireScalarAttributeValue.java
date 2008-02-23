@@ -1,5 +1,5 @@
 /*
- * File    : LoginSuccessPacket.java
+ * File    : XfireSkalarAttributeValue.java
  * Created : 23.02.2008
  * By      : kahless
  *
@@ -22,25 +22,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
-package net.sphene.xfirelib.packets.content.recv;
+package net.sphene.xfirelib.packets.attributes;
 
-import net.sphene.xfirelib.packets.XfireRecvPacket;
-import net.sphene.xfirelib.packets.attributes.XfireAttribute;
-import net.sphene.xfirelib.packets.content.RecvPacketContent;
 
-public class LoginSuccessPacket extends RecvPacketContent {
+public class XfireScalarAttributeValue implements XfireAttributeValue {
+	
+	private byte[] value;
 
-	@Override
-	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
-		for(int i = 0 ; i < numberOfAtts ; i++) {
-			XfireAttribute attr = packet.readAttribute();
-			System.out.println("attr {" + attr.getName() + "} / value {" + attr.getValue().toString() + "}");
-		}
+	public XfireScalarAttributeValue(byte[] value) {
+		this.value = value;
 	}
 
-	@Override
-	public int getPacketId() {
-		return 130;
+	public byte[] getByteValue() {
+		return value;
 	}
 
+	
+	@Override
+	public String toString() {
+		return new String(value);
+	}
 }
