@@ -24,6 +24,14 @@
  */
 package net.sphene.xfirelib.packets.content;
 
-public abstract class SendPacketContent extends XfirePacketContent {
+import net.sphene.xfirelib.packets.XfireSendPacket;
 
+public abstract class SendPacketContent extends XfirePacketContent  {
+	
+//	private static Logger logger = Logger.getLogger(SendPacketContent.class.getName());
+	
+	/**
+	 * fill in the packet content into the packet.
+	 */
+	public abstract void fillPacketContent(XfireSendPacket packet);
 }

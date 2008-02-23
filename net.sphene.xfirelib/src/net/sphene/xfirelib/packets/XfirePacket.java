@@ -1,5 +1,5 @@
 /*
- * File    : AuthPacket.java
+ * File    : XfirePacket.java
  * Created : 23.02.2008
  * By      : kahless
  *
@@ -22,30 +22,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
-package net.sphene.xfirelib.packets.content.recv;
+package net.sphene.xfirelib.packets;
 
+import net.sphene.xfirelib.packets.content.XfirePacketContent;
 
-import net.sphene.xfirelib.packets.XfireAttribute;
-import net.sphene.xfirelib.packets.XfireRecvPacket;
-import net.sphene.xfirelib.packets.content.RecvPacketContent;
+public abstract class XfirePacket<T extends XfirePacketContent> {
+	private T packetContent;
 
-public class AuthPacket extends RecvPacketContent {
-
-	private byte[] salt;
-
-	@Override
-	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
-		XfireAttribute attr = packet.readAttribute();
-		salt = attr.getValue();
+	
+	public void setPacketContent(T packetContent) {
+		this.packetContent = packetContent;
 	}
-
-	@Override
-	public int getPacketId() {
-		return 128;
+	
+	public T getPacketContent() {
+		return packetContent;
 	}
-
-	public byte[] getSalt() {
-		return salt;
-	}
-
 }

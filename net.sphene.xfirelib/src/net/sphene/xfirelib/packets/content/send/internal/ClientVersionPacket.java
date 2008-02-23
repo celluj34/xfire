@@ -1,5 +1,5 @@
 /*
- * File    : AuthPacket.java
+ * File    : ClientVersionPacket.java
  * Created : 23.02.2008
  * By      : kahless
  *
@@ -22,30 +22,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
-package net.sphene.xfirelib.packets.content.recv;
+package net.sphene.xfirelib.packets.content.send.internal;
 
+import net.sphene.xfirelib.XfireConnection;
+import net.sphene.xfirelib.packets.XfireSendPacket;
+import net.sphene.xfirelib.packets.content.SendPacketContent;
 
-import net.sphene.xfirelib.packets.XfireAttribute;
-import net.sphene.xfirelib.packets.XfireRecvPacket;
-import net.sphene.xfirelib.packets.content.RecvPacketContent;
-
-public class AuthPacket extends RecvPacketContent {
-
-	private byte[] salt;
+public class ClientVersionPacket extends SendPacketContent {
 
 	@Override
-	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
-		XfireAttribute attr = packet.readAttribute();
-		salt = attr.getValue();
+	public void fillPacketContent(XfireSendPacket packet) {
+		int version = XfireConnection.XFIRE_VERSION;
+		packet.addAttributeName("version");
+		packet.write(0x02);
+		packet.write(version);
+		packet.write(0x00);
+		packet.write(0x00);
+		packet.write(0x00);
 	}
 
 	@Override
 	public int getPacketId() {
-		return 128;
-	}
-
-	public byte[] getSalt() {
-		return salt;
+		return 3;
 	}
 
 }

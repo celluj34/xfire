@@ -37,9 +37,13 @@ public class XfireUtils {
 	public static long convertBytesToInt(byte[] bytes, int start, int length) {
 		long ret = 0;
 		for(int i = start ; i < start + length ; i++) {
-			ret += bytes[i] * pow(256, i - start);
+			ret += (bytes[i] & 0xff) * pow(256, i - start);
 		}
 		
 		return ret;
+	}
+
+	public static long convertBytesToInt(byte[] attrlength) {
+		return convertBytesToInt(attrlength, 0, attrlength.length);
 	}
 }

@@ -24,13 +24,14 @@
  */
 package net.sphene.xfirelib.packets.content;
 
+import net.sphene.xfirelib.packets.XfireRecvPacket;
+
 public abstract class RecvPacketContent extends XfirePacketContent {
 	/**
 	 * called after receiving a packet content. should parse the packet content.
-	 * @param buf
-	 * @param length
+	 * @param packet
 	 * @param numberOfAtts
 	 * @return
 	 */
-	public abstract void parseContent(byte buf[], int length, int numberOfAtts);
+	public abstract void parseContent(XfireRecvPacket packet, int numberOfAtts);
 }

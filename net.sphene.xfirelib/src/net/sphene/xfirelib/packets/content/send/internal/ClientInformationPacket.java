@@ -24,6 +24,7 @@
  */
 package net.sphene.xfirelib.packets.content.send.internal;
 
+import net.sphene.xfirelib.packets.XfireSendPacket;
 import net.sphene.xfirelib.packets.content.SendPacketContent;
 
 public class ClientInformationPacket extends SendPacketContent {
@@ -31,6 +32,44 @@ public class ClientInformationPacket extends SendPacketContent {
 	@Override
 	public int getPacketId() {
 		return 18;
+	}
+
+	@Override
+	public void fillPacketContent(XfireSendPacket packet) {
+		int skins = 2;
+		
+		// Parameter: Skin
+		packet.addAttributeName("skin");
+		packet.write(0x04);
+		packet.write(0x01);
+		packet.write(skins);
+		packet.write(0x00);
+		
+		// Add first skin
+		byte[] buf = "Standard".getBytes();
+		packet.write(buf.length);
+		packet.write(0x00);
+		packet.write(buf);
+		
+		// Add second skin
+		buf = "XFire".getBytes();
+		packet.write(buf.length);
+		packet.write(0x00);
+		packet.write(buf);
+		
+		// Parameter: Version
+		packet.addAttributeName("version");
+		packet.write(0x04);
+		packet.write(0x02);
+		packet.write(skins);
+		packet.write(0x00);
+		
+		for(int i = 0 ; i < skins ; i++) {
+			packet.write(0x01);
+			packet.write(0x00);
+			packet.write(0x00);
+			packet.write(0x00);
+		}
 	}
 
 }

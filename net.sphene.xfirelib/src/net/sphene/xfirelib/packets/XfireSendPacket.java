@@ -24,6 +24,85 @@
  */
 package net.sphene.xfirelib.packets;
 
-public class XfireSendPacket {
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import net.sphene.xfirelib.packets.content.SendPacketContent;
+
+public class XfireSendPacket extends XfirePacket<SendPacketContent> {
+	
+	private static Logger logger = Logger.getLogger(XfireSendPacket.class.getName());
+	
+	private ByteArrayOutputStream outputStream;
+
+	private int attributeCounter = 0;
+
+	public XfireSendPacket(SendPacketContent packetContent) {
+		super.setPacketContent(packetContent);
+		outputStream = new ByteArrayOutputStream();
+	}
+	
+	
+	public int getAttributeCount() {
+		return attributeCounter;
+	}
+	
+	public int getPacketLength() {
+		return 5 + outputStream.size();
+	}
+	
+	public OutputStream getOutputStream() {
+		return outputStream;
+	}
+
+	public void addAttributeName(String name) {
+		attributeCounter++;
+		// TODO encoding ?
+		byte[] buf = name.getBytes();
+		this.write(buf.length);
+		this.write(buf);
+	}
+	
+
+	public void write(int b) {
+		outputStream.write(b);
+	}
+	
+	public void write(byte b[]) {
+		try {
+			outputStream.write(b);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "error while writing to output stream", e);
+		}
+	}
+	
+	public void write(byte b[], int off, int len) {
+		outputStream.write(b, off, len);
+	}
+	
+	
+	
+	
+	public void sendPacket(OutputStream sendStream) throws IOException {
+		SendPacketContent content = getPacketContent();
+		content.fillPacketContent(this);
+		logger.finer("Sending packet ... {" + content.getClass().getName() + "}");
+		int len = getPacketLength();
+		byte buf[] = new byte[len];
+		buf[0] = (byte) (len % 256);
+		buf[1] = (byte) (len / 256);
+		buf[2] = (byte) content.getPacketId();
+		buf[3] = (byte) 0x00;
+		buf[4] = (byte) getAttributeCount();
+		
+		byte[] oldbuf = outputStream.toByteArray();
+		System.arraycopy(oldbuf, 0, buf, 5, oldbuf.length);
+		
+		sendStream.write(buf);
+		sendStream.flush();
+		
+	}
 }

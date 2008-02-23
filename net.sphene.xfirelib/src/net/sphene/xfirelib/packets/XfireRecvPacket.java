@@ -24,8 +24,15 @@
  */
 package net.sphene.xfirelib.packets;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
@@ -39,11 +46,13 @@ import net.sphene.xfirelib.packets.content.XfirePacketContent;
  * 
  * @author kahless
  */
-public class XfireRecvPacket {
+public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 	
 	private static Logger logger = Logger.getLogger(XfireRecvPacket.class.getName());
 	private PacketReader reader;
-	private RecvPacketContent packetContent;
+	
+	private int packetId = -1;
+	private ByteArrayInputStream inputStream;
 	
 	public XfireRecvPacket(PacketReader reader) {
 		this.reader = reader;
@@ -67,7 +76,8 @@ public class XfireRecvPacket {
 			throw new IOException("Unable to read 5 bytes - read only {" + c + "}.");
 		}
 		int length = (int) XfireUtils.convertBytesToInt(buf, 0, 2);
-		int packetid = buf[2];
+		int packetid = buf[2] & 0xFF;
+		this.packetId = packetid;
 		int numberOfAtts = buf[4];
 		logger.fine("Received packet header. length: {" + length +
 				"} packetid: {" + packetid + "} numberofAtts: {" +
@@ -78,8 +88,125 @@ public class XfireRecvPacket {
 		if(c2 < length - 5) {
 			logger.severe("Didn't read enough bytes - expected {" + (length-5) + "} but was {" + c2 + "}");
 		}
+		debugBuffer(buf2);
 		
-		packetContent = reader.createPacketContentById(packetid);
-		packetContent.parseContent(buf2, c2, numberOfAtts);
+		RecvPacketContent packetContent = reader.createPacketContentById(packetid);
+		if(packetContent == null) {
+			return;
+		}
+		inputStream = new ByteArrayInputStream(buf2);
+		packetContent.parseContent(this, numberOfAtts);
+		setPacketContent(packetContent);
 	}
+	
+	private void debugBuffer(byte[] buf2) {
+		ByteArrayOutputStream l = new ByteArrayOutputStream();
+		ByteArrayOutputStream r = new ByteArrayOutputStream();
+		ByteArrayOutputStream a = new ByteArrayOutputStream();
+		PrintWriter dec = new PrintWriter(l);
+		PrintWriter hex = new PrintWriter(r);
+		PrintWriter ascii = new PrintWriter(a);
+		int perline = 5;
+		for(int i = 0 ; i < buf2.length ; i++) {
+			if( i % perline == 0 && i > 0 ) {
+				dec.append('\n');
+				hex.append('\n');
+				ascii.append('\n');
+			}
+			dec.printf("%3d ", buf2[i] & 0xff);
+			hex.printf("%2x ", buf2[i]);
+			ascii.printf("%1c ", buf2[i] == 0 ? 6 : buf2[i] & 0xff);
+		}
+		dec.close();
+		hex.close();
+		ascii.close();
+		
+		BufferedReader lr = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(l.toByteArray())));
+		BufferedReader rr = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(r.toByteArray())));
+		BufferedReader asciir = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(a.toByteArray())));
+		
+		try {
+			System.out.println("debugging buffer");
+			while(true) {
+				String leftline = lr.readLine();
+				String rightline = rr.readLine();
+				String asciiline = asciir.readLine();
+				if(leftline == null || rightline == null) {
+					break;
+				}
+				int leftlen = perline * 4;
+				int rightlen = perline * 3;
+				int asciilen = perline * 2;
+				System.out.printf("%-" + leftlen + "s || %-" + rightlen + "s || %-" + asciilen + "s\n", leftline, rightline, asciiline);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	public int getPacketId() {
+		return packetId;
+	}
+	
+	
+	public String readAttributeName() {
+		int nameLength = inputStream.read();
+		byte buf[] = new byte[nameLength];
+		try {
+			inputStream.read(buf);
+			return new String(buf);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "Error while reading attribute name", e);
+			return null;
+		}
+	}
+	public byte[] readAttributeValue(int length, boolean ignoreZeroAfterLength) {
+		int valueLength = length;
+		if(valueLength < 0) {
+			valueLength = inputStream.read();
+			if(ignoreZeroAfterLength) {
+				int zero = inputStream.read();
+				logger.finest("Ignoring zero: {" + zero + "}");
+			}
+		}
+		
+		byte[] value = new byte[valueLength];
+		try {
+			inputStream.read(value);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "Error while reading attribute value", e);
+			return null;
+		}
+		return value;
+	}
+	
+	public XfireAttribute readAttribute() {
+		String name = readAttributeName();
+		logger.finer("read attribute {" + name + "}");
+		int lengthtype = inputStream.read();
+		int length;
+		if(lengthtype == 1) {
+			byte[] attrlength = readAttributeValue(1, false);
+			length = (int) XfireUtils.convertBytesToInt(attrlength);
+			int zero = inputStream.read();
+			logger.finest("Ignoring zero in readAttribute {" + zero + "}");
+		} else if(lengthtype == 2) {
+			length = 4;
+		} else if(lengthtype == 3) {
+			length = 16;
+		} else {
+			logger.severe("Unknown value length type {" + lengthtype + "}");
+			return null;
+		}
+//		int zero = inputStream.read();
+//		logger.finest("Ignoring zero in readAttribute {" + zero + "}");
+		byte[] value = readAttributeValue(length, false);
+		return new XfireAttribute(name, value);
+	}
+	
 }

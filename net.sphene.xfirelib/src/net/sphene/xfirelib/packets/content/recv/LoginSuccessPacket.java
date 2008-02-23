@@ -1,5 +1,5 @@
 /*
- * File    : AuthPacket.java
+ * File    : LoginSuccessPacket.java
  * Created : 23.02.2008
  * By      : kahless
  *
@@ -24,28 +24,23 @@
  */
 package net.sphene.xfirelib.packets.content.recv;
 
-
 import net.sphene.xfirelib.packets.XfireAttribute;
 import net.sphene.xfirelib.packets.XfireRecvPacket;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 
-public class AuthPacket extends RecvPacketContent {
-
-	private byte[] salt;
+public class LoginSuccessPacket extends RecvPacketContent {
 
 	@Override
 	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
-		XfireAttribute attr = packet.readAttribute();
-		salt = attr.getValue();
+		for(int i = 0 ; i < numberOfAtts ; i++) {
+			XfireAttribute attr = packet.readAttribute();
+			System.out.println("attr {" + attr.getName() + "} / value {" + new String(attr.getValue()) + "}");
+		}
 	}
 
 	@Override
 	public int getPacketId() {
-		return 128;
-	}
-
-	public byte[] getSalt() {
-		return salt;
+		return 130;
 	}
 
 }

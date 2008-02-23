@@ -25,10 +25,22 @@
 package net.sphene.xfirelib;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import net.sphene.xfirelib.packets.PacketListener;
 import net.sphene.xfirelib.packets.PacketReader;
+import net.sphene.xfirelib.packets.XfireRecvPacket;
+import net.sphene.xfirelib.packets.XfireSendPacket;
+import net.sphene.xfirelib.packets.content.RecvPacketContent;
+import net.sphene.xfirelib.packets.content.SendPacketContent;
+import net.sphene.xfirelib.packets.content.recv.AuthPacket;
+import net.sphene.xfirelib.packets.content.send.internal.ClientInformationPacket;
+import net.sphene.xfirelib.packets.content.send.internal.ClientLoginPacket;
+import net.sphene.xfirelib.packets.content.send.internal.ClientVersionPacket;
 
 /**
  * The main class for the xfire library which is responsible for connecting
@@ -36,11 +48,13 @@ import net.sphene.xfirelib.packets.PacketReader;
  * 
  * @author kahless
  */
-public class XfireConnection {
+public class XfireConnection implements PacketListener {
 	public static final String XFIRE_HOST = "cs.xfire.com";
 	public static final int XFIRE_PORT = 25999;
+	public static final int XFIRE_VERSION = 100;
 	
 	
+	private static final Logger logger = Logger.getLogger(XfireConnection.class.getName());
 	
 	protected String username;
 	protected String password;
@@ -80,6 +94,39 @@ public class XfireConnection {
 		
 		socket = new Socket(xfireHost, xfirePort);
 		packetReader = new PacketReader(this, socket.getInputStream());
+		
+		packetReader.addPacketListener(this);
+		
 		packetReader.start();
+		
+		OutputStream outputStream = socket.getOutputStream();
+		outputStream.write("UA01".getBytes());
+		logger.info("Sent UA01");
+		
+		send(new ClientInformationPacket());
+		send(new ClientVersionPacket());
+		
+		logger.info("Sent ClientInformationPacket / ClientVersionPacket");
+	}
+
+
+	public void receivedPacket(XfireRecvPacket packet) {
+		RecvPacketContent content = packet.getPacketContent();
+		if(content instanceof AuthPacket) {
+			logger.fine("Got auth packet, sending login.");
+			AuthPacket authPacket = (AuthPacket) content;
+			ClientLoginPacket loginPacket = new ClientLoginPacket(username, password, authPacket.getSalt());
+			send(loginPacket);
+		}
+	}
+
+
+	public void send(SendPacketContent packetContent) {
+		XfireSendPacket packet = new XfireSendPacket(packetContent);
+		try {
+			packet.sendPacket(socket.getOutputStream());
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "Error while sending packet {" + packetContent.getClass().getName() + "}", e);
+		}
 	}
 }

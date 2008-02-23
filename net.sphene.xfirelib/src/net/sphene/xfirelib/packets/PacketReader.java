@@ -24,18 +24,27 @@
  */
 package net.sphene.xfirelib.packets;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.omg.PortableInterceptor.SUCCESSFUL;
+
 import net.sphene.xfirelib.XfireConnection;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 import net.sphene.xfirelib.packets.content.recv.AuthPacket;
+import net.sphene.xfirelib.packets.content.recv.LoginFailedPacket;
+import net.sphene.xfirelib.packets.content.recv.LoginSuccessPacket;
 
 public class PacketReader extends Thread {
 	private static Logger logger = Logger.getLogger(PacketReader.class.getName());
+	
+	private List<PacketListener> listenerList = new ArrayList<PacketListener>();
 	
 	private XfireConnection xfireConnection;
 	private InputStream inputStream;
@@ -52,15 +61,49 @@ public class PacketReader extends Thread {
 	protected void init() {
 		// all packet contents which can be received
 		addPacketContent(new AuthPacket());
+		addPacketContent(new LoginFailedPacket());
+		addPacketContent(new LoginSuccessPacket());
 	}
 
-	private void addPacketContent(AuthPacket packetContent) {
+	private void addPacketContent(RecvPacketContent packetContent) {
 		recvpacketcontent.put(packetContent.getPacketId(), packetContent);
 	}
 
 	@Override
 	public void run() {
-		
+		while(true) {
+			XfireRecvPacket packet = new XfireRecvPacket(this);
+			try {
+				logger.info("waiting for packet to be received..");
+				packet.recvPacket(inputStream);
+			} catch (IOException e) {
+				logger.log(Level.SEVERE, "error while receiving packet", e);
+				break;
+			}
+			
+			if(packet.getPacketContent() != null) {
+				logger.info("Received a new packet of type: id {" +
+						packet.getPacketContent().getPacketId() +
+						"} / class: {" +
+						packet.getPacketContent().getClass().getName() + "}");
+				fireListeners(packet);
+			} else {
+				logger.warning("Received packet with unknown id {" + packet.getPacketId() + "}");
+			}
+		}
+	}
+	
+	private void fireListeners(XfireRecvPacket packet) {
+		for(PacketListener listener : listenerList) {
+			listener.receivedPacket(packet);
+		}
+	}
+
+	public void addPacketListener(PacketListener listener) {
+		this.listenerList.add(listener);
+	}
+	public void removePacketListener(PacketListener listener) {
+		this.listenerList.remove(listener);
 	}
 
 	public RecvPacketContent createPacketContentById(int packetId) {
