@@ -24,13 +24,16 @@
  */
 package net.sphene.xfirelib.testclient;
 
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.sphene.xfirelib.ConnectionListener;
 import net.sphene.xfirelib.XfireConnection;
+import net.sphene.xfirelib.debug.PacketDebugger;
 import net.sphene.xfirelib.packets.buddylist.BuddyList;
 
 public class TestClient implements ConnectionListener {
@@ -40,8 +43,6 @@ public class TestClient implements ConnectionListener {
 	private String password;
 	private XfireConnection conn;
 
-	@SuppressWarnings("unused")
-	private BuddyList list;
 
 	public TestClient(String username, String password) {
 		this.username = username;
@@ -67,6 +68,11 @@ public class TestClient implements ConnectionListener {
 
 	private void run() {
 		conn = new XfireConnection();
+		new SwingWindow(conn);
+		try {new PacketDebugger(conn);}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		conn.addConnectionListener(this);
 		try {
 			conn.connect(username, password);
@@ -76,6 +82,5 @@ public class TestClient implements ConnectionListener {
 	}
 
 	public void gotConnected(XfireConnection conn) {
-		list = new BuddyList(conn);
 	}
 }

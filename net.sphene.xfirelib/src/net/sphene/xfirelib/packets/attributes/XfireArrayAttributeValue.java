@@ -29,8 +29,10 @@ import java.util.Arrays;
 
 public class XfireArrayAttributeValue implements XfireAttributeValue {
 	private XfireAttributeValue[] values;
+	private XfireAttributeValueType elementType;
 
-	public XfireArrayAttributeValue(XfireAttributeValue[] values) {
+	public XfireArrayAttributeValue(XfireAttributeValueType elementType, XfireAttributeValue[] values) {
+		this.elementType = elementType;
 		this.values = values;
 	}
 	
@@ -41,5 +43,13 @@ public class XfireArrayAttributeValue implements XfireAttributeValue {
 	@Override
 	public String toString() {
 		return Arrays.toString(values);
+	}
+
+	public XfireAttributeValueType getValueType() {
+		return XfireAttributeValueType.ARRAY;
+	}
+	
+	public XfireAttributeValueType getElementType() {
+		return elementType;
 	}
 }

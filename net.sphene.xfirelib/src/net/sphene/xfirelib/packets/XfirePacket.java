@@ -37,4 +37,8 @@ public abstract class XfirePacket<T extends XfirePacketContent> {
 	public T getPacketContent() {
 		return packetContent;
 	}
+
+	public abstract int getLength();
+	public abstract int getAttributeCount();
+	public abstract byte[] getBytes();
 }

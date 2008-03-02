@@ -24,19 +24,16 @@
  */
 package net.sphene.xfirelib.packets;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.sphene.xfirelib.packets.attributes.XfireArrayAttributeValue;
 import net.sphene.xfirelib.packets.attributes.XfireAttribute;
 import net.sphene.xfirelib.packets.attributes.XfireAttributeValue;
+import net.sphene.xfirelib.packets.attributes.XfireAttributeValueType;
 import net.sphene.xfirelib.packets.attributes.XfireScalarAttributeValue;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 import net.sphene.xfirelib.packets.content.XfirePacketContent;
@@ -56,6 +53,9 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 	
 	private int packetId = -1;
 	private ByteArrayInputStream inputStream;
+	private int length;
+	private int numberOfAtts;
+	private byte[] bytes;
 	
 	public XfireRecvPacket(PacketReader reader) {
 		this.reader = reader;
@@ -83,76 +83,31 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 		int unknown = buf[3] & 0xFF;
 		this.packetId = packetid;
 		int numberOfAtts = buf[4];
+		this.length = length;
+		this.numberOfAtts = numberOfAtts;
 		logger.fine("Received packet header. length: {" + length +
 				"} packetid: {" + packetid + "} unknown: {" + unknown + "} numberofAtts: {" +
 				numberOfAtts + "}");
 		
 		byte[] buf2 = new byte[length-5];
+		if(XfireUtils.keepBytes())
+			this.bytes = buf2;
 		int c2 = stream.read(buf2, 0, length - 5);
 		if(c2 < length - 5) {
 			logger.severe("Didn't read enough bytes - expected {" + (length-5) + "} but was {" + c2 + "}");
 		}
-		debugBuffer(buf2);
+		String debug = XfireUtils.debugBuffer("Of incoming packet.", buf2);
+		logger.fine(debug);
 		
 		RecvPacketContent packetContent = reader.createPacketContentById(packetid);
 		if(packetContent == null) {
 			return;
 		}
 		inputStream = new ByteArrayInputStream(buf2);
-		packetContent.parseContent(this, numberOfAtts);
 		setPacketContent(packetContent);
+		packetContent.parseContent(this, numberOfAtts);
 	}
 	
-	private void debugBuffer(byte[] buf2) {
-		ByteArrayOutputStream l = new ByteArrayOutputStream();
-		ByteArrayOutputStream r = new ByteArrayOutputStream();
-		ByteArrayOutputStream a = new ByteArrayOutputStream();
-		PrintWriter dec = new PrintWriter(l);
-		PrintWriter hex = new PrintWriter(r);
-		PrintWriter ascii = new PrintWriter(a);
-		int perline = 5;
-		for(int i = 0 ; i < buf2.length ; i++) {
-			if( i % perline == 0 && i > 0 ) {
-				dec.append('\n');
-				hex.append('\n');
-				ascii.append('\n');
-			}
-			dec.printf("%3d ", buf2[i] & 0xff);
-			hex.printf("%2x ", buf2[i]);
-			ascii.printf("%1c ", buf2[i] < 15 ? 0 : buf2[i] & 0xff);
-		}
-		dec.close();
-		hex.close();
-		ascii.close();
-		
-		BufferedReader lr = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(l.toByteArray())));
-		BufferedReader rr = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(r.toByteArray())));
-		BufferedReader asciir = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(a.toByteArray())));
-		
-		try {
-			ByteArrayOutputStream outputArray = new ByteArrayOutputStream();
-			PrintWriter output = new PrintWriter(outputArray);
-			output.println("debugging buffer");
-			while(true) {
-				String leftline = lr.readLine();
-				String rightline = rr.readLine();
-				String asciiline = asciir.readLine();
-				if(leftline == null || rightline == null) {
-					break;
-				}
-				int leftlen = perline * 4;
-				int rightlen = perline * 3;
-				int asciilen = perline * 2;
-				output.printf("%-" + leftlen + "s || %-" + rightlen + "s || %-" + asciilen + "s\n", leftline, rightline, asciiline);
-			}
-			output.close();
-			logger.fine(new String(outputArray.toByteArray()));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public InputStream getInputStream() {
 		return inputStream;
 	}
@@ -193,49 +148,78 @@ public class XfireRecvPacket extends XfirePacket<RecvPacketContent> {
 		return value;
 	}
 	
-	public XfireAttribute readAttribute() {
-		String name = readAttributeName();
-		logger.finer("read attribute {" + name + "}");
-		int valuetype = inputStream.read();
-		return new XfireAttribute(name, readAttributeValue(valuetype));
+	public long readInteger(int length) {
+		byte[] b = readAttributeValue(length, false);
+		return XfireUtils.convertBytesToInt(b);
 	}
 	
-	private void readZero() {
-		int zero = inputStream.read();
-		assert zero == 0 : "reading zero but got {" + zero + "}";
+	public XfireAttribute readAttribute() {
+		if(inputStream.available() == 0) {
+			return null;
+		}
+		String name = readAttributeName();
+		if(name == null) {
+			return null;
+		}
+		logger.finer("read attribute {" + name + "}");
+		int valuetype = inputStream.read();
+		if(valuetype == -1) {
+			return null;
+		}
+		try {
+			return new XfireAttribute(name, readAttributeValue(valuetype));
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Error while reading attribute value", e);
+			return null;
+		}
 	}
 
-	private XfireAttributeValue readAttributeValue(int valuetype) {
+	private XfireAttributeValue readAttributeValue(int valuetypeId) {
 		int length;
-		switch(valuetype) {
-			case 1:
+		XfireAttributeValueType valueType = XfireAttributeValueType.getTypeById(valuetypeId);
+		if(valueType == null) {
+			throw new RuntimeException("Invalid value type {" + valuetypeId + "}");
+		}
+		switch(valueType) {
+			case STRING:
 				// String
-				length = inputStream.read();
-				readZero();
+				length = (int)readInteger(2);
 				break;
-			case 2:
+			case SHORT_INT:
+			case SID:
+			case NO_IDEA:
 				// small int
-				length = 4;
+				length = valueType.getByteLength();
 				break;
-			case 3:
-				// ???
-				length = 16;
-				break;
-			case 4:
+			case ARRAY:
 				// array
 				int valuetypes = inputStream.read();
-				int count = inputStream.read();
-				readZero();
+				int count = (int)readInteger(2);
 				XfireAttributeValue[] values = new XfireAttributeValue[count];
 				for(int i = 0 ; i < count ; i++) {
 					values[i] = readAttributeValue(valuetypes);
 				}
-				return new XfireArrayAttributeValue(values);
+				return new XfireArrayAttributeValue(XfireAttributeValueType.getTypeById(valuetypes), values);
 			default:
-				throw new RuntimeException("Invalid value type {" + valuetype + "}");
+				throw new RuntimeException("Unknown value type " + valueType);
 		}
 		
-		return new XfireScalarAttributeValue(readAttributeValue(length, false));
+		return new XfireScalarAttributeValue(valueType, readAttributeValue(length, false));
+	}
+
+	@Override
+	public int getAttributeCount() {
+		return numberOfAtts;
+	}
+
+	@Override
+	public int getLength() {
+		return length;
+	}
+
+	@Override
+	public byte[] getBytes() {
+		return bytes;
 	}
 	
 }

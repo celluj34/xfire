@@ -28,13 +28,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import net.sphene.xfirelib.packets.IAttributeBasedPacketContent;
 import net.sphene.xfirelib.packets.XfireRecvPacket;
 import net.sphene.xfirelib.packets.attributes.XfireArrayAttributeValue;
 import net.sphene.xfirelib.packets.attributes.XfireAttribute;
 import net.sphene.xfirelib.packets.attributes.XfireAttributeValue;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 
-public abstract class GenericRecvPacket extends RecvPacketContent {
+public abstract class GenericRecvPacket extends RecvPacketContent implements IAttributeBasedPacketContent {
 	
 	Map<String, XfireAttribute> attributes = new HashMap<String, XfireAttribute>();
 	
@@ -42,8 +43,8 @@ public abstract class GenericRecvPacket extends RecvPacketContent {
 
 	@Override
 	public void parseContent(XfireRecvPacket packet, int numberOfAtts) {
-		for(int i = 0 ; i < numberOfAtts ; i++) {
-			XfireAttribute attr = packet.readAttribute();
+		XfireAttribute attr = null;
+		while((attr = packet.readAttribute()) != null) {
 			logger.finer("attr {" + attr.getName() + "} / value {" + attr.getValue().toString() + "}");
 			attributes.put(attr.getName(), attr);
 		}
@@ -61,4 +62,7 @@ public abstract class GenericRecvPacket extends RecvPacketContent {
 	}
 
 
+	public XfireAttribute[] getAttributes() {
+		return attributes.values().toArray(new XfireAttribute[0]);
+	}
 }

@@ -30,9 +30,11 @@ import net.sphene.xfirelib.packets.XfireUtils;
 public class XfireScalarAttributeValue implements XfireAttributeValue {
 	
 	private byte[] value;
+	private XfireAttributeValueType type;
 
-	public XfireScalarAttributeValue(byte[] value) {
+	public XfireScalarAttributeValue(XfireAttributeValueType type, byte[] value) {
 		this.value = value;
+		this.type = type;
 	}
 
 	public byte[] getByteValue() {
@@ -42,6 +44,12 @@ public class XfireScalarAttributeValue implements XfireAttributeValue {
 	
 	@Override
 	public String toString() {
+		switch(type) {
+		case SID:
+		case SHORT_INT:
+		case NO_IDEA:
+			return Integer.toString(getIntValue());
+		}
 		return getStringValue();
 	}
 
@@ -51,5 +59,9 @@ public class XfireScalarAttributeValue implements XfireAttributeValue {
 
 	public String getStringValue() {
 		return new String(value);
+	}
+
+	public XfireAttributeValueType getValueType() {
+		return this.type;
 	}
 }

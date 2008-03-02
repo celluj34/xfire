@@ -29,9 +29,11 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sphene.xfirelib.ConnectionListener;
 import net.sphene.xfirelib.XfireConnection;
 import net.sphene.xfirelib.packets.PacketListener;
 import net.sphene.xfirelib.packets.XfireRecvPacket;
+import net.sphene.xfirelib.packets.XfireSendPacket;
 import net.sphene.xfirelib.packets.attributes.XfireAttributeValue;
 import net.sphene.xfirelib.packets.attributes.XfireScalarAttributeValue;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
@@ -44,7 +46,7 @@ import net.sphene.xfirelib.packets.content.recv.RecvStatusMessagePacket;
  * 
  * @author kahless
  */
-public class BuddyList implements PacketListener {
+public class BuddyList implements PacketListener, ConnectionListener {
 	
 	@SuppressWarnings("unused")
 	private XfireConnection conn;
@@ -53,7 +55,8 @@ public class BuddyList implements PacketListener {
 
 	public BuddyList(XfireConnection conn) {
 		this.conn = conn;
-		conn.getPacketReader().addPacketListener(this);
+		conn.addConnectionListener(this);
+		conn.addPacketListener(this);
 	}
 	
 
@@ -166,5 +169,29 @@ public class BuddyList implements PacketListener {
 		
 		print.close();
 		return new String(out.toByteArray());
+	}
+
+
+	public Friend getFriendByUserName(String username) {
+		for(Friend friend : friends) {
+			if(username.equals(friend.getName())) {
+				return friend;
+			}
+		}
+		return null;
+	}
+
+
+	public void gotConnected(XfireConnection conn) {
+		// clear friends list
+		friends = new ArrayList<Friend>();
+	}
+
+
+	public void sendingPacket(XfireSendPacket packet) {
+	}
+
+
+	public void sentPacket(XfireSendPacket packet) {
 	}
 }

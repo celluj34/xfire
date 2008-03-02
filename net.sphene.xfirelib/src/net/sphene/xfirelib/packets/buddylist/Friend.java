@@ -86,6 +86,9 @@ public class Friend {
 		return getSid() != null;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "User Id: {" + getUserid() + "} Name: {" + getName() + "} Nick: {" + getNick() + "}";
+	}
 	
 }

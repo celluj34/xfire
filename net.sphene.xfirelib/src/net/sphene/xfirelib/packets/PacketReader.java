@@ -43,12 +43,12 @@ import net.sphene.xfirelib.packets.content.recv.BuddyListOnlinePacket;
 import net.sphene.xfirelib.packets.content.recv.IgnoreRecvPacket;
 import net.sphene.xfirelib.packets.content.recv.LoginFailedPacket;
 import net.sphene.xfirelib.packets.content.recv.LoginSuccessPacket;
+import net.sphene.xfirelib.packets.content.recv.MessageIncoming;
 import net.sphene.xfirelib.packets.content.recv.RecvStatusMessagePacket;
+import net.sphene.xfirelib.packets.content.recv.UnknownRecvPacketContent;
 
 public class PacketReader extends Thread {
 	private static Logger logger = Logger.getLogger(PacketReader.class.getName());
-	
-	private List<PacketListener> listenerList = new ArrayList<PacketListener>();
 	
 	@SuppressWarnings("unused")
 	private XfireConnection xfireConnection;
@@ -73,18 +73,19 @@ public class PacketReader extends Thread {
 		addPacketContent(new LoginFailedPacket());
 		addPacketContent(new LoginSuccessPacket());
 		addPacketContent(new RecvStatusMessagePacket());
+		addPacketContent(new MessageIncoming());
 		
-		ignorePacketIds(new int[] {
-				141, // ignore preference packet ..
-				151,
-				152,
-				155,
-				157,
-				177,
-				163,
-				144, // DID packet ?!
-		}
-		);
+//		ignorePacketIds(new int[] {
+//				141, // ignore preference packet ..
+//				151,
+//				152,
+//				155,
+//				157,
+//				177,
+//				163,
+//				144, // DID packet ?!
+//		}
+//		);
 //		recvpacketcontent.put(141, new IgnoreRecvPacket()); // ignore preference packet ..
 //		recvpacketcontent.put(151, new IgnoreRecvPacket());
 //		recvpacketcontent.put(152, new IgnoreRecvPacket());
@@ -94,12 +95,12 @@ public class PacketReader extends Thread {
 //		recvpacketcontent.put(163, new IgnoreRecvPacket());
 	}
 
-	private void ignorePacketIds(int[] ids) {
-		IgnoreRecvPacket ignore = new IgnoreRecvPacket();
-		for(int id : ids) {
-			recvpacketcontent.put(id, ignore);
-		}
-	}
+//	private void ignorePacketIds(int[] ids) {
+//		IgnoreRecvPacket ignore = new IgnoreRecvPacket();
+//		for(int id : ids) {
+//			recvpacketcontent.put(id, ignore);
+//		}
+//	}
 
 	private void addPacketContent(RecvPacketContent packetContent) {
 		recvpacketcontent.put(packetContent.getPacketId(), packetContent);
@@ -115,6 +116,8 @@ public class PacketReader extends Thread {
 			} catch (IOException e) {
 				logger.log(Level.SEVERE, "error while receiving packet", e);
 				break;
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, "error while parsing packet", e);
 			}
 			
 			if(packet.getPacketContent() != null) {
@@ -130,22 +133,15 @@ public class PacketReader extends Thread {
 	}
 	
 	private void fireListeners(XfireRecvPacket packet) {
-		for(PacketListener listener : listenerList) {
+		for(PacketListener listener : xfireConnection.getPacketListenerList()) {
 			listener.receivedPacket(packet);
 		}
-	}
-
-	public void addPacketListener(PacketListener listener) {
-		this.listenerList.add(listener);
-	}
-	public void removePacketListener(PacketListener listener) {
-		this.listenerList.remove(listener);
 	}
 
 	public RecvPacketContent createPacketContentById(int packetId) {
 		RecvPacketContent packetContent = recvpacketcontent.get(packetId);
 		if (packetContent == null) {
-			return null;
+			return new UnknownRecvPacketContent(packetId);
 		}
 		try {
 			return packetContent.getClass().newInstance();

@@ -26,4 +26,6 @@ package net.sphene.xfirelib.packets;
 
 public interface PacketListener {
 	public void receivedPacket(XfireRecvPacket packet);
+	public void sendingPacket(XfireSendPacket packet);
+	public void sentPacket(XfireSendPacket packet);
 }

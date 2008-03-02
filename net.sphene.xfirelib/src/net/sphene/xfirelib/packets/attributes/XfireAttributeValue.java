@@ -25,5 +25,5 @@
 package net.sphene.xfirelib.packets.attributes;
 
 public interface XfireAttributeValue {
-
+	public XfireAttributeValueType getValueType();
 }

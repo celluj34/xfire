@@ -27,7 +27,6 @@ package net.sphene.xfirelib;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,12 +36,17 @@ import net.sphene.xfirelib.packets.PacketListener;
 import net.sphene.xfirelib.packets.PacketReader;
 import net.sphene.xfirelib.packets.XfireRecvPacket;
 import net.sphene.xfirelib.packets.XfireSendPacket;
+import net.sphene.xfirelib.packets.buddylist.BuddyList;
+import net.sphene.xfirelib.packets.content.MessageType;
 import net.sphene.xfirelib.packets.content.RecvPacketContent;
 import net.sphene.xfirelib.packets.content.SendPacketContent;
 import net.sphene.xfirelib.packets.content.recv.AuthPacket;
+import net.sphene.xfirelib.packets.content.recv.MessageIncoming;
 import net.sphene.xfirelib.packets.content.send.internal.ClientInformationPacket;
 import net.sphene.xfirelib.packets.content.send.internal.ClientLoginPacket;
 import net.sphene.xfirelib.packets.content.send.internal.ClientVersionPacket;
+import net.sphene.xfirelib.packets.content.send.internal.KeepAlivePacket;
+import net.sphene.xfirelib.packets.content.send.internal.MessageAckOutgoing;
 
 /**
  * The main class for the xfire library which is responsible for connecting
@@ -69,6 +73,10 @@ public class XfireConnection implements PacketListener {
 	
 	private List<ConnectionListener> listenerList = new ArrayList<ConnectionListener>();
 	
+	private List<PacketListener> packetListenerList = new ArrayList<PacketListener>();
+	private Thread sendKeepAlive;
+	private BuddyList buddyList;
+	
 	
 	/**
 	 * Creates a new XfireConnection object for the default xfire host and port.
@@ -85,6 +93,8 @@ public class XfireConnection implements PacketListener {
 	public XfireConnection(String xfireHost, int xfirePort) {
 		this.xfireHost = xfireHost;
 		this.xfirePort = xfirePort;
+		this.addPacketListener(this);
+		buddyList = new BuddyList(this);
 	}
 	
 	/**
@@ -99,7 +109,6 @@ public class XfireConnection implements PacketListener {
 		socket = new Socket(xfireHost, xfirePort);
 		packetReader = new PacketReader(this, socket.getInputStream());
 		
-		packetReader.addPacketListener(this);
 		
 		packetReader.start();
 		
@@ -112,6 +121,22 @@ public class XfireConnection implements PacketListener {
 		send(new ClientInformationPacket());
 		send(new ClientVersionPacket());
 		
+		if (sendKeepAlive == null) {
+			sendKeepAlive = new Thread() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(3 * 60 * 1000); // Sleep for 3 minutes
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						return;
+					}
+					send(new KeepAlivePacket());
+				}
+			};
+			sendKeepAlive.start();
+		}
+		
 		logger.info("Sent ClientInformationPacket / ClientVersionPacket");
 	}
 
@@ -123,6 +148,13 @@ public class XfireConnection implements PacketListener {
 			AuthPacket authPacket = (AuthPacket) content;
 			ClientLoginPacket loginPacket = new ClientLoginPacket(username, password, authPacket.getSalt());
 			send(loginPacket);
+		} else if(content instanceof MessageIncoming) {
+			MessageIncoming msg = (MessageIncoming) content;
+			MessageType msgtype = msg.getMessageType();
+			if(msgtype != null && msgtype.requiresAck()) {
+				logger.fine("Received message, sending ack..");
+				send(new MessageAckOutgoing(msg));
+			}
 		}
 	}
 
@@ -130,7 +162,9 @@ public class XfireConnection implements PacketListener {
 	public void send(SendPacketContent packetContent) {
 		XfireSendPacket packet = new XfireSendPacket(packetContent);
 		try {
+			fireSendingPacketEvent(packet);
 			packet.sendPacket(socket.getOutputStream());
+			fireSentPacketEvent(packet);
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Error while sending packet {" + packetContent.getClass().getName() + "}", e);
 		}
@@ -148,11 +182,49 @@ public class XfireConnection implements PacketListener {
 			listener.gotConnected(this);
 		}
 	}
-	
+	private void fireSendingPacketEvent(XfireSendPacket packet) {
+		for(PacketListener listener : packetListenerList) {
+			listener.sendingPacket(packet);
+		}
+	}
+	private void fireSentPacketEvent(XfireSendPacket packet) {
+		for(PacketListener listener : packetListenerList) {
+			listener.sentPacket(packet);
+		}
+	}
 	public void addConnectionListener(ConnectionListener listener) {
 		listenerList.add(listener);
 	}
 	public void removeConnectionListener(ConnectionListener listener) {
 		listenerList.remove(listener);
 	}
+	public void addPacketListener(PacketListener listener) {
+		this.packetListenerList.add(listener);
+	}
+	public void removePacketListener(PacketListener listener) {
+		this.packetListenerList.remove(listener);
+	}
+
+
+	public List<PacketListener> getPacketListenerList() {
+		return packetListenerList;
+	}
+
+
+	public void sendingPacket(XfireSendPacket packet) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void sentPacket(XfireSendPacket packet) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	public BuddyList getBuddyList() {
+		return this.buddyList;
+	}
+
 }
