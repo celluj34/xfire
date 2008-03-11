@@ -10,4 +10,4 @@ Main xfiregateway :
 	parsegamexml.cpp
 	parser.cpp
 	;
-LINKLIBS on xfiregateway = -lxfirelib -lgloox -lpthread ;
+LINKLIBS on xfiregateway = -lxfirelib -lgloox -lpthread -liksemel ;

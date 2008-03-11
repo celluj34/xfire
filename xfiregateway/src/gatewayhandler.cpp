@@ -101,7 +101,7 @@ namespace xfiregateway {
 	  user = gateway->getUserByXFireName(username);
 	  if(user) {
 	    XDEBUG(( "User already exists .. :( \n" ));
-	    Stanza *r = stanza->clone();
+	    Stanza *r = new Stanza(stanza);//->clone();
 	    Tag *error = new Tag("error");
 	    error->addAttribute( "code", "409" );
 	    error->addAttribute( "type", "cancel" );
@@ -188,7 +188,7 @@ namespace xfiregateway {
     XDEBUG(( "Received presence from %s\n", stanza->from().full().c_str() ));
     User *user = gateway->getUserByJID( stanza->from().bare() );
     if(!user) {
-      XINFO(( "Received presence from someone not registered ?! (%s)\n", stanza->from().full().c_str() ));
+      XINFO(( "Received presence from someone not registered ?! (%s), bare(%s)\n", stanza->from().full().c_str(), stanza->from().bare().c_str() ));
     } else {
       if(stanza->subtype() == StanzaS10nSubscribe && stanza->to().username() == "") {
 	Tag *reply = new Tag("presence");
@@ -204,7 +204,7 @@ namespace xfiregateway {
     handlePresence(stanza);
   }
 
-  void GatewayHandler::handleMessage(Stanza *stanza) {
+  void GatewayHandler::handleMessage(Stanza *stanza, MessageSession *message) {
     XDEBUG(( "Received message from %s to %s \n",
 	     stanza->from().full().c_str(),
 	     stanza->to().full().c_str() ));

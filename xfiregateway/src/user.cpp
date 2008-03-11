@@ -244,11 +244,11 @@ namespace xfiregateway {
       }
       return;
     }
-    if(stanza->show() == PresenceUnavailable) {
+    if(stanza->presence() == PresenceUnavailable) {
       delete presences[ resource ];
       presences.erase( resource );
     } else if(stanza->subtype() == StanzaPresenceAvailable) {
-      //if(stanza->show() != PresenceAvailable) return; // None of our business...
+      //if(stanza->presence() != PresenceAvailable) return; // None of our business...
       //presence.find
       UserPresence *pres;
       if(presences.count( resource ) < 1) {
@@ -258,7 +258,7 @@ namespace xfiregateway {
       } else {
 	pres = presences[ resource ];
       }
-      pres->status = stanza->show();
+      pres->status = stanza->presence();
       pres->statusmsg = stanza->status();
       Tag *prioritytag = stanza->findChild( "priority" );
       if(prioritytag)

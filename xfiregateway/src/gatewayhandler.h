@@ -46,7 +46,7 @@ namespace xfiregateway {
     void handlePresence(Stanza *stanza);
     void handleSubscription(Stanza *stanza);
 
-    void handleMessage(Stanza *stanza);
+    void handleMessage(Stanza *stanza, MessageSession *msg = 0);
 
     void onConnect();
     void onDisconnect(ConnectionError error);
